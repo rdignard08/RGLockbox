@@ -28,13 +28,13 @@ CFTypeRef LB_defaultAccessibility() {
     
     CFMutableDictionaryRef query = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
     CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue(query, kSecAttrService, hierarchyKey);
+    CFDictionarySetValue(query, kSecAttrService, (__bridge const void*)hierarchyKey);
     
     if (!obj) {
         return (SecItemDelete(query) == errSecSuccess);
     }
 
-    CFDictionarySetValue(query, kSecValueData, [obj dataUsingEncoding:NSUTF8StringEncoding]);
+    CFDictionarySetValue(query, kSecValueData, (__bridge const void*)[obj dataUsingEncoding:NSUTF8StringEncoding]);
     CFDictionarySetValue(query, kSecAttrAccessible, accessibility);
 
     OSStatus status = SecItemAdd(query, NULL);
@@ -56,13 +56,13 @@ CFTypeRef LB_defaultAccessibility() {
     NSString* hierarchyKey = [NSString stringWithFormat:@"%@.%@", [self bundleIdentifier], key];
     CFMutableDictionaryRef query = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
     CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue(query, kSecAttrService, hierarchyKey);
+    CFDictionarySetValue(query, kSecAttrService, (__bridge const void*)hierarchyKey);
     CFDictionarySetValue(query, kSecReturnData, kCFBooleanTrue);
-    NSData* data;
+    CFDataRef data;
     if (SecItemCopyMatching(query, (CFTypeRef*)&data) != errSecSuccess || !data) {
         return nil;
     }
-    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    return [[NSString alloc] initWithData:(__bridge NSData*)data encoding:NSUTF8StringEncoding];
 }
 
 @end
