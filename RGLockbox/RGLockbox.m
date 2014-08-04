@@ -3,6 +3,8 @@
 
 CFTypeRef defaultAccessibility(void);
 
+static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+
 CFTypeRef LB_defaultAccessibility() {
     static dispatch_once_t onceToken;
     static CFTypeRef _sDefaultAccessibility;
@@ -23,7 +25,7 @@ CFTypeRef LB_defaultAccessibility() {
     return _sBundleIdentifier;
 }
 
-+ (BOOL) setString:(NSString*)obj forKey:(NSString*)key accessibility:(CFTypeRef)accessibility {
++ (BOOL) setData:(NSData*)obj forKey:(NSString*)key accessibility:(CFTypeRef)accessibility {
     NSString* hierarchyKey = [NSString stringWithFormat:@"%@.%@", [self bundleIdentifier], key];
     
     CFMutableDictionaryRef query = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
@@ -34,7 +36,7 @@ CFTypeRef LB_defaultAccessibility() {
         return (SecItemDelete(query) == errSecSuccess);
     }
 
-    CFDictionarySetValue(query, kSecValueData, (__bridge const void*)[obj dataUsingEncoding:NSUTF8StringEncoding]);
+    CFDictionarySetValue(query, kSecValueData, (__bridge const void*)obj);
     CFDictionarySetValue(query, kSecAttrAccessible, accessibility);
 
     OSStatus status = SecItemAdd(query, NULL);
@@ -48,21 +50,58 @@ CFTypeRef LB_defaultAccessibility() {
     return (status == errSecSuccess);
 }
 
-+ (BOOL) setString:(NSString*)value forKey:(NSString*)key {
-    return [self setString:value forKey:key accessibility:LB_defaultAccessibility()];
++ (BOOL) setData:(NSData*)value forKey:(NSString*)key {
+    return [self setData:value forKey:key accessibility:LB_defaultAccessibility()];
 }
 
-+ (NSString*) stringForKey:(NSString*)key {
++ (NSData*) dataForKey:(NSString*)key {
     NSString* hierarchyKey = [NSString stringWithFormat:@"%@.%@", [self bundleIdentifier], key];
     CFMutableDictionaryRef query = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
     CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
     CFDictionarySetValue(query, kSecAttrService, (__bridge const void*)hierarchyKey);
     CFDictionarySetValue(query, kSecReturnData, kCFBooleanTrue);
     CFDataRef data;
-    if (SecItemCopyMatching(query, (CFTypeRef*)&data) != errSecSuccess || !data) {
+    if (SecItemCopyMatching(query, (CFTypeRef*)&data) != errSecSuccess) {
         return nil;
     }
-    return [[NSString alloc] initWithData:(__bridge NSData*)data encoding:NSUTF8StringEncoding];
+    return CFBridgingRelease(data);
+}
+
++ (BOOL) setJSONObject:(id)object forKey:(NSString*)key {
+    if (![NSJSONSerialization isValidJSONObject:object]) {
+        @throw NSInvalidArgumentException;
+    }
+    return [self setData:[NSJSONSerialization dataWithJSONObject:object options:0 error:nil] forKey:key];
+}
+
++ (id) objectForKey:(NSString*)key {
+    NSData* data = [self dataForKey:key];
+    if (data) {
+        return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    return nil;
+}
+
++ (BOOL) setDate:(NSDate*)date forKey:(NSString*)key {
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = _sIsoFormat;
+    NSString* dateString = [formatter stringFromDate:date];
+    if (!dateString) return NO;
+    return [self setString:dateString forKey:key];
+}
+
++ (NSDate*) dateForKey:(NSString*)key {
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = _sIsoFormat;
+    return [formatter dateFromString:[self stringForKey:key]];
+}
+
++ (BOOL) setString:(NSString*)value forKey:(NSString*)key {
+    return [self setData:[value dataUsingEncoding:NSUTF8StringEncoding] forKey:key];
+}
+     
++ (NSString*) stringForKey:(NSString*)key {
+    return [[NSString alloc] initWithData:[self dataForKey:key] encoding:NSUTF8StringEncoding];
 }
 
 @end
