@@ -103,7 +103,8 @@ CFTypeRef LB_defaultAccessibility() {
 }
      
 + (NSString*) stringForKey:(NSString*)key {
-    return [[NSString alloc] initWithData:[self dataForKey:key] encoding:NSUTF8StringEncoding];
+    NSData* data = [self dataForKey:key];
+    return data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
 }
 
 @end
