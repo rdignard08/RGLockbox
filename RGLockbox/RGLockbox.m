@@ -68,6 +68,9 @@ CFTypeRef LB_defaultAccessibility() {
 }
 
 + (BOOL) setJSONObject:(id)object forKey:(NSString*)key {
+    if (!object) {
+        return [self setData:nil forKey:key];
+    }
     if (![NSJSONSerialization isValidJSONObject:object]) {
         @throw NSInvalidArgumentException;
     }
@@ -86,7 +89,6 @@ CFTypeRef LB_defaultAccessibility() {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = _sIsoFormat;
     NSString* dateString = [formatter stringFromDate:date];
-    if (!dateString) return NO;
     return [self setString:dateString forKey:key];
 }
 
