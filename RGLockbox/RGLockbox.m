@@ -1,7 +1,7 @@
 #import "RGLockbox.h"
 #import <Security/Security.h>
 
-CFTypeRef defaultAccessibility(void);
+CFTypeRef LB_defaultAccessibility(void);
 
 static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
 
@@ -28,24 +28,24 @@ CFTypeRef LB_defaultAccessibility() {
 + (BOOL) setData:(NSData*)obj forKey:(NSString*)key accessibility:(CFTypeRef)accessibility {
     NSString* hierarchyKey = [NSString stringWithFormat:@"%@.%@", [self bundleIdentifier], key];
     
-    CFMutableDictionaryRef query = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
-    CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue(query, kSecAttrService, (__bridge const void*)hierarchyKey);
+    NSMutableDictionary* query = (__bridge_transfer NSMutableDictionary*)CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecClass, kSecClassGenericPassword);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecAttrService, (__bridge const void*)hierarchyKey);
     
     if (!obj) {
-        return (SecItemDelete(query) == errSecSuccess);
+        return (SecItemDelete((__bridge CFMutableDictionaryRef)query) == errSecSuccess);
     }
 
-    CFDictionarySetValue(query, kSecValueData, (__bridge const void*)obj);
-    CFDictionarySetValue(query, kSecAttrAccessible, accessibility);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecValueData, (__bridge const void*)obj);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecAttrAccessible, accessibility);
 
     OSStatus status = SecItemAdd(query, NULL);
     if (status == errSecDuplicateItem) {
-        CFMutableDictionaryRef update = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
-        CFDictionarySetValue(update, kSecValueData, CFDictionaryGetValue(query, kSecValueData));
-        CFDictionarySetValue(update, kSecAttrAccessible, accessibility);
-        CFDictionaryRemoveValue(query, kSecAttrAccessible);
-        return (SecItemUpdate(query, update) == errSecSuccess);
+        NSMutableDictionary* update = (__bridge_transfer NSMutableDictionary*)CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
+        CFDictionarySetValue((__bridge CFMutableDictionaryRef)update, kSecValueData, CFDictionaryGetValue((__bridge CFMutableDictionaryRef)query, kSecValueData));
+        CFDictionarySetValue((__bridge CFMutableDictionaryRef)update, kSecAttrAccessible, accessibility);
+        CFDictionaryRemoveValue((__bridge CFMutableDictionaryRef)query, kSecAttrAccessible);
+        return (SecItemUpdate((__bridge CFMutableDictionaryRef)query, update) == errSecSuccess);
     }
     return (status == errSecSuccess);
 }
@@ -56,15 +56,15 @@ CFTypeRef LB_defaultAccessibility() {
 
 + (NSData*) dataForKey:(NSString*)key {
     NSString* hierarchyKey = [NSString stringWithFormat:@"%@.%@", [self bundleIdentifier], key];
-    CFMutableDictionaryRef query = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
-    CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue(query, kSecAttrService, (__bridge const void*)hierarchyKey);
-    CFDictionarySetValue(query, kSecReturnData, kCFBooleanTrue);
+    NSMutableDictionary* query = (__bridge_transfer NSMutableDictionary*)CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecClass, kSecClassGenericPassword);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecAttrService, (__bridge const void*)hierarchyKey);
+    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecReturnData, kCFBooleanTrue);
     CFDataRef data;
-    if (SecItemCopyMatching(query, (CFTypeRef*)&data) != errSecSuccess) {
+    if (SecItemCopyMatching((__bridge CFMutableDictionaryRef)query, (CFTypeRef*)&data) != errSecSuccess) {
         return nil;
     }
-    return CFBridgingRelease(data);
+    return (__bridge_transfer NSData*)data;
 }
 
 + (BOOL) setJSONObject:(id)object forKey:(NSString*)key {
