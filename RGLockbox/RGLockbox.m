@@ -39,13 +39,13 @@ CFTypeRef LB_defaultAccessibility() {
     CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecValueData, (__bridge const void*)obj);
     CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecAttrAccessible, accessibility);
 
-    OSStatus status = SecItemAdd(query, NULL);
+    OSStatus status = SecItemAdd((__bridge CFMutableDictionaryRef)query, NULL);
     if (status == errSecDuplicateItem) {
         NSMutableDictionary* update = (__bridge_transfer NSMutableDictionary*)CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
         CFDictionarySetValue((__bridge CFMutableDictionaryRef)update, kSecValueData, CFDictionaryGetValue((__bridge CFMutableDictionaryRef)query, kSecValueData));
         CFDictionarySetValue((__bridge CFMutableDictionaryRef)update, kSecAttrAccessible, accessibility);
         CFDictionaryRemoveValue((__bridge CFMutableDictionaryRef)query, kSecAttrAccessible);
-        return (SecItemUpdate((__bridge CFMutableDictionaryRef)query, update) == errSecSuccess);
+        return (SecItemUpdate((__bridge CFMutableDictionaryRef)query, (__bridge CFMutableDictionaryRef)update) == errSecSuccess);
     }
     return (status == errSecSuccess);
 }
