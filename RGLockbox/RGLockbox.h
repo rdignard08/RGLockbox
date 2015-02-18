@@ -7,6 +7,8 @@
  */
 + (BOOL) setData:(NSData*)value forKey:(NSString*)key;
 
++ (BOOL) setData:(NSData*)value forKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
+
 /**
  @return the last value that was set for the given key.
  
@@ -14,31 +16,48 @@
  */
 + (NSData*) dataForKey:(NSString*)key;
 
++ (NSData*) dataForKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
+
 /**
  @throw NSInvalidArgument Will bail if `object` cannot be serialized by `NSJSONSerialization`.
  */
 + (BOOL) setJSONObject:(id)object forKey:(NSString*)key;
+
++ (BOOL) setJSONObject:(id)object forKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
 
 /**
  If saved with +setJSONObject:forKey: the value can be recovered from this method.
  */
 + (id) objectForKey:(NSString*)key;
 
++ (id) objectForKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
+
 /**
  Dates are not part of the JSON standard so they need to be handled in a separate way.
  */
 + (BOOL) setDate:(NSDate*)date forKey:(NSString*)key;
+
++ (BOOL) setDate:(NSDate*)date forKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
 
 /**
  Retrieve a date set with +setDate:forKey:
  */
 + (NSDate*) dateForKey:(NSString*)key;
 
++ (NSDate*) dateForKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
+
 /**
  Strings aren't allowed as top-level objects in JSON, and most things can become strings easily; hence this method.
  */
 + (BOOL) setString:(NSString*)value forKey:(NSString*)key;
 
++ (BOOL) setString:(NSString*)value forKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
+
+/**
+ Returns as a string, the value set for key
+ */
 + (NSString*) stringForKey:(NSString*)key;
+
++ (NSString*) stringForKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
 
 @end
