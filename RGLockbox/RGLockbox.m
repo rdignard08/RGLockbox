@@ -4,6 +4,39 @@
 static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
 
 @implementation RGLockbox
+@synthesize nameSpace = _nameSpace;
+
++ (instancetype) manager {
+    static dispatch_once_t onceToken;
+    static id _sManager;
+    dispatch_once(&onceToken, ^{
+        _sManager = [self new];
+    });
+    return _sManager;
+}
+
+- (NSString*) nameSpace {
+    if (!_nameSpace) {
+        _nameSpace = [[self class] bundleIdentifier];
+    }
+    return _nameSpace;
+}
+
+- (id) objectForKey:(NSString*)key {
+    return [[self class] dataForKey:key inNameSpace:self.nameSpace];
+}
+
+- (id) objectForKeyedSubscript:(id<NSCopying, NSObject>)key {
+    return [self objectForKey:key];
+}
+
+- (void) setObject:(id)object forKey:(id<NSCopying>)key {
+    [[self class] setData:value forKey:key inNameSpace:self.nameSpace];
+}
+
+- (void) setObject:(id)object forKeyedSubscript:(id<NSCopying, NSObject>)key {
+    [self setObject:object forKey:key];
+}
 
 + (NSString*) bundleIdentifier {
     static dispatch_once_t onceToken;

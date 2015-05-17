@@ -1,6 +1,39 @@
 @interface RGLockbox : NSObject
 
 /**
+ Returns the singleton instance for managing access to the key chain.
+ */
++ (instancetype) manager;
+
+/**
+ Defaults to the app bundle identifier if unspecified.
+ */
+@property (nonatomic, strong) NSString* nameSpace;
+
+/**
+ Return the object set on key in the current namespace.  Only supports NSData at the moment.
+ */
+- (NSData*) objectForKey:(NSString*)key;
+
+/**
+ Allows `[RGLockbox manager][key]` syntax for the above.
+ */
+- (id /* NSData */) objectForKeyedSubscript:(id<NSCopying, NSObject>)key;
+
+/**
+ Sets the object provided on the key in the current namespace
+ */
+- (void) setObject:(NSData*)object forKey:(id<NSCopying>)key;
+
+/**
+ Allows `[RGLockbox manager][key] = object` syntax for the above.
+ */
+- (void) setObject:(id /* NSData */)object forKeyedSubscript:(id<NSCopying, NSObject>)key;
+
+
+// vvvv Old interface vvvv
+
+/**
  @return `YES` in the event of success; otherwise `NO`.  Error messages are hard :(
  
  This is the "raw" insertion method.
