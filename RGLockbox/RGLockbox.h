@@ -31,6 +31,11 @@
 + (instancetype) manager;
 
 /**
+ This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations.
+ */
++ (dispatch_queue_t) keychainQueue;
+
+/**
  Returns an instance of `RGLockbox` which is not default namespaced.
  */
 - (instancetype) initWithNamespace:(NSString*)namespace accessibility:(NSString*)accessibility NS_DESIGNATED_INITIALIZER;

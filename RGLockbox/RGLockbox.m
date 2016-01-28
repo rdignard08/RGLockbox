@@ -68,6 +68,15 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
     return _sManager;
 }
 
++ (dispatch_queue_t) keychainQueue {
+    static dispatch_once_t onceToken;
+    static dispatch_queue_t queue;
+    dispatch_once(&onceToken, ^{
+        queue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL);
+    });
+    return queue;
+}
+
 - (instancetype) init {
     return [self initWithNamespace:rg_bundle_identifier() accessibility:(__bridge NSString*)kSecAttrAccessibleAfterFirstUnlock];
 }
