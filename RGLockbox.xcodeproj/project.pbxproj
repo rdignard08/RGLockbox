@@ -74,12 +74,28 @@
 		BE0976C81C573570001E6467 /* RGLockbox-Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BE0976DA1C59D542001E6467 /* ClassSpecs */,
+				BE0976D91C59D539001E6467 /* CategorySpecs */,
 				BE0976CB1C573571001E6467 /* Info.plist */,
 				BE0976D71C59D032001E6467 /* PrefixHeader.pch */,
-				BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */,
-				BE0976C91C573571001E6467 /* RGLockboxSpec.m */,
 			);
 			path = "RGLockbox-Tests";
+			sourceTree = "<group>";
+		};
+		BE0976D91C59D539001E6467 /* CategorySpecs */ = {
+			isa = PBXGroup;
+			children = (
+				BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */,
+			);
+			name = CategorySpecs;
+			sourceTree = "<group>";
+		};
+		BE0976DA1C59D542001E6467 /* ClassSpecs */ = {
+			isa = PBXGroup;
+			children = (
+				BE0976C91C573571001E6467 /* RGLockboxSpec.m */,
+			);
+			name = ClassSpecs;
 			sourceTree = "<group>";
 		};
 		BE9ACCF71C57347E0052D171 = {

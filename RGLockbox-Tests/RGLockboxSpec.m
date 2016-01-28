@@ -21,6 +21,50 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+#import "RGLockbox.h"
+
+static NSString* const kKey1 = @"aKey1";
+static NSString* const kKey2 = @"aKey2";
+static NSString* testKeys[] = { @"aKey1", @"aKey2" };
+
 CLASS_SPEC(RGLockbox)
+
+- (void) tearDown {
+    for (int i = 0; i < sizeof(testKeys) / sizeof(NSString*); i++) {
+        [[RGLockbox manager] setObject:nil forKey:testKeys[i]];
+    }
+}
+
+- (void) setUp {
+    for (int i = 0; i < sizeof(testKeys) / sizeof(NSString*); i++) {
+        [[RGLockbox manager] setObject:nil forKey:testKeys[i]];
+    }
+}
+
+
+#pragma mark - Reading
+- (void) testReadNotExist {
+    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    XCTAssert(data == nil);
+}
+
+- (void) testReadNotExistDouble {
+    [[RGLockbox manager] objectForKey:kKey1];
+    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    XCTAssert(data == nil);
+}
+
+- (void) testReadExist {
+    [[RGLockbox manager] setObject:[NSData new] forKey:kKey1];
+    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    XCTAssert([data isEqual:[NSData new]]);
+}
+
+- (void) testReadExistDouble {
+    [[RGLockbox manager] setObject:[NSData new] forKey:kKey1];
+    [[RGLockbox manager] objectForKey:kKey1];
+    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    XCTAssert([data isEqual:[NSData new]]);
+}
 
 SPEC_END

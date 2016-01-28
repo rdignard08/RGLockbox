@@ -37,11 +37,8 @@ static NSString* rg_bundle_identifier(void) {
 }
 
 static void rg_delete_data_for_key(CFStringRef key) {
-    CFTypeRef keys[] = { kSecClass, kSecAttrService };
-    CFTypeRef values[] = { kSecClassGenericPassword, key };
-    CFDictionaryRef query = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    SecItemDelete(query);
-    CFRelease(query);
+    NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : (__bridge id)key };
+    SecItemDelete((__bridge CFDictionaryRef)query);
 }
 
 static void rg_update_data_for_key(CFDataRef data, CFDictionaryRef itemQuery, CFStringRef accessibility) {
@@ -53,12 +50,10 @@ static void rg_update_data_for_key(CFDataRef data, CFDictionaryRef itemQuery, CF
 }
 
 static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef accessibility) {
-    CFTypeRef keys[] = { kSecClass, kSecAttrService, kSecValueData, kSecAttrAccessible };
-    CFTypeRef values[] = { kSecClassGenericPassword, key, data, accessibility };
-    CFDictionaryRef query = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    OSStatus status = SecItemAdd(query, NULL);
+    NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : (__bridge id)key, (id)kSecValueData : (__bridge id)data, (id)kSecAttrAccessible : (__bridge id)accessibility };
+    OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
     if (status == errSecDuplicateItem) {
-        rg_update_data_for_key(data, query, accessibility);
+        rg_update_data_for_key(data, (__bridge CFDictionaryRef)query, accessibility);
     }
 }
 
