@@ -30,25 +30,21 @@ static void rg_delete_data_for_key(CFStringRef key) {
     CFRelease(query);
 }
 
-static void rg_update_data_for_key(CFDataRef data, CFMutableDictionaryRef itemQuery, CFStringRef accessibility) {
-    NSMutableDictionary* update = (__bridge_transfer NSMutableDictionary*)CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
-    CFDictionarySetValue((__bridge CFMutableDictionaryRef)update, kSecValueData, CFDictionaryGetValue(itemQuery, kSecValueData));
-    CFDictionarySetValue((__bridge CFMutableDictionaryRef)update, kSecAttrAccessible, accessibility);
-    CFDictionaryRemoveValue(itemQuery, kSecAttrAccessible);
-    SecItemUpdate(itemQuery, (__bridge CFMutableDictionaryRef)update);
+static void rg_update_data_for_key(CFDataRef data, CFDictionaryRef itemQuery, CFStringRef accessibility) {
+    CFTypeRef keys[] = { kSecValueData, kSecAttrAccessible };
+    CFTypeRef values[] = { data, accessibility };
+    CFDictionaryRef update = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    SecItemUpdate(itemQuery, update);
+    CFRelease(update);
 }
 
 static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef accessibility) {
-    NSMutableDictionary* query = (__bridge_transfer NSMutableDictionary*)CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
-    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecClass, kSecClassGenericPassword);
-    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecAttrService, key);
-
-    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecValueData, data);
-    CFDictionarySetValue((__bridge CFMutableDictionaryRef)query, kSecAttrAccessible, accessibility);
-    
-    OSStatus status = SecItemAdd((__bridge CFMutableDictionaryRef)query, NULL);
+    CFTypeRef keys[] = { kSecClass, kSecAttrService, kSecValueData, kSecAttrAccessible };
+    CFTypeRef values[] = { kSecClassGenericPassword, key, data, accessibility };
+    CFDictionaryRef query = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    OSStatus status = SecItemAdd(query, NULL);
     if (status == errSecDuplicateItem) {
-        rg_update_data_for_key(data, (__bridge CFMutableDictionaryRef)query, accessibility);
+        rg_update_data_for_key(data, query, accessibility);
     }
 }
 
