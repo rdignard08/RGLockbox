@@ -46,6 +46,7 @@
 		BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+Convenience.m"; sourceTree = "<group>"; };
 		BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+ConvenienceSpec.m"; sourceTree = "<group>"; };
 		BE0976D71C59D032001E6467 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		BE0976D81C59D20D001E6467 /* RGDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGDefines.h; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		BE9ACD021C57347E0052D171 /* RGLockbox */ = {
 			isa = PBXGroup;
 			children = (
+				BE0976D81C59D20D001E6467 /* RGDefines.h */,
 				BE9ACD031C57347E0052D171 /* RGLockbox.h */,
 				BE9ACD051C57347E0052D171 /* RGLockbox.m */,
 				BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */,
