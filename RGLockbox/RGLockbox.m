@@ -1,4 +1,6 @@
+
 #import "RGLockbox.h"
+#import "RGDefines.h"
 #import <Security/Security.h>
 
 static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
@@ -10,16 +12,6 @@ static NSString* rg_bundle_identifier(void) {
         _sBundleIdentifier = [NSBundle bundleForClass:[RGLockbox self]].infoDictionary[(id)kCFBundleIdentifierKey];
     });
     return _sBundleIdentifier;
-}
-
-static NSData* rg_get_data_for_key(CFStringRef key) {
-    CFTypeRef data = nil;
-    CFTypeRef keys[] = { kSecClass, kSecAttrService, kSecReturnData };
-    CFTypeRef values[] = { kSecClassGenericPassword, key, kCFBooleanTrue };
-    CFDictionaryRef query = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    SecItemCopyMatching(query, &data);
-    CFRelease(query);
-    return (__bridge_transfer NSData*)data;
 }
 
 static void rg_delete_data_for_key(CFStringRef key) {
@@ -74,7 +66,13 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
 
 - (NSData*) objectForKey:(NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    return rg_get_data_for_key((__bridge CFStringRef)hierarchyKey);
+    CFTypeRef data = nil;
+    CFTypeRef keys[] = { kSecClass, kSecAttrService, kSecReturnData };
+    CFTypeRef values[] = { kSecClassGenericPassword, (__bridge CFStringRef)hierarchyKey, kCFBooleanTrue };
+    CFDictionaryRef query = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    SecItemCopyMatching(query, &data);
+    CFRelease(query);
+    return (__bridge_transfer NSData*)data;
 }
 
 - (void) setObject:(NSData*)object forKey:(NSString*)key {
