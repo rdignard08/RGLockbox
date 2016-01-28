@@ -26,6 +26,16 @@
 @interface RGLockbox : NSObject
 
 /**
+ Defaults to the app bundle identifier if unspecified.
+ */
+@property (nonatomic, strong, readonly) NSString* namespace;
+
+/**
+ The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
+ */
+@property (nonatomic, strong, readonly) NSString* itemAccessibility;
+
+/**
  Returns the singleton instance for managing access to the key chain.  Uses the default namespace.
  */
 + (instancetype) manager;
@@ -36,19 +46,9 @@
 + (dispatch_queue_t) keychainQueue;
 
 /**
- Returns an instance of `RGLockbox` which is not default namespaced.
+ Returns an instance of `RGLockbox` which has the provided namespace and default accessibility.
  */
 - (instancetype) initWithNamespace:(NSString*)namespace accessibility:(NSString*)accessibility NS_DESIGNATED_INITIALIZER;
-
-/**
- Defaults to the app bundle identifier if unspecified.
- */
-@property (nonatomic, strong, readonly) NSString* namespace;
-
-/**
- The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
- */
-@property (nonatomic, strong, readonly) NSString* itemAccessibility;
 
 /**
  Return the object set on key in the current namespace.  Only supports NSData at the moment.
