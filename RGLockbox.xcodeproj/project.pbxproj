@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		BE0976CA1C573571001E6467 /* RGLockboxSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976C91C573571001E6467 /* RGLockboxSpec.m */; };
 		BE0976CC1C573571001E6467 /* libRGLockbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9ACD001C57347E0052D171 /* libRGLockbox.a */; };
+		BE0976D41C59CFD9001E6467 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
+		BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */; };
 		BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; };
 		BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,10 @@
 		BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RGLockbox-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0976C91C573571001E6467 /* RGLockboxSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockboxSpec.m; sourceTree = "<group>"; };
 		BE0976CB1C573571001E6467 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RGLockbox+Convenience.h"; sourceTree = "<group>"; };
+		BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+Convenience.m"; sourceTree = "<group>"; };
+		BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+ConvenienceSpec.m"; sourceTree = "<group>"; };
+		BE0976D71C59D032001E6467 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
@@ -67,8 +73,10 @@
 		BE0976C81C573570001E6467 /* RGLockbox-Tests */ = {
 			isa = PBXGroup;
 			children = (
-				BE0976C91C573571001E6467 /* RGLockboxSpec.m */,
 				BE0976CB1C573571001E6467 /* Info.plist */,
+				BE0976D71C59D032001E6467 /* PrefixHeader.pch */,
+				BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */,
+				BE0976C91C573571001E6467 /* RGLockboxSpec.m */,
 			);
 			path = "RGLockbox-Tests";
 			sourceTree = "<group>";
@@ -96,6 +104,8 @@
 			children = (
 				BE9ACD031C57347E0052D171 /* RGLockbox.h */,
 				BE9ACD051C57347E0052D171 /* RGLockbox.m */,
+				BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */,
+				BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */,
 			);
 			path = RGLockbox;
 			sourceTree = "<group>";
@@ -190,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */,
 				BE0976CA1C573571001E6467 /* RGLockboxSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */,
+				BE0976D41C59CFD9001E6467 /* RGLockbox+Convenience.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
