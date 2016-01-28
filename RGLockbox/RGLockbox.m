@@ -66,12 +66,9 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
 
 - (NSData*) objectForKey:(NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey, (id)kSecReturnData : @YES };
     CFTypeRef data = nil;
-    CFTypeRef keys[] = { kSecClass, kSecAttrService, kSecReturnData };
-    CFTypeRef values[] = { kSecClassGenericPassword, (__bridge CFStringRef)hierarchyKey, kCFBooleanTrue };
-    CFDictionaryRef query = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    SecItemCopyMatching(query, &data);
-    CFRelease(query);
+    SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
     return (__bridge_transfer NSData*)data;
 }
 
