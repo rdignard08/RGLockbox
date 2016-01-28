@@ -78,10 +78,10 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
 }
 
 - (instancetype) init {
-    return [self initWithNamespace:rg_bundle_identifier() accessibility:(__bridge NSString*)kSecAttrAccessibleAfterFirstUnlock];
+    return [self initWithNamespace:rg_bundle_identifier() accessibility:kSecAttrAccessibleAfterFirstUnlock];
 }
 
-- (instancetype) initWithNamespace:(NSString*)namespace accessibility:(NSString*)accessibility {
+- (instancetype) initWithNamespace:(NSString*)namespace accessibility:(CFStringRef)accessibility {
     self = [super init];
     if (self) {
         self->_namespace = namespace;
@@ -99,9 +99,12 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
 }
 
 - (void) setObject:(NSData*)object forKey:(NSString*)key {
+    [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
+}
+
+- (void) setObject:(NSData*)object forKey:(NSString*)key withAccessibility:(CFStringRef)accessibility {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     CFStringRef cfKey = (__bridge CFStringRef)hierarchyKey;
-    CFStringRef accessibility = (__bridge CFStringRef)self.itemAccessibility;
     CFDataRef cfData = (__bridge CFDataRef)object;
     object ? rg_set_data_for_key(cfData, cfKey, accessibility) : rg_delete_data_for_key(cfKey);
 }

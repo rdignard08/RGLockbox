@@ -33,7 +33,7 @@
 /**
  The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
  */
-@property (nonatomic, strong, readonly) NSString* itemAccessibility;
+@property (nonatomic, assign, readonly) CFStringRef itemAccessibility;
 
 /**
  Returns the singleton instance for managing access to the key chain.  Uses the default namespace.
@@ -48,7 +48,7 @@
 /**
  Returns an instance of `RGLockbox` which has the provided namespace and default accessibility.
  */
-- (instancetype) initWithNamespace:(NSString*)namespace accessibility:(NSString*)accessibility NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithNamespace:(NSString*)namespace accessibility:(CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
 
 /**
  Primitive method to return the data on `key`.
@@ -58,6 +58,11 @@
 /**
  Primitive method to set the data on `key` with the current `itemAccessibility`.
  */
-- (void) setObject:(NSData*)object forKey:(NSString*)key;
+- (void) setObject:(NSData*)data forKey:(NSString*)key;
+
+/**
+ Primitive method to set the data on `key` with the provided accessibility.
+ */
+- (void) setObject:(NSData*)data forKey:(NSString*)key withAccessibility:(CFStringRef)accessibility;
 
 @end
