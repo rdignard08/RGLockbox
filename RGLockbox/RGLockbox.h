@@ -41,7 +41,7 @@
 + (instancetype) manager;
 
 /**
- This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations.
+ This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations, rather for program correctness you should `dispatch_barrier_sync()` on this queue when your program is about to become inactive.
  */
 + (dispatch_queue_t) keychainQueue;
 
@@ -51,12 +51,12 @@
 - (instancetype) initWithNamespace:(NSString*)namespace accessibility:(NSString*)accessibility NS_DESIGNATED_INITIALIZER;
 
 /**
- Return the object set on key in the current namespace.  Only supports NSData at the moment.
+ Primitive method to return the data on `key`.
  */
 - (NSData*) objectForKey:(NSString*)key;
 
 /**
- Allows `[RGLockbox manager][key] = object` syntax for the above.
+ Primitive method to set the data on `key` with the current `itemAccessibility`.
  */
 - (void) setObject:(NSData*)object forKey:(NSString*)key;
 
