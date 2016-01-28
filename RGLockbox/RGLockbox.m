@@ -68,7 +68,7 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
     return _sManager;
 }
 
-+ (dispatch_queue_t) keychainQueue {
++ (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue {
     static dispatch_once_t onceToken;
     static dispatch_queue_t queue;
     dispatch_once(&onceToken, ^{
@@ -77,20 +77,20 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
     return queue;
 }
 
-- (instancetype) init {
-    return [self initWithNamespace:rg_bundle_identifier() accessibility:kSecAttrAccessibleAfterFirstUnlock];
+- (RG_PREFIX_NONNULL instancetype) init {
+    return [self initWithNamespace:nil accessibility:nil];
 }
 
-- (instancetype) initWithNamespace:(NSString*)namespace accessibility:(CFStringRef)accessibility {
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility {
     self = [super init];
     if (self) {
-        self->_namespace = namespace;
-        self->_itemAccessibility = accessibility;
+        self->_namespace = namespace ?: rg_bundle_identifier();
+        self->_itemAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
     }
     return self;
 }
 
-- (NSData*) objectForKey:(NSString*)key {
+- (RG_PREFIX_NULLABLE NSData*) objectForKey:(RG_PREFIX_NONNULL NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey, (id)kSecReturnData : @YES };
     CFTypeRef data = nil;
@@ -98,11 +98,11 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
     return (__bridge_transfer NSData*)data;
 }
 
-- (void) setObject:(NSData*)object forKey:(NSString*)key {
+- (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
     [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
 }
 
-- (void) setObject:(NSData*)object forKey:(NSString*)key withAccessibility:(CFStringRef)accessibility {
+- (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     CFStringRef cfKey = (__bridge CFStringRef)hierarchyKey;
     CFDataRef cfData = (__bridge CFDataRef)object;

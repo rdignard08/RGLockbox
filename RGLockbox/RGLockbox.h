@@ -22,47 +22,48 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import <Foundation/Foundation.h>
+#import "RGDefines.h"
 
 @interface RGLockbox : NSObject
 
 /**
- Defaults to the app bundle identifier if unspecified.
+ Defaults to this class's bundle identifier.
  */
-@property (nonatomic, strong, readonly) NSString* namespace;
+@property RG_NONNULL_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
  The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
  */
-@property (nonatomic, assign, readonly) CFStringRef itemAccessibility;
+@property RG_NONNULL_PROPERTY(nonatomic, assign, readonly) CFStringRef itemAccessibility;
 
 /**
  Returns the singleton instance for managing access to the key chain.  Uses the default namespace.
  */
-+ (instancetype) manager;
++ (RG_PREFIX_NONNULL instancetype) manager;
 
 /**
  This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations, rather for program correctness you should `dispatch_barrier_sync()` on this queue when your program is about to become inactive.
  */
-+ (dispatch_queue_t) keychainQueue;
++ (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue;
 
 /**
  Returns an instance of `RGLockbox` which has the provided namespace and default accessibility.
  */
-- (instancetype) initWithNamespace:(NSString*)namespace accessibility:(CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
 
 /**
  Primitive method to return the data on `key`.
  */
-- (NSData*) objectForKey:(NSString*)key;
+- (RG_PREFIX_NULLABLE NSData*) objectForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
  Primitive method to set the data on `key` with the current `itemAccessibility`.
  */
-- (void) setObject:(NSData*)data forKey:(NSString*)key;
+- (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
  Primitive method to set the data on `key` with the provided accessibility.
  */
-- (void) setObject:(NSData*)data forKey:(NSString*)key withAccessibility:(CFStringRef)accessibility;
+- (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility;
 
 @end
