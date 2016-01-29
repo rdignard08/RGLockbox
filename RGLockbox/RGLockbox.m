@@ -65,7 +65,7 @@ static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return _sValueCacheLock;
 }
 
-+ (RG_PREFIX_NONNULL NSMutableDictionary*) valueCache {
++ (RG_PREFIX_NONNULL NSMutableDictionary RG_GENERIC(NSString*, id) *) valueCache {
     static dispatch_once_t onceToken;
     static NSMutableDictionary* _sValueCache;
     dispatch_once(&onceToken, ^{
