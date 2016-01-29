@@ -29,7 +29,7 @@
 /**
  Defaults to this class's bundle identifier.
  */
-@property RG_NONNULL_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
+@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
  The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
