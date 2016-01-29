@@ -24,35 +24,49 @@
 #import <Foundation/Foundation.h>
 #import "RGDefines.h"
 
+/**
+ @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the `itemAccessibility`.
+ @return the bundle identifier of the `RGLockbox` class.
+ */
+NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void);
+
+/**
+ @brief `RGLockbox` is a keychain manager class.  It provides the rudimentary actions get, add, update, delete on `NSData` instances.  The class is threadsafe and may be accessed (read and written from) on multiple threads simultaneously.
+ */
 @interface RGLockbox : NSObject
 
 /**
- Defaults to this class's bundle identifier.
+ @brief Defaults to this class's bundle identifier.
  */
 @property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
- The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
+ @brief The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
  */
 @property RG_NONNULL_PROPERTY(nonatomic, assign, readonly) CFStringRef itemAccessibility;
 
 /**
- Returns the singleton instance for managing access to the key chain.  Uses the default namespace.
+ @return the singleton instance for managing access to the key chain.  Uses the default namespace.
  */
 + (RG_PREFIX_NONNULL instancetype) manager;
 
 /**
- This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations, rather for program correctness you should `dispatch_barrier_sync()` on this queue when your program is about to become inactive.
+ @brief This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations, rather for program correctness you should `dispatch_barrier_sync()` on this queue when your program is about to become inactive.
+ @return the serial queue on which keychain access is performed.  Only use as described.
  */
 + (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue;
 
 /**
- Returns an instance of `RGLockbox` which has the provided namespace and default accessibility.
+ @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil` will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
+ @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
+ @return an instance of `RGLockbox` which has the provided namespace and accessibility.
  */
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
 
 /**
- Primitive method to return the data on `key`.  Threadsafe.
+ @brief Primitive method to return the data on `key`.  Threadsafe.
+ @param key the key from which to retrieve the output data.
+ @return the data found if any on `key` in the current namespace.
  */
 - (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key;
 

@@ -25,7 +25,7 @@
 #import "RGDefines.h"
 #import <Security/Security.h>
 
-static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
+NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     static NSString* _sBundleIdentifier;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
