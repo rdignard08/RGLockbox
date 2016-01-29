@@ -21,6 +21,98 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+#import "RGLockbox+Convenience.h"
+
+static NSString* const kTestKey = @"testKey";
+
 CATEGORY_SPEC(RGLockbox, Convenience)
+
+- (void) tearDown {
+    [[RGLockbox manager] setData:nil forKey:kTestKey];
+}
+
+- (void) setUp {
+    [[RGLockbox manager] setData:nil forKey:kTestKey];
+}
+
+#pragma mark - JSON
+- (void) testGetJSONNil {
+    id value = [[RGLockbox manager] JSONObjectForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+- (void) testGetJSONNotNil {
+    [[RGLockbox manager] setJSONObject:@{ @"foobar" : @"baz" } forKey:kTestKey];
+    id value = [[RGLockbox manager] JSONObjectForKey:kTestKey];
+    XCTAssert([value isEqual:@{ @"foobar" : @"baz" }]);
+}
+
+- (void) testGetJSONBad {
+    [[RGLockbox manager] setCodeable:[NSURL URLWithString:@"google.com"] forKey:kTestKey];
+    id value = [[RGLockbox manager] JSONObjectForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+- (void) testSetJSONNil {
+    [[RGLockbox manager] setJSONObject:nil forKey:kTestKey];
+    id value = [[RGLockbox manager] JSONObjectForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+- (void) testSetJSONNotNil {
+    [[RGLockbox manager] setJSONObject:@{ @"foo" : @"bar" } forKey:kTestKey];
+    id value = [[RGLockbox manager] JSONObjectForKey:kTestKey];
+    XCTAssert([value isEqual:@{ @"foo" : @"bar" }]);
+}
+
+- (void) testSetJSONBad {
+    XCTAssertThrows([[RGLockbox manager] setJSONObject:[NSURL URLWithString:@"google.com"] forKey:kTestKey]);
+}
+
+#pragma mark - NSDate
+- (void) testGetDateNil {
+    [[RGLockbox manager] setDate:nil forKey:kTestKey];
+    id value = [[RGLockbox manager] dateForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+- (void) testGetDateNotNil {
+    NSDate* date = [NSDate new];
+    [[RGLockbox manager] setDate:date forKey:kTestKey];
+    id value = [[RGLockbox manager] dateForKey:kTestKey];
+    XCTAssert((uint32_t)[value timeIntervalSince1970] == (uint32_t)[date timeIntervalSince1970]);
+}
+
+- (void) testGetDateBad {
+    [[RGLockbox manager] setString:@"abcd" forKey:kTestKey];
+    id value = [[RGLockbox manager] dateForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+#pragma mark - NSString
+- (void) testGetStringNil {
+    [[RGLockbox manager] setString:nil forKey:kTestKey];
+    id value = [[RGLockbox manager] stringForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+- (void) testGetStringNotNil {
+    [[RGLockbox manager] setString:@"abcd" forKey:kTestKey];
+    id value = [[RGLockbox manager] stringForKey:kTestKey];
+    XCTAssert([value isEqual:@"abcd"]);
+}
+
+#pragma mark - NSCoding
+- (void) testGetCodeableNil {
+    [[RGLockbox manager] setCodeable:nil forKey:kTestKey];
+    id value = [[RGLockbox manager] codeableForKey:kTestKey];
+    XCTAssert(value == nil);
+}
+
+- (void) testGetCodeableNotNil {
+    [[RGLockbox manager] setCodeable:[NSURL URLWithString:@"google.com"] forKey:kTestKey];
+    id value = [[RGLockbox manager] codeableForKey:kTestKey];
+    XCTAssert([value isEqual:[NSURL URLWithString:@"google.com"]]);
+}
 
 SPEC_END
