@@ -249,6 +249,7 @@
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.restgoatee.RGLockbox-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -260,6 +261,7 @@
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.restgoatee.RGLockbox-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -412,7 +414,6 @@
 		BE9ACD0A1C57347E0052D171 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -421,7 +422,6 @@
 		BE9ACD0B1C57347E0052D171 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
