@@ -29,6 +29,7 @@
 @interface RGLockbox (Convenience)
 
 /**
+ @param key key in the current namespace from which to retrieve the output data.
  @return the data found on `key` if not `nil` passed through `+[NSJSONSerialization JSONObjectWithData:options:error:]` otherwise `nil`.
  @throw `NSInvalidArgumentException` if the data exists, but is not deserializable but `NSJSONSerialization`.
  */
@@ -43,6 +44,7 @@
 - (void) setJSONObject:(RG_PREFIX_NULLABLE id)object forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
+ @param key key in the current namespace from which to retrieve the output data.
  @return the data found on `key` parsed to an `NSString` with UTF-8 decoding and run through a standard ISO date format.  `nil` on failure to parse or no data.
  */
 - (RG_PREFIX_NULLABLE NSDate*) dateForKey:(RG_PREFIX_NONNULL NSString*)key;
@@ -55,22 +57,28 @@
 - (void) setDate:(RG_PREFIX_NULLABLE NSDate*)date forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
- 
+ @param key key in the current namespace from which to retrieve the output data.
+ @return the data set on `key` that is UTF-8 decoded to a string.
  */
 - (RG_PREFIX_NULLABLE NSString*) stringForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
- 
+ @brief encodes `string` as UTF-8 data and writes it to the keychain.
+ @param string the string to write to the keychain which may be `nil`.
+ @param key key in the current namespace on which to store the output data.
  */
 - (void) setString:(RG_PREFIX_NULLABLE NSString*)string forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
- 
+ @param key key in the current namespace from which to retrieve the output data.
+ @return the data retrieved from `key` parsed through `NSKeyedUnarchiver`.
  */
 - (RG_PREFIX_NULLABLE id<NSCoding>) codeableForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
- 
+ @brief stores any `NSCoding` object as data to the keychain using `NSKeyedArchiver`.
+ @param codeable any object conforming to `NSCoding`.
+ @param key key in the current namespace on which to store the output data.
  */
 - (void) setCodeable:(RG_PREFIX_NULLABLE id<NSCoding>)codeable forKey:(RG_PREFIX_NONNULL NSString*)key;
 
