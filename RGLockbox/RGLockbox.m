@@ -78,7 +78,7 @@ static NSString* rg_bundle_identifier(void) {
 }
 
 - (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    return [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
+    [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
 }
 
 - (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility {
@@ -91,9 +91,9 @@ static NSString* rg_bundle_identifier(void) {
         if (status == errSecDuplicateItem) { /* Duplicate, only update possible */
             status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
         }
-        return status == errSecSuccess;
+        return;
     } /* Not Add or Update, must be delete */
-    return SecItemDelete((__bridge CFDictionaryRef)query) == errSecSuccess;
+    SecItemDelete((__bridge CFDictionaryRef)query);
 }
 
 @end
