@@ -36,27 +36,6 @@ static NSString* rg_bundle_identifier(void) {
     return _sBundleIdentifier;
 }
 
-static void rg_delete_data_for_key(CFStringRef key) {
-    NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : (__bridge id)key };
-    SecItemDelete((__bridge CFDictionaryRef)query);
-}
-
-static void rg_update_data_for_key(CFDataRef data, CFDictionaryRef itemQuery, CFStringRef accessibility) {
-    CFTypeRef keys[] = { kSecValueData, kSecAttrAccessible };
-    CFTypeRef values[] = { data, accessibility };
-    CFDictionaryRef update = CFDictionaryCreate(nil, keys, values, sizeof(keys), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    SecItemUpdate(itemQuery, update);
-    CFRelease(update);
-}
-
-static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef accessibility) {
-    NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : (__bridge id)key, (id)kSecValueData : (__bridge id)data, (id)kSecAttrAccessible : (__bridge id)accessibility };
-    OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
-    if (status == errSecDuplicateItem) {
-        rg_update_data_for_key(data, (__bridge CFDictionaryRef)query, accessibility);
-    }
-}
-
 @implementation RGLockbox
 
 + (instancetype) manager {
@@ -98,15 +77,23 @@ static void rg_set_data_for_key(CFDataRef data, CFStringRef key, CFStringRef acc
     return (__bridge_transfer NSData*)data;
 }
 
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
+- (BOOL) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
+    return [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
 }
 
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility {
+- (BOOL) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    CFStringRef cfKey = (__bridge CFStringRef)hierarchyKey;
-    CFDataRef cfData = (__bridge CFDataRef)object;
-    object ? rg_set_data_for_key(cfData, cfKey, accessibility) : rg_delete_data_for_key(cfKey);
+    NSMutableDictionary* query = [@{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey } mutableCopy];
+    if (object) { /* Add or Update... */
+        NSDictionary* payload = @{ (id)kSecValueData : object, (id)kSecAttrAccessible : (__bridge id)accessibility };
+        [query addEntriesFromDictionary:payload];
+        OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+        if (status == errSecDuplicateItem) { /* Duplicate, only update possible */
+            status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
+        }
+        return status == errSecSuccess;
+    } /* Not Add or Update, must be delete */
+    return SecItemDelete((__bridge CFDictionaryRef)query) == errSecSuccess;
 }
 
 @end

@@ -59,11 +59,11 @@
 /**
  Primitive method to set the data on `key` with the current `itemAccessibility`.
  */
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
+- (BOOL) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
  Primitive method to set the data on `key` with the provided accessibility.
  */
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility;
+- (BOOL) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility;
 
 @end
