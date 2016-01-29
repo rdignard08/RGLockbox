@@ -78,6 +78,7 @@ CLASS_SPEC(RGLockbox)
     [[RGLockbox manager] setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
     [[RGLockbox valueCache] removeObjectForKey:key];
     NSData* data = [[RGLockbox manager] dataForKey:kKey2];
+    NSLog(@"%@ %@", data, [@"abcd" dataUsingEncoding:NSUTF8StringEncoding]);
     XCTAssert([data isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
@@ -95,6 +96,7 @@ CLASS_SPEC(RGLockbox)
     NSString* key = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey1];
     [[RGLockbox valueCache] removeObjectForKey:key];
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];
+    NSLog(@"%@ %@", data, [@"qwew" dataUsingEncoding:NSUTF8StringEncoding]);
     XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
