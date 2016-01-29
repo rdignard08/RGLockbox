@@ -27,7 +27,7 @@
 
 static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
 
-static NSString* rg_bundle_identifier(void) {
+static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     static NSString* _sBundleIdentifier;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -81,8 +81,10 @@ static NSString* rg_bundle_identifier(void) {
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility {
     self = [super init];
     if (self) {
-        self->_namespace = namespace ?: rg_bundle_identifier();
-        self->_itemAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
+        NSString* nonnullNamespace = namespace ?: rg_bundle_identifier();
+        CFStringRef nonnullAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
+        self->_namespace = nonnullNamespace;
+        self->_itemAccessibility = nonnullAccessibility;
     }
     return self;
 }

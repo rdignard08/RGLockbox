@@ -30,13 +30,13 @@ static NSString* testKeys[] = { @"aKey1", @"aKey2" };
 CLASS_SPEC(RGLockbox)
 
 - (void) tearDown {
-    for (int i = 0; i < sizeof(testKeys) / sizeof(NSString*); i++) {
+    for (int i = 0; i < 2; i++) {
         [[RGLockbox manager] setObject:nil forKey:testKeys[i]];
     }
 }
 
 - (void) setUp {
-    for (int i = 0; i < sizeof(testKeys) / sizeof(NSString*); i++) {
+    for (int i = 0; i < 2; i++) {
         [[RGLockbox manager] setObject:nil forKey:testKeys[i]];
     }
 }
