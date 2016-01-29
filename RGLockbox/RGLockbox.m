@@ -96,7 +96,7 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     }
     __block CFTypeRef data = nil;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey, (id)kSecReturnData : @YES };
+        NSDictionary* query = @{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword, (__bridge id)kSecAttrService : hierarchyKey, (__bridge id)kSecReturnData : @YES };
         SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data;
@@ -111,9 +111,9 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
     [[[self class] valueCacheLock] unlock];
     dispatch_async([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = [@{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey } mutableCopy];
+        NSMutableDictionary* query = [@{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword, (__bridge id)kSecAttrService : hierarchyKey } mutableCopy];
         if (object) { /* Add or Update... */
-            NSDictionary* payload = @{ (id)kSecValueData : object, (id)kSecAttrAccessible : (__bridge id)self.itemAccessibility };
+            NSDictionary* payload = @{ (__bridge id)kSecValueData : object, (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility };
             [query addEntriesFromDictionary:payload];
             if (SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate, only update possible */
                 SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
