@@ -98,17 +98,3 @@
         #define RG_GENERIC(...)
     #endif
 #endif
-
-#ifndef RG_VOID_NOOP
-/**
- @brief `NULL` and `nil` are typed `void*` and I need it to be typed `void`
- */
-    #define RG_VOID_NOOP ((void)0)
-#endif
-
-#ifndef RG_STRING_SEL
-/**
- @brief Enables selector declarations to be used in place of an `NSString`, provides spell checking.
- */
-    #define RG_STRING_SEL(sel) NSStringFromSelector(@selector(sel))
-#endif
