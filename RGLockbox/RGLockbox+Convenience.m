@@ -23,6 +23,8 @@
 
 #import "RGLockbox+Convenience.h"
 
+static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
+
 @implementation RGLockbox (Convenience)
 
 //+ (BOOL) setData:(NSData*)value forKey:(NSString*)key {

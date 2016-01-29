@@ -25,8 +25,6 @@
 #import "RGDefines.h"
 #import <Security/Security.h>
 
-static NSString* const _sIsoFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
-
 static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     static NSString* _sBundleIdentifier;
     static dispatch_once_t onceToken;
