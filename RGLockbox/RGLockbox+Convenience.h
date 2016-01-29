@@ -23,45 +23,55 @@
 
 #import "RGLockbox.h"
 
+/**
+ RGLockbox+Convenience defines several common ways to interact with the fundamental interface.  Supported inputs are: JSON, `NSDate`, `NSString`, `id<NSCoding>`.
+ */
 @interface RGLockbox (Convenience)
 
 /**
- @return the data found on key if not `nil` passed through `+[NSJSONSerialization JSONObjectWithData:options:error:]` otherwise `nil`.
+ @return the data found on `key` if not `nil` passed through `+[NSJSONSerialization JSONObjectWithData:options:error:]` otherwise `nil`.
+ @throw `NSInvalidArgumentException` if the data exists, but is not deserializable but `NSJSONSerialization`.
  */
-- (id) JSONObjectForKey:(NSString*)key;
+- (RG_PREFIX_NULLABLE id) JSONObjectForKey:(RG_PREFIX_NONNULL NSString*)key;
+
+/**
+ @brief Sets any object of JSON type to the keychain.
+ @param object an object of any JSON object type (`NSNumber`, `NSString`, `NSNull`, `NSArray`, `NSDictionary`).
+ @param key key in the current namespace on which to store the output data.
+ @throw `NSInvalidArgumentException` if the object is not valid JSON.
+ */
+- (void) setJSONObject:(RG_PREFIX_NULLABLE id)object forKey:(RG_PREFIX_NONNULL NSString*)key;
+
+/**
+ @return the data found on `key` parsed to an `NSString` with UTF-8 decoding and run through a standard ISO date format.  `nil` on failure to parse or no data.
+ */
+- (RG_PREFIX_NULLABLE NSDate*) dateForKey:(RG_PREFIX_NONNULL NSString*)key;
+
+/**
+ @brief Sets an `NSDate` object to the keychain.
+ @param date the date to store to the keychain, converted to a string then UTF-8 data; `nil` removes any set value.
+ @param key key in the current namespace on which to store the output data.
+ */
+- (void) setDate:(RG_PREFIX_NULLABLE NSDate*)date forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
  
  */
-- (void) setJSONObject:(id)object forKey:(NSString*)key;
+- (RG_PREFIX_NULLABLE NSString*) stringForKey:(RG_PREFIX_NONNULL NSString*)key;
 
+/**
+ 
+ */
+- (void) setString:(RG_PREFIX_NULLABLE NSString*)string forKey:(RG_PREFIX_NONNULL NSString*)key;
 
-///**
-// Dates are not part of the JSON standard so they need to be handled in a separate way.
-// */
-//+ (BOOL) setDate:(NSDate*)date forKey:(NSString*)key;
-//
-//+ (BOOL) setDate:(NSDate*)date forKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
-//
-///**
-// Retrieve a date set with +setDate:forKey:
-// */
-//+ (NSDate*) dateForKey:(NSString*)key;
-//
-//+ (NSDate*) dateForKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
-//
-///**
-// Strings aren't allowed as top-level objects in JSON, and most things can become strings easily; hence this method.
-// */
-//+ (BOOL) setString:(NSString*)value forKey:(NSString*)key;
-//
-//+ (BOOL) setString:(NSString*)value forKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
-//
-///**
-// Returns as a string, the value set for key
-// */
-//+ (NSString*) stringForKey:(NSString*)key;
-//
-//+ (NSString*) stringForKey:(NSString*)key inNameSpace:(NSString*)nameSpace;
+/**
+ 
+ */
+- (RG_PREFIX_NULLABLE id<NSCoding>) codeableForKey:(RG_PREFIX_NONNULL NSString*)key;
+
+/**
+ 
+ */
+- (void) setCodeable:(RG_PREFIX_NULLABLE id<NSCoding>)codeable forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 @end
