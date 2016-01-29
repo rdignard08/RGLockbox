@@ -15,3 +15,5 @@ xcuserdata
 RGLockbox.xcodeproj/project.xcworkspace/contents.xcworkspacedata
 
 *.gcno
+
+RGLockbox.xcodeproj/xcuserdata/dignar.xcuserdatad/xcschemes/RGLockbox-Tests.xcscheme
