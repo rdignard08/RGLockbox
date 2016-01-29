@@ -4,10 +4,18 @@ Pod::Spec.new do |s|
   s.license  = 'BSD'
   s.summary  = 'A simpler interface to iOS keychain access.'
   s.homepage = 'https://github.com/rdignard08/RGLockbox'
-  s.author   = { "Ryan Dignard" => "dignard@1debit.com" }
-  s.source   = { :git => "https://github.com/rdignard08/RGLockbox.git", :tag => s.version.to_s }
-  s.platform = :ios
-  s.source_files = 'RGLockbox'
-  s.frameworks = 'Security'
+  
+  s.authors  = { "Ryan Dignard" => "conceptuallyflawed@gmail.com" }
+  s.source   = { :git => "https://github.com/rdignard08/RGLockbox.git", :tag => s.version }
   s.requires_arc = true
+
+  s.ios.deployment_target = '5.0'
+  s.osx.deployment_target = '10.7'
+  s.watchos.deployment_target = '2.0'
+  s.tvos.deployment_target = '9.0'
+
+  s.public_header_files = 'RGLockbox/*.h'
+  s.source_files = 'RGLockbox'
+
+  s.frameworks = 'Security'
 end
