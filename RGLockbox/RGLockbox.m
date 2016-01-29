@@ -56,6 +56,24 @@ static NSString* rg_bundle_identifier(void) {
     return queue;
 }
 
++ (RG_PREFIX_NONNULL NSLock*) valueCacheLock {
+    static dispatch_once_t onceToken;
+    static NSLock* _sValueCacheLock;
+    dispatch_once(&onceToken, ^{
+        _sValueCacheLock = [NSLock new];
+    });
+    return _sValueCacheLock;
+}
+
++ (RG_PREFIX_NONNULL NSMutableDictionary*) valueCache {
+    static dispatch_once_t onceToken;
+    static NSMutableDictionary* _sValueCache;
+    dispatch_once(&onceToken, ^{
+        _sValueCache = [NSMutableDictionary new];
+    });
+    return _sValueCache;
+}
+
 - (RG_PREFIX_NONNULL instancetype) init {
     return [self initWithNamespace:nil accessibility:nil];
 }
@@ -71,10 +89,21 @@ static NSString* rg_bundle_identifier(void) {
 
 - (RG_PREFIX_NULLABLE NSData*) objectForKey:(RG_PREFIX_NONNULL NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey, (id)kSecReturnData : @YES };
-    CFTypeRef data = nil;
-    SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
-    return (__bridge_transfer NSData*)data;
+    [[[self class] valueCacheLock] lock];
+    id value = [[self class] valueCache][hierarchyKey];
+    if (value) {
+        [[[self class] valueCacheLock] unlock];
+        return [value isKindOfClass:[NSData self]] ? value : nil;
+    }
+    __block CFTypeRef data = nil;
+    dispatch_sync([[self class] keychainQueue], ^{
+        NSDictionary* query = @{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey, (id)kSecReturnData : @YES };
+        SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
+    });
+    NSData* bridgedData = (__bridge_transfer NSData*)data;
+    [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null]; /* null is a placeholder in the cache to say we've tried */
+    [[[self class] valueCacheLock] unlock];
+    return bridgedData;
 }
 
 - (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
@@ -83,17 +112,21 @@ static NSString* rg_bundle_identifier(void) {
 
 - (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    NSMutableDictionary* query = [@{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey } mutableCopy];
-    if (object) { /* Add or Update... */
-        NSDictionary* payload = @{ (id)kSecValueData : object, (id)kSecAttrAccessible : (__bridge id)accessibility };
-        [query addEntriesFromDictionary:payload];
-        OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
-        if (status == errSecDuplicateItem) { /* Duplicate, only update possible */
-            status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
-        }
-        return;
-    } /* Not Add or Update, must be delete */
-    SecItemDelete((__bridge CFDictionaryRef)query);
+    [[[self class] valueCacheLock] lock];
+    [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
+    [[[self class] valueCacheLock] unlock];
+    dispatch_async([[self class] keychainQueue], ^{
+        NSMutableDictionary* query = [@{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey } mutableCopy];
+        if (object) { /* Add or Update... */
+            NSDictionary* payload = @{ (id)kSecValueData : object, (id)kSecAttrAccessible : (__bridge id)accessibility };
+            [query addEntriesFromDictionary:payload];
+            if (SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate, only update possible */
+                SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
+            }
+            return;
+        } /* Not Add or Update, must be delete */
+        SecItemDelete((__bridge CFDictionaryRef)query);
+    });
 }
 
 @end
