@@ -13,3 +13,5 @@ xcuserdata
 *.xcscmblueprint
 
 RGLockbox.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+
+*.gcno
