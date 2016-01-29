@@ -52,18 +52,13 @@
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
 
 /**
- Primitive method to return the data on `key`.
+ Primitive method to return the data on `key`.  Threadsafe.
  */
 - (RG_PREFIX_NULLABLE NSData*) objectForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
- Primitive method to set the data on `key` with the current `itemAccessibility`.
+ Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.
  */
 - (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
-
-/**
- Primitive method to set the data on `key` with the provided accessibility.
- */
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility;
 
 @end

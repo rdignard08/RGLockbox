@@ -108,10 +108,6 @@ static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
 }
 
 - (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    [self setObject:object forKey:key withAccessibility:self.itemAccessibility];
-}
-
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key withAccessibility:(RG_PREFIX_NONNULL CFStringRef)accessibility {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
@@ -119,7 +115,7 @@ static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     dispatch_async([[self class] keychainQueue], ^{
         NSMutableDictionary* query = [@{ (id)kSecClass : (id)kSecClassGenericPassword, (id)kSecAttrService : hierarchyKey } mutableCopy];
         if (object) { /* Add or Update... */
-            NSDictionary* payload = @{ (id)kSecValueData : object, (id)kSecAttrAccessible : (__bridge id)accessibility };
+            NSDictionary* payload = @{ (id)kSecValueData : object, (id)kSecAttrAccessible : (__bridge id)self.itemAccessibility };
             [query addEntriesFromDictionary:payload];
             if (SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate, only update possible */
                 SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
