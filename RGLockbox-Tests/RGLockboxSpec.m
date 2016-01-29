@@ -37,64 +37,64 @@ CLASS_SPEC(RGLockbox)
 
 - (void) tearDown {
     for (int i = 0; i < 2; i++) {
-        [[RGLockbox manager] setObject:nil forKey:testKeys[i]];
+        [[RGLockbox manager] setData:nil forKey:testKeys[i]];
     }
 }
 
 - (void) setUp {
     for (int i = 0; i < 2; i++) {
-        [[RGLockbox manager] setObject:nil forKey:testKeys[i]];
+        [[RGLockbox manager] setData:nil forKey:testKeys[i]];
     }
 }
 
 
 #pragma mark - Reading / Writing / Deleting
 - (void) testReadNotExist {
-    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert(data == nil);
 }
 
 - (void) testReadNotExistDouble {
-    [[RGLockbox manager] objectForKey:kKey1];
-    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    [[RGLockbox manager] dataForKey:kKey1];
+    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert(data == nil);
 }
 
 - (void) testReadExist {
-    [[RGLockbox manager] setObject:[NSData new] forKey:kKey1];
-    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    [[RGLockbox manager] setData:[NSData new] forKey:kKey1];
+    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert([data isEqual:[NSData new]]);
 }
 
 - (void) testReadExistDouble {
-    [[RGLockbox manager] setObject:[NSData new] forKey:kKey1];
-    [[RGLockbox manager] objectForKey:kKey1];
-    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    [[RGLockbox manager] setData:[NSData new] forKey:kKey1];
+    [[RGLockbox manager] dataForKey:kKey1];
+    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert([data isEqual:[NSData new]]);
 }
 
 - (void) testReadNotSeen {
     NSString* key = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey2];
-    [[RGLockbox manager] setObject:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
+    [[RGLockbox manager] setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
     [[RGLockbox valueCache] removeObjectForKey:key];
-    NSData* data = [[RGLockbox manager] objectForKey:kKey2];
+    NSData* data = [[RGLockbox manager] dataForKey:kKey2];
     XCTAssert([data isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
 - (void) testReadNoNameSpace {
     RGLockbox* rawAccess = [[RGLockbox alloc] initWithNamespace:nil accessibility:nil];
-    [rawAccess setObject:[@"abes" dataUsingEncoding:NSUTF8StringEncoding] forKey:@"com.restgoatee.rglockbox.foobar"];
-    NSData* data = [rawAccess objectForKey:@"com.restgoatee.rglockbox.foobar"];
+    [rawAccess setData:[@"abes" dataUsingEncoding:NSUTF8StringEncoding] forKey:@"com.restgoatee.rglockbox.foobar"];
+    NSData* data = [rawAccess dataForKey:@"com.restgoatee.rglockbox.foobar"];
     XCTAssert([data isEqual:[@"abes" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
 #pragma mark - Updating
 - (void) testUpdateValue {
-    [[RGLockbox manager] setObject:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    [[RGLockbox manager] setObject:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [[RGLockbox manager] setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [[RGLockbox manager] setData:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     NSString* key = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey1];
     [[RGLockbox valueCache] removeObjectForKey:key];
-    NSData* data = [[RGLockbox manager] objectForKey:kKey1];
+    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 

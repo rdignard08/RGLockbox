@@ -86,7 +86,7 @@ static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return self;
 }
 
-- (RG_PREFIX_NULLABLE NSData*) objectForKey:(RG_PREFIX_NONNULL NSString*)key {
+- (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     [[[self class] valueCacheLock] lock];
     id value = [[self class] valueCache][hierarchyKey];
@@ -105,7 +105,7 @@ static NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return bridgedData;
 }
 
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
+- (void) setData:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];

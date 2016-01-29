@@ -54,11 +54,11 @@
 /**
  Primitive method to return the data on `key`.  Threadsafe.
  */
-- (RG_PREFIX_NULLABLE NSData*) objectForKey:(RG_PREFIX_NONNULL NSString*)key;
+- (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
  Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.
  */
-- (void) setObject:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
+- (void) setData:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
 
 @end
