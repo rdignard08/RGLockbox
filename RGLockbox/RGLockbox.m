@@ -34,7 +34,7 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return _sBundleIdentifier;
 }
 
-OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatching)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE CF_RETURNS_RETAINED) = &SecItemCopyMatching;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatching)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL, CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
