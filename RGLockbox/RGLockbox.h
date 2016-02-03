@@ -31,6 +31,26 @@
 NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void);
 
 /**
+ @brief C function used to retrieve an item from the keychain.  Defaults to `SecItemCopyMatching`.
+ */
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatching)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE CF_RETURNS_RETAINED);
+
+/**
+ @brief C function used to add a nonexistent item to the keychain.  Defaults to `SecItemAdd`.
+ */
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
+
+/**
+ @brief C function used to update an existing item in the keychain.  Defaults to `SecItemUpdate`.
+ */
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL, CFDictionaryRef RG_SUFFIX_NONNULL);
+
+/**
+ @brief C function used to delete an item from the keychain.  Defaults to `SecItemDelete`.
+ */
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL);
+
+/**
  @brief `RGLockbox` is a keychain manager class.  It provides the rudimentary actions get, add, update, delete on `NSData` instances.  The class is threadsafe and may be accessed (read and written from) on multiple threads simultaneously.
  */
 @interface RGLockbox : NSObject

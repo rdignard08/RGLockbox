@@ -34,6 +34,11 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return _sBundleIdentifier;
 }
 
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatching)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE CF_RETURNS_RETAINED) = &SecItemCopyMatching;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL, CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
+
 @implementation RGLockbox
 
 + (instancetype) manager {
@@ -97,7 +102,7 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     __block CFTypeRef data = nil;
     dispatch_sync([[self class] keychainQueue], ^{
         NSDictionary* query = @{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword, (__bridge id)kSecAttrService : hierarchyKey, (__bridge id)kSecReturnData : @YES };
-        SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
+        rg_SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data;
     [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null]; /* null is a placeholder in the cache to say we've tried */
@@ -115,12 +120,12 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
         if (object) { /* Add or Update... */
             NSDictionary* payload = @{ (__bridge id)kSecValueData : object, (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility };
             [query addEntriesFromDictionary:payload];
-            if (SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate, only update possible */
-                SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
+            if (rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate, only update possible */
+                rg_SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
             }
             return;
         } /* Not Add or Update, must be delete */
-        SecItemDelete((__bridge CFDictionaryRef)query);
+        rg_SecItemDelete((__bridge CFDictionaryRef)query);
     });
 }
 

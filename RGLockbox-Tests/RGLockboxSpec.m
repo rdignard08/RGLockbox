@@ -23,6 +23,67 @@
 
 #import "RGLockbox.h"
 
+static NSMutableDictionary* theKeychainLol;
+static NSLock* keychainLock;
+
+static OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
+    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSNumber* returnData = (__bridge NSNumber*)CFDictionaryGetValue(query, kSecReturnData);
+    __block id storedValue;
+    [keychainLock lock];
+    storedValue = theKeychainLol[key];
+    [keychainLock unlock];
+    if (storedValue) {
+        if (returnData.boolValue) {
+            *value = (__bridge_retained CFTypeRef)storedValue;
+        }
+        return errSecSuccess;
+    }
+    return errSecItemNotFound;
+}
+
+static OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* __unused value) {
+    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSData* data = (__bridge NSData*)CFDictionaryGetValue(query, kSecValueData);
+    __block id storedValue;
+    [keychainLock lock];
+    storedValue = theKeychainLol[key];
+    [keychainLock unlock];
+    if (!storedValue) {
+        [keychainLock lock];
+        theKeychainLol[key] = data;
+        [keychainLock unlock];
+        return errSecSuccess;
+    }
+    return errSecDuplicateItem;
+}
+
+static OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes) {
+    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSData* data = (__bridge NSData*)CFDictionaryGetValue(attributes, kSecValueData);
+    __block id storedValue;
+    [keychainLock lock];
+    storedValue = theKeychainLol[key];
+    [keychainLock unlock];
+    if (storedValue) {
+        [keychainLock lock];
+        theKeychainLol[key] = data;
+        [keychainLock unlock];
+        return errSecSuccess;
+    }
+    return errSecItemNotFound;
+}
+
+static OSStatus replacementDeleteItem(CFDictionaryRef query) {
+    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    [keychainLock lock];
+    if (theKeychainLol[key]) {
+        [theKeychainLol removeObjectForKey:key];
+    }
+    [keychainLock unlock];
+    return errSecSuccess;
+}
+
 @interface RGLockbox (RGForwardDeclarations)
 
 + (NSMutableDictionary*)valueCache;
@@ -34,6 +95,15 @@ static NSString* const kKey2 = @"aKey2";
 static NSString* testKeys[] = { @"aKey1", @"aKey2" };
 
 CLASS_SPEC(RGLockbox)
+
++ (void) load {
+    theKeychainLol = [NSMutableDictionary new];
+    keychainLock = [NSLock new];
+    rg_SecItemCopyMatching = &replacementItemCopy;
+    rg_SecItemAdd = &replacementAddItem;
+    rg_SecItemUpdate = &replacementUpdateItem;
+    rg_SecItemDelete = &replacementDeleteItem;
+}
 
 - (void) tearDown {
     for (int i = 0; i < 2; i++) {
@@ -78,9 +148,7 @@ CLASS_SPEC(RGLockbox)
     [[RGLockbox manager] setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
     [[RGLockbox valueCache] removeObjectForKey:key];
     NSData* data = [[RGLockbox manager] dataForKey:kKey2];
-    NSLog(@"%@ %@", data, [@"abcd" dataUsingEncoding:NSUTF8StringEncoding]);
-//    XCTAssert([data isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
-    XCTAssert(data == nil); // TODO: CI does not allow keychain access
+    XCTAssert([data isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
 - (void) testReadNoNameSpace {
@@ -97,9 +165,7 @@ CLASS_SPEC(RGLockbox)
     NSString* key = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey1];
     [[RGLockbox valueCache] removeObjectForKey:key];
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];
-    NSLog(@"%@ %@", data, [@"qwew" dataUsingEncoding:NSUTF8StringEncoding]);
-//    XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
-    XCTAssert(data == nil); // TODO: CI does not allow keychain access
+    XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
 SPEC_END
