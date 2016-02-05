@@ -42,7 +42,7 @@
  */
         #define RG_PREFIX_NULLABLE nullable
 /**
- @brief This declaration goes after a variable and does not allows `nil` values.
+ @brief This declaration goes after a variable and allows `nil` values.
  */
         #define RG_SUFFIX_NULLABLE __nullable
 /**
@@ -71,7 +71,7 @@
  */
         #define RG_PREFIX_NULLABLE
 /**
- @brief This declaration goes after a variable and does not allows `nil` values.
+ @brief This declaration goes after a variable and allows `nil` values.
  */
         #define RG_SUFFIX_NULLABLE
 /**
