@@ -1,3 +1,6 @@
+## 1.0.2
+- Update README.md to facilitate adoption of the library
+
 ## 1.0.1
 - symbols `rg_SecItemCopyMatching`, `rg_SecItemAdd`, `rg_SecItemUpdate`, `rg_SecItemDelete` are exposed to allow runtime hooking
 
