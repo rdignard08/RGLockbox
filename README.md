@@ -9,6 +9,19 @@ RGLockbox
 =======
 RGLockbox is a simple to use interface with the standard keychain.  Using object-orientented approaches it is simple to pick a key and store any rudimentary value there.
 
+Default supported types include:
+- `NSData`
+- `NSString`
+- `NSDate`
+- `NSDictionary`
+- `NSArray`
+- `id<NSCoding>`
+  - `NSURL`
+  - `NSValue` (including `NSNumber` and `NSDecimalNumber`)
+  - `NSNull`
+
+Note for safety Apple encourages developers to conform their objects to `NSSecureCoding` instead of `NSCoding` to prevent substitution attacks against your app.
+
 Example
 =======
 ```objc
