@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		BEA76BB21C6851E600BF5C94 /* OCLint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = BEA76BB51C6851E600BF5C94 /* Build configuration list for PBXAggregateTarget "OCLint" */;
+			buildPhases = (
+				BEA76BB81C68520400BF5C94 /* ShellScript */,
+			);
+			dependencies = (
+				BEA76BB71C68520000BF5C94 /* PBXTargetDependency */,
+			);
+			name = OCLint;
+			productName = OCLint;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		BE0976CA1C573571001E6467 /* RGLockboxSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976C91C573571001E6467 /* RGLockboxSpec.m */; };
 		BE0976CC1C573571001E6467 /* libRGLockbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9ACD001C57347E0052D171 /* libRGLockbox.a */; };
@@ -17,6 +32,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		BE0976CD1C573571001E6467 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE9ACCF81C57347E0052D171 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE9ACCFF1C57347E0052D171;
+			remoteInfo = RGLockbox;
+		};
+		BEA76BB61C68520000BF5C94 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BE9ACCF81C57347E0052D171 /* Project object */;
 			proxyType = 1;
@@ -183,6 +205,10 @@
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 5W2NB69P29;
 					};
+					BEA76BB21C6851E600BF5C94 = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 5W2NB69P29;
+					};
 				};
 			};
 			buildConfigurationList = BE9ACCFB1C57347E0052D171 /* Build configuration list for PBXProject "RGLockbox" */;
@@ -199,6 +225,7 @@
 			targets = (
 				BE9ACCFF1C57347E0052D171 /* RGLockbox */,
 				BE0976C61C573570001E6467 /* RGLockbox-Tests */,
+				BEA76BB21C6851E600BF5C94 /* OCLint */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +239,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BEA76BB81C68520400BF5C94 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ./oclint_run.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BE0976C31C573570001E6467 /* Sources */ = {
@@ -239,6 +282,11 @@
 			isa = PBXTargetDependency;
 			target = BE9ACCFF1C57347E0052D171 /* RGLockbox */;
 			targetProxy = BE0976CD1C573571001E6467 /* PBXContainerItemProxy */;
+		};
+		BEA76BB71C68520000BF5C94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE9ACCFF1C57347E0052D171 /* RGLockbox */;
+			targetProxy = BEA76BB61C68520000BF5C94 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -435,6 +483,20 @@
 			};
 			name = Release;
 		};
+		BEA76BB31C6851E600BF5C94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BEA76BB41C6851E600BF5C94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -461,6 +523,15 @@
 			buildConfigurations = (
 				BE9ACD0A1C57347E0052D171 /* Debug */,
 				BE9ACD0B1C57347E0052D171 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEA76BB51C6851E600BF5C94 /* Build configuration list for PBXAggregateTarget "OCLint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEA76BB31C6851E600BF5C94 /* Debug */,
+				BEA76BB41C6851E600BF5C94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

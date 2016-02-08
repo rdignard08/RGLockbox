@@ -12,3 +12,4 @@ xcuserdata
 *.xcuserstate
 *.xcscmblueprint
 *.gcno
+compile_commands.json
