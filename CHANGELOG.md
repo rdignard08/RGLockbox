@@ -1,3 +1,6 @@
+## 1.1.0
+- The exported symbol `rg_SecItemCopyMatching` has been renamed to `rg_SecItemCopyMatch` so to not run afoul of OCLint
+
 ## 1.0.3
 - Expanded README.md to help users with more advanced use cases
 
