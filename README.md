@@ -4,6 +4,7 @@
 [![Pod Version](https://img.shields.io/cocoapods/v/RGLockbox.svg)](https://cocoapods.org/pods/RGLockbox)
 [![Pod Platform](http://img.shields.io/cocoapods/p/RGLockbox.svg?style=flat)](http://cocoadocs.org/docsets/RGLockbox/)
 [![Pod License](http://img.shields.io/cocoapods/l/RGLockbox.svg?style=flat)](https://github.com/rdignard08/RGLockbox/blob/master/LICENSE)
+[![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=rdignard08/rglockbox)](http://clayallsopp.github.io/readme-score?url=rdignard08/rglockbox)
 
 RGLockbox
 =======
