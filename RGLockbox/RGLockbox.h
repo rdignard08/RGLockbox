@@ -33,7 +33,7 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void);
 /**
  @brief C function used to retrieve an item from the keychain.  Defaults to `SecItemCopyMatching`.
  */
-extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatching)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
 
 /**
  @brief C function used to add a nonexistent item to the keychain.  Defaults to `SecItemAdd`.

@@ -99,7 +99,7 @@ CLASS_SPEC(RGLockbox)
 + (void) load {
     theKeychainLol = [NSMutableDictionary new];
     keychainLock = [NSLock new];
-    rg_SecItemCopyMatching = &replacementItemCopy;
+    rg_SecItemCopyMatch = &replacementItemCopy;
     rg_SecItemAdd = &replacementAddItem;
     rg_SecItemUpdate = &replacementUpdateItem;
     rg_SecItemDelete = &replacementDeleteItem;

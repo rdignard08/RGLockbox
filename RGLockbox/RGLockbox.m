@@ -34,7 +34,7 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return _sBundleIdentifier;
 }
 
-OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatching)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL, CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
@@ -102,7 +102,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     __block CFTypeRef data = nil;
     dispatch_sync([[self class] keychainQueue], ^{
         NSDictionary* query = @{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword, (__bridge id)kSecAttrService : hierarchyKey, (__bridge id)kSecReturnData : @YES };
-        rg_SecItemCopyMatching((__bridge CFDictionaryRef)query, &data);
+        rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data;
     [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null]; /* null is a placeholder in the cache to say we've tried */
