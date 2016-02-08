@@ -1,3 +1,6 @@
+## 1.0.3
+- Expanded README.md to help users with more advanced use cases
+
 ## 1.0.2
 - Update README.md to facilitate adoption of the library
 
