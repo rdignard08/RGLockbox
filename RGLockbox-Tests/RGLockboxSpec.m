@@ -23,66 +23,6 @@
 
 #import "RGLockbox.h"
 
-static NSMutableDictionary* theKeychainLol;
-static NSLock* keychainLock;
-
-static OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
-    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
-    NSNumber* returnData = (__bridge NSNumber*)CFDictionaryGetValue(query, kSecReturnData);
-    __block id storedValue;
-    [keychainLock lock];
-    storedValue = theKeychainLol[key];
-    [keychainLock unlock];
-    if (storedValue) {
-        if (returnData.boolValue) {
-            *value = (__bridge_retained CFTypeRef)storedValue;
-        }
-        return errSecSuccess;
-    }
-    return errSecItemNotFound;
-}
-
-static OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* __unused value) {
-    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
-    NSData* data = (__bridge NSData*)CFDictionaryGetValue(query, kSecValueData);
-    __block id storedValue;
-    [keychainLock lock];
-    storedValue = theKeychainLol[key];
-    [keychainLock unlock];
-    if (!storedValue) {
-        [keychainLock lock];
-        theKeychainLol[key] = data;
-        [keychainLock unlock];
-        return errSecSuccess;
-    }
-    return errSecDuplicateItem;
-}
-
-static OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes) {
-    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
-    NSData* data = (__bridge NSData*)CFDictionaryGetValue(attributes, kSecValueData);
-    __block id storedValue;
-    [keychainLock lock];
-    storedValue = theKeychainLol[key];
-    [keychainLock unlock];
-    if (storedValue) {
-        [keychainLock lock];
-        theKeychainLol[key] = data;
-        [keychainLock unlock];
-        return errSecSuccess;
-    }
-    return errSecItemNotFound;
-}
-
-static OSStatus replacementDeleteItem(CFDictionaryRef query) {
-    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
-    [keychainLock lock];
-    id value = theKeychainLol[key];
-    [theKeychainLol removeObjectForKey:key];
-    [keychainLock unlock];
-    return value ? errSecSuccess : errSecItemNotFound;
-}
-
 @interface RGLockbox (RGForwardDeclarations)
 
 + (NSMutableDictionary*)valueCache;
@@ -96,8 +36,7 @@ static NSString* testKeys[] = { @"aKey1", @"aKey2" };
 CLASS_SPEC(RGLockbox)
 
 + (void) load {
-    theKeychainLol = [NSMutableDictionary new];
-    keychainLock = [NSLock new];
+    initializeKeychain();
     rg_SecItemCopyMatch = &replacementItemCopy;
     rg_SecItemAdd = &replacementAddItem;
     rg_SecItemUpdate = &replacementUpdateItem;
