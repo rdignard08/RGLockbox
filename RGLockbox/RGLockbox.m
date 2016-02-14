@@ -22,7 +22,6 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import "RGLockbox.h"
-#import "RGDefines.h"
 #import <Security/Security.h>
 
 #ifdef DEBUG
