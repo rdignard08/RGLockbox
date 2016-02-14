@@ -77,11 +77,10 @@ static OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef att
 static OSStatus replacementDeleteItem(CFDictionaryRef query) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     [keychainLock lock];
-    if (theKeychainLol[key]) {
-        [theKeychainLol removeObjectForKey:key];
-    }
+    id value = theKeychainLol[key];
+    [theKeychainLol removeObjectForKey:key];
     [keychainLock unlock];
-    return errSecSuccess;
+    return value ? errSecSuccess : errSecItemNotFound;
 }
 
 @interface RGLockbox (RGForwardDeclarations)
