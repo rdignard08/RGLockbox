@@ -1,3 +1,7 @@
+## 1.1.1
+- Will log in debug mode when the library is interacting with the system keychain
+- Fixed a race condition where the in memory cache could get out of sync with the on disk keychain
+
 ## 1.1.0
 - The exported symbol `rg_SecItemCopyMatching` has been renamed to `rg_SecItemCopyMatch` so to not run afoul of OCLint
 
