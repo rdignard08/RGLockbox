@@ -25,6 +25,12 @@
 #import "RGDefines.h"
 #import <Security/Security.h>
 
+#ifdef DEBUG
+    #define dNSLog(...) NSLog(__VA_ARGS__)
+#else
+    #define dNSLog(...)
+#endif
+
 NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     static NSString* _sBundleIdentifier;
     static dispatch_once_t onceToken;
@@ -110,7 +116,8 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
                                 (__bridge id)kSecAttrService : hierarchyKey,
                                 (__bridge id)kSecReturnData : @YES
                                 };
-        rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+        OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+        dNSLog(@"SecItemCopyMatching with %@ returned %@", query, @(status));
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data; /* NSNull is a placeholder in the cache to say we've tried */
     [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null];
@@ -124,6 +131,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
     [[[self class] valueCacheLock] unlock];
     dispatch_async([[self class] keychainQueue], ^{
+        OSStatus status;
         NSMutableDictionary* query = [@{
                                         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                         (__bridge id)kSecAttrService : hierarchyKey
@@ -134,12 +142,16 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
                                       (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility
                                       };
             [query addEntriesFromDictionary:payload];
-            if (rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate so update */
-                rg_SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
+            status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+            dNSLog(@"SecItemAdd with %@ returned %@", query, @(status));
+            if (status == errSecDuplicateItem) { /* Duplicate so update */
+                status = rg_SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
+                dNSLog(@"SecItemUpdate with %@ and %@ returned %@", query, payload, @(status));
             }
             return;
         } /* Not Add or Update, must be delete */
-        rg_SecItemDelete((__bridge CFDictionaryRef)query);
+        status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
+        dNSLog(@"SecItemDelete with %@ returned %@", query, @(status));
     });
 }
 
