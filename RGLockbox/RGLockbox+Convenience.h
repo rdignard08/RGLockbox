@@ -24,13 +24,15 @@
 #import "RGLockbox.h"
 
 /**
- RGLockbox+Convenience defines several common ways to interact with the fundamental interface.  Supported inputs are: JSON, `NSDate`, `NSString`, `id<NSCoding>`.
+ @brief RGLockbox+Convenience defines several common ways to interact with the fundamental interface.  Supported inputs
+   are: JSON, `NSDate`, `NSString`, `id<NSCoding>`.
  */
 @interface RGLockbox (Convenience)
 
 /**
  @param key key in the current namespace from which to retrieve the output data.
- @return the data found on `key` if not `nil` passed through `+[NSJSONSerialization JSONObjectWithData:options:error:]` otherwise `nil`.
+ @return the data found on `key` if not `nil` passed through `+[NSJSONSerialization JSONObjectWithData:options:error:]`
+   otherwise `nil`.
  @throw `NSInvalidArgumentException` if the data exists, but is not deserializable but `NSJSONSerialization`.
  */
 - (RG_PREFIX_NULLABLE id) JSONObjectForKey:(RG_PREFIX_NONNULL NSString*)key;
@@ -45,7 +47,8 @@
 
 /**
  @param key key in the current namespace from which to retrieve the output data.
- @return the data found on `key` parsed to an `NSString` with UTF-8 decoding and run through a standard ISO date format.  `nil` on failure to parse or no data.
+ @return the data found on `key` parsed to an `NSString` with UTF-8 decoding and run through a standard ISO date format.
+   `nil` on failure to parse or no data.
  */
 - (RG_PREFIX_NULLABLE NSDate*) dateForKey:(RG_PREFIX_NONNULL NSString*)key;
 

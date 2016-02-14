@@ -25,7 +25,8 @@
 #import "RGDefines.h"
 
 /**
- @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the `itemAccessibility`.
+ @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the
+   `itemAccessibility`.
  @return the bundle identifier of the `RGLockbox` class.
  */
 NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void);
@@ -33,17 +34,20 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void);
 /**
  @brief C function used to retrieve an item from the keychain.  Defaults to `SecItemCopyMatching`.
  */
-extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                                          CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
 
 /**
  @brief C function used to add a nonexistent item to the keychain.  Defaults to `SecItemAdd`.
  */
-extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                                    CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
 
 /**
  @brief C function used to update an existing item in the keychain.  Defaults to `SecItemUpdate`.
  */
-extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL, CFDictionaryRef RG_SUFFIX_NONNULL);
+extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                                       CFDictionaryRef RG_SUFFIX_NONNULL);
 
 /**
  @brief C function used to delete an item from the keychain.  Defaults to `SecItemDelete`.
@@ -51,7 +55,8 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX
 extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL);
 
 /**
- @brief `RGLockbox` is a keychain manager class.  It provides the rudimentary actions get, add, update, delete on `NSData` instances.  The class is threadsafe and may be accessed (read and written from) on multiple threads simultaneously.
+ @brief `RGLockbox` is a keychain manager class.  It provides the rudimentary actions get, add, update, delete on
+   `NSData` instances.  The class is threadsafe and may be read from and written to on multiple threads simultaneously.
  */
 @interface RGLockbox : NSObject
 
@@ -71,17 +76,23 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 + (RG_PREFIX_NONNULL instancetype) manager;
 
 /**
- @brief This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize operations, rather for program correctness you should `dispatch_barrier_sync()` on this queue when your program is about to become inactive.
+ @brief This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize
+   operations, rather for program correctness you should `dispatch_barrier_sync()` on this queue when your program is
+   about to become inactive.
  @return the serial queue on which keychain access is performed.  Only use as described.
  */
 + (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue;
 
 /**
- @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil` will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
- @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
+ @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil`
+   will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
+ @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
+   default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
  @return an instance of `RGLockbox` which has the provided namespace and accessibility.
  */
-- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
+- (RG_PREFIX_NONNULL instancetype)
+    initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
 
 /**
  @brief Primitive method to return the data on `key`.  Threadsafe.
