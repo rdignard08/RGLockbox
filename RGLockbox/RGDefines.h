@@ -116,8 +116,7 @@
  @param ... values that will be called with `format` to generate the output.
  @throw `NSGenericException` on format being `nil`.
  */
-        #define RGLog(formatVar, ...) ({                                                                \
-            formatVar ? RG_VOID_NOOP : [NSException raise:@"NSGenericException" format:@""];            \
+        #define RGLog(format, ...) ({                                                                   \
             const size_t length = sizeof(__FILE__) - 1;                                                 \
             char* file = __FILE__ + length;                                                             \
             while (file != __FILE__) {                                                                  \
@@ -127,12 +126,8 @@
                 }                                                                                       \
                 file = replacement;                                                                     \
             }                                                                                           \
-            uint64_t formatLength = [formatVar maximumLengthOfBytesUsingEncoding:NSUTF8StringEncoding]; \
-            char fullFormat[formatLength + sizeof("[%s:%lu] ") + sizeof("\n")];                         \
-            strcpy(fullFormat, "[%s:%lu] ");                                                            \
-            strcat(fullFormat, [formatVar UTF8String]);                                                 \
-            strcat(fullFormat, "\n");                                                                   \
-            (void)fprintf(stderr, fullFormat, file, (unsigned long)__LINE__, ## __VA_ARGS__);           \
+            NSString* output = [[NSString alloc] initWithFormat:format, ## __VA_ARGS__];                \
+            (void)fprintf(stderr, "[%s:%lu] %s\n", file, (unsigned long)__LINE__, output.UTF8String);   \
         })
     #else /* we define out with `RG_VOID_NOOP` generally this is `NULL` to allow usage in conditional operators. */
 /**
