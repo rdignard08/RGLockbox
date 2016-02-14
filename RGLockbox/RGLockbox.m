@@ -115,7 +115,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
                                 (__bridge id)kSecAttrService : hierarchyKey,
                                 (__bridge id)kSecReturnData : @YES
                                 };
-        OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+        __unused OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
         dNSLog(@"SecItemCopyMatching with %@ returned %@", query, @(status));
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data; /* NSNull is a placeholder in the cache to say we've tried */
