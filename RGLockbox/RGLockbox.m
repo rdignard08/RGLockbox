@@ -34,9 +34,12 @@ NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
     return _sBundleIdentifier;
 }
 
-OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
-OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL, CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
-OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL, CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                                   CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                             CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
+OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                                CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
 
 @implementation RGLockbox
@@ -81,7 +84,8 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     return [self initWithNamespace:rg_bundle_identifier() accessibility:nil];
 }
 
-- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility {
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+                                       accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility {
     self = [super init];
     if (self) {
         CFStringRef nonnullAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
@@ -101,11 +105,15 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     }
     __block CFTypeRef data = nil;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSDictionary* query = @{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword, (__bridge id)kSecAttrService : hierarchyKey, (__bridge id)kSecReturnData : @YES };
+        NSDictionary* query = @{
+                                (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+                                (__bridge id)kSecAttrService : hierarchyKey,
+                                (__bridge id)kSecReturnData : @YES
+                                };
         rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
     });
-    NSData* bridgedData = (__bridge_transfer NSData*)data;
-    [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null]; /* null is a placeholder in the cache to say we've tried */
+    NSData* bridgedData = (__bridge_transfer NSData*)data; /* NSNull is a placeholder in the cache to say we've tried */
+    [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null];
     [[[self class] valueCacheLock] unlock];
     return bridgedData;
 }
@@ -116,11 +124,17 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
     [[[self class] valueCacheLock] unlock];
     dispatch_async([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = [@{ (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword, (__bridge id)kSecAttrService : hierarchyKey } mutableCopy];
+        NSMutableDictionary* query = [@{
+                                        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+                                        (__bridge id)kSecAttrService : hierarchyKey
+                                        } mutableCopy];
         if (object) { /* Add or Update... */
-            NSDictionary* payload = @{ (__bridge id)kSecValueData : object, (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility };
+            NSDictionary* payload = @{
+                                      (__bridge id)kSecValueData : object,
+                                      (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility
+                                      };
             [query addEntriesFromDictionary:payload];
-            if (rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate, only update possible */
+            if (rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL) == errSecDuplicateItem) { /* Duplicate so update */
                 rg_SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
             }
             return;

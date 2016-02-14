@@ -43,7 +43,9 @@ static NSDateFormatter* rg_stored_dateformatter() {
 }
 
 - (void) setJSONObject:(RG_PREFIX_NULLABLE id)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    NSData* data = object ? [NSJSONSerialization dataWithJSONObject:(id RG_SUFFIX_NONNULL)object options:(NSJSONWritingOptions)0 error:nil] : object;
+    NSData* data = object ? [NSJSONSerialization dataWithJSONObject:(id RG_SUFFIX_NONNULL)object
+                                                            options:(NSJSONWritingOptions)0
+                                                              error:nil] : nil;
     [self setData:data forKey:key];
 }
 
