@@ -128,7 +128,6 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
-    [[[self class] valueCacheLock] unlock];
     dispatch_async([[self class] keychainQueue], ^{
         OSStatus status;
         NSMutableDictionary* query = [@{
@@ -152,6 +151,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
         status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
         dNSLog(@"SecItemDelete with %@ returned %@", query, @(status));
     });
+    [[[self class] valueCacheLock] unlock];
 }
 
 @end
