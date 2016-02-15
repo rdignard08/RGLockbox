@@ -65,7 +65,8 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
- @brief The default accessibility when checking the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
+ @brief The default accessibility when assigning to the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
+ @note On OS X 7 and 8 the value of this property is sent along with the data, but it is ignored by the system.
  */
 @property RG_NONNULL_PROPERTY(nonatomic, assign, readonly) CFStringRef itemAccessibility;
 
@@ -88,6 +89,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
  @return an instance of `RGLockbox` which has the provided namespace and accessibility.
+ @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
 - (RG_PREFIX_NONNULL instancetype)
     initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
