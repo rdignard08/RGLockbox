@@ -104,6 +104,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 
 /**
  @brief Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.
+ @warning calling this method when the keychain is unavailable will raise an exception.
  */
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
 
