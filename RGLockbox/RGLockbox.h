@@ -101,7 +101,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 - (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
- Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.
+ @brief Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.
  */
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)data forKey:(RG_PREFIX_NONNULL NSString*)key;
 
