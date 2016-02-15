@@ -108,6 +108,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
         NSDictionary* query = @{
                                 (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecAttrService : hierarchyKey,
+                                (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
                                 (__bridge id)kSecReturnData : @YES
                                 };
         status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
