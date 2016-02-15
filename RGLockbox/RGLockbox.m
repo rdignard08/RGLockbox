@@ -103,17 +103,20 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
         return [value isKindOfClass:[NSData self]] ? value : nil;
     }
     __block CFTypeRef data = nil;
+    __unused __block OSStatus status;
     dispatch_sync([[self class] keychainQueue], ^{
         NSDictionary* query = @{
                                 (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecAttrService : hierarchyKey,
                                 (__bridge id)kSecReturnData : @YES
                                 };
-        __unused OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+        status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
         RGLog(@"SecItemCopyMatching with %@ returned %@", query, @(status));
     });
-    NSData* bridgedData = (__bridge_transfer NSData*)data; /* NSNull is a placeholder in the cache to say we've tried */
-    [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null];
+    NSData* bridgedData = (__bridge_transfer NSData*)data;
+    if (status != errSecInteractionNotAllowed) { /* Not allowed means we need to try again so don't cache NSNull */
+        [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null];
+    } /* NSNull is a placeholder in the cache to say we've tried */
     [[[self class] valueCacheLock] unlock];
     return bridgedData;
 }
