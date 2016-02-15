@@ -1,3 +1,8 @@
+## 1.2.0
+- Raises an exception when writing to the keychain and it is unavailable (usually due to password lock)
+- Returns `nil` when the keychain is unavailable and will retry the key on the next request
+- Uses limit one for the query to be slightly faster
+
 ## 1.1.1
 - Will log in debug mode when the library is interacting with the system keychain
 - Fixed a race condition where the in memory cache could get out of sync with the on disk keychain
