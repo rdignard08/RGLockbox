@@ -33,17 +33,14 @@ let testKeys = [
     kKey2
 ]
 
-//    + (void) load {
-//    initializeKeychain();
-//    rg_SecItemCopyMatch = &replacementItemCopy;
-//    rg_SecItemAdd = &replacementAddItem;
-//    rg_SecItemUpdate = &replacementUpdateItem;
-//    rg_SecItemDelete = &replacementDeleteItem;
-//    }
-//
-//
-
 class RGLockboxSpec : XCTestCase {
+    
+    override class func initialize() {
+        rg_SecItemCopyMatch = replacementItemCopy;
+        rg_SecItemAdd = replacementAddItem;
+        rg_SecItemUpdate = replacementUpdateItem;
+        rg_SecItemDelete = replacementDeleteItem;
+    }
     
     override func setUp() {
         RGLockbox.bundleIdentifier = NSBundle(forClass: self.dynamicType).infoDictionary![kCFBundleIdentifierKey as String] as! String?
