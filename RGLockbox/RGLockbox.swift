@@ -48,7 +48,7 @@ public class RGLockbox {
     static let keychainQueue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL)
     static let valueCacheLock = NSLock()
     public static var bundleIdentifier:String? = NSBundle.mainBundle().infoDictionary?[kCFBundleIdentifierKey as String] as? String
-    public static var valueCache:[String : AnyObject] = Dictionary();
+    public static var valueCache:[String : AnyObject] = [:];
     
     public let namespace:String?
     public let itemAccessibility:CFStringRef
