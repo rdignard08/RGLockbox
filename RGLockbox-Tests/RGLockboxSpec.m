@@ -22,6 +22,8 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import "RGLockbox.h"
+#import <objc/runtime.h>
+#import "NSObject+RGBadInit.h"
 
 @interface RGLockbox (RGForwardDeclarations)
 
@@ -55,6 +57,12 @@ CLASS_SPEC(RGLockbox)
     }
 }
 
+- (void) testBadInit {
+    method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)), class_getInstanceMethod([NSObject self], @selector(override_init)));
+    RGLockbox* lockbox = [RGLockbox new];
+    XCTAssert(lockbox == nil);
+    method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)), class_getInstanceMethod([NSObject self], @selector(override_init)));
+}
 
 #pragma mark - Reading / Writing / Deleting
 - (void) testReadNotExist {
