@@ -85,3 +85,8 @@ OSStatus replacementDeleteItem(CFDictionaryRef query) {
     [keychainLock unlock];
     return value ? errSecSuccess : errSecItemNotFound;
 }
+
+OSStatus replacementItemCopyBad(__unused CFDictionaryRef query, CFTypeRef* value) {
+    *value = nil;
+    return errSecInteractionNotAllowed;
+}

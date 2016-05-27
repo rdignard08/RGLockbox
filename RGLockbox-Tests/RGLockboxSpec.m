@@ -82,6 +82,14 @@ CLASS_SPEC(RGLockbox)
     XCTAssert([data isEqual:[NSData new]]);
 }
 
+- (void) testReadNotUnlocked {
+    rg_SecItemCopyMatch = &replacementItemCopyBad;
+    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
+    XCTAssert(data == nil);
+    XCTAssert([RGLockbox valueCache][kKey1] == nil); // no cache
+    rg_SecItemCopyMatch = &replacementItemCopy;
+}
+
 - (void) testReadExistDouble {
     [[RGLockbox manager] setData:[NSData new] forKey:kKey1];
     [[RGLockbox manager] dataForKey:kKey1];
