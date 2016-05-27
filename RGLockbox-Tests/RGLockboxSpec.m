@@ -52,6 +52,7 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) setUp {
+    [[RGLockbox valueCache] removeAllObjects];
     for (int i = 0; i < 2; i++) {
         [[RGLockbox manager] setData:nil forKey:testKeys[i]];
     }
