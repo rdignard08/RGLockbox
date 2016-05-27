@@ -59,14 +59,9 @@ OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     NSData* data = (__bridge NSData*)CFDictionaryGetValue(attributes, kSecValueData);
     [keychainLock lock];
-    id storedValue = theKeychainLol[key];
-    if (storedValue) {
-        theKeychainLol[key] = data;
-        [keychainLock unlock];
-        return errSecSuccess;
-    }
+    theKeychainLol[key] = data;
     [keychainLock unlock];
-    return errSecItemNotFound;
+    return errSecSuccess;
 }
 
 OSStatus replacementDeleteItem(CFDictionaryRef query) {
