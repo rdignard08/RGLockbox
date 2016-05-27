@@ -84,6 +84,7 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) testReadNotUnlocked {
+    [[RGLockbox valueCache] removeAllObjects];
     rg_SecItemCopyMatch = &replacementItemCopyBad;
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert(data == nil);
