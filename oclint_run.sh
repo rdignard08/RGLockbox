@@ -2,40 +2,22 @@ source ~/.bash_profile
  
 hash oclint &> /dev/null
 if [ $? -eq 1 ]; then
-echo >&2 "oclint not found, analyzing stopped"
-exit 1
+    echo >&2 "oclint not found, analyzing stopped"
+    exit 1
 fi
  
+rm -f ${TARGET_TEMP_DIR}/xcodebuild.log
+ 
+cd ${SRCROOT}
+ 
+xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox clean build | xcpretty -r json-compilation-database
+
 cd ${TARGET_TEMP_DIR}
  
-if [ ! -f compile_commands.json ]; then
-    echo "[*] compile_commands.json not found, possibly clean was performed"
-    echo "[*] starting xcodebuild to rebuild the project.."
-    # clean previous output
-    if [ -f xcodebuild.log ]; then
-    rm xcodebuild.log
-    fi
+cp ${TARGET_TEMP_DIR}/compile_commands.json ${SRCROOT}/compile_commands.json
  
-    cd ${SRCROOT}
- 
-    xcodebuild clean
- 
-    #build xcodebuild.log
-    xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox | tee ${TARGET_TEMP_DIR}/xcodebuild.log
-    echo 'xcodebuild <options> | tee ${TARGET_TEMP_DIR}/xcodebuild.log'
- 
-    echo "[*] transforming xcodebuild.log into compile_commands.json..."
-    cd ${TARGET_TEMP_DIR}
-    #transform it into compile_commands.json
-    oclint-xcodebuild
- 
-    echo "[*] copy compile_commands.json to the project root..."
-    cp ${TARGET_TEMP_DIR}/compile_commands.json ${SRCROOT}/compile_commands.json
- 
-fi
- 
-echo "[*] starting analyzing"
 cd ${TARGET_TEMP_DIR}
+
 oclint-json-compilation-database | sed 's/\(.*\.\m\{1,2\}:[0-9]*:[0-9]*:\)/\1 warning:/'
 
 printf '\7\7' # notify user that the task is done
