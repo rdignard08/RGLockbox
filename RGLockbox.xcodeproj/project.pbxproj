@@ -304,6 +304,7 @@
 		BE0976CF1C573571001E6467 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -317,6 +318,7 @@
 		BE0976D01C573571001E6467 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
