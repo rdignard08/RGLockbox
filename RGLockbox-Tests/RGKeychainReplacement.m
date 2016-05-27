@@ -31,15 +31,11 @@ void initializeKeychain(void) {
 
 OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
-    NSNumber* returnData = (__bridge NSNumber*)CFDictionaryGetValue(query, kSecReturnData);
-    __block id storedValue;
     [keychainLock lock];
-    storedValue = theKeychainLol[key];
+    id storedValue = theKeychainLol[key];
     [keychainLock unlock];
     if (storedValue) {
-        if (returnData.boolValue) {
-            *value = (__bridge_retained CFTypeRef)storedValue;
-        }
+        *value = (__bridge_retained CFTypeRef)storedValue;
         return errSecSuccess;
     }
     return errSecItemNotFound;
@@ -48,32 +44,28 @@ OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
 OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* __unused value) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     NSData* data = (__bridge NSData*)CFDictionaryGetValue(query, kSecValueData);
-    __block id storedValue;
     [keychainLock lock];
-    storedValue = theKeychainLol[key];
-    [keychainLock unlock];
+    id storedValue = theKeychainLol[key];
     if (!storedValue) {
-        [keychainLock lock];
         theKeychainLol[key] = data;
         [keychainLock unlock];
         return errSecSuccess;
     }
+    [keychainLock unlock];
     return errSecDuplicateItem;
 }
 
 OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     NSData* data = (__bridge NSData*)CFDictionaryGetValue(attributes, kSecValueData);
-    __block id storedValue;
     [keychainLock lock];
-    storedValue = theKeychainLol[key];
-    [keychainLock unlock];
+    id storedValue = theKeychainLol[key];
     if (storedValue) {
-        [keychainLock lock];
         theKeychainLol[key] = data;
         [keychainLock unlock];
         return errSecSuccess;
     }
+    [keychainLock unlock];
     return errSecItemNotFound;
 }
 
