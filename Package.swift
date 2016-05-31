@@ -1,7 +1,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "RGSwiftKeychain",
+    name: "RGLockbox",
     targets: [
         Target(name: "RGLockbox")
     ]
