@@ -63,7 +63,6 @@
 		BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RGLockbox-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0976CB1C573571001E6467 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+ConvenienceSpec.m"; sourceTree = "<group>"; };
-		BE0976D71C59D032001E6467 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		BE0DB07D1C72CD45002914BC /* RGLockboxSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLockboxSpec.swift; sourceTree = "<group>"; };
 		BE0DB0831C72E34C002914BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +96,6 @@
 				BE0976DA1C59D542001E6467 /* ClassSpecs */,
 				BE0976D91C59D539001E6467 /* CategorySpecs */,
 				BE0976CB1C573571001E6467 /* Info.plist */,
-				BE0976D71C59D032001E6467 /* PrefixHeader.pch */,
 				BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */,
 			);
 			path = "RGLockbox-Tests";
@@ -295,7 +293,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
