@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name     = 'RGLockbox'
-  s.version  = '1.2.0'
+  s.version  = '1.2.1'
   s.license  = 'BSD'
   s.summary  = 'A simpler & faster keychain interface'
-  s.homepage = 'https://github.com/rdignard08/RGLockbox/tree/obj-master/'
+  s.homepage = 'https://github.com/rdignard08/RGLockbox/tree/objc-master/'
   
   s.authors  = { "Ryan Dignard" => "conceptuallyflawed@gmail.com" }
   s.source   = { :git => "https://github.com/rdignard08/RGLockbox.git", :tag => s.version }

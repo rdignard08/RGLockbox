@@ -1,3 +1,6 @@
+## 1.2.1
+- Updated podspec to refer to the Objective-C homepage
+
 ## 1.2.0
 - Raises an exception when writing to the keychain and it is unavailable (usually due to password lock)
 - Returns `nil` when the keychain is unavailable and will retry the key on the next request
