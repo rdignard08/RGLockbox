@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/rdignard08/RGLockbox.svg?branch=swift-master)](https://travis-ci.org/rdignard08/RGLockbox)
 [![Coverage Status](https://codecov.io/github/rdignard08/RGLockbox/coverage.svg?branch=swift-master)](https://codecov.io/github/rdignard08/RGLockbox?branch=swift-master)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/rdignard08/RGLockbox)
-[![Pod Version](https://img.shields.io/cocoapods/v/RGLockbox.svg)](https://cocoapods.org/pods/RGLockbox)
-[![Pod Platform](http://img.shields.io/cocoapods/p/RGLockbox.svg?style=flat)](http://cocoadocs.org/docsets/RGLockbox/)
-[![Pod License](http://img.shields.io/cocoapods/l/RGLockbox.svg?style=flat)](https://github.com/rdignard08/RGLockbox/blob/master/LICENSE)
+[![Pod Version](https://img.shields.io/cocoapods/v/RGSwiftKeychain.svg)](https://cocoapods.org/pods/RGSwiftKeychain)
+[![Pod Platform](http://img.shields.io/cocoapods/p/RGSwiftKeychain.svg?style=flat)](http://cocoadocs.org/docsets/RGLockbox/)
+[![Pod License](http://img.shields.io/cocoapods/l/RGSwiftKeychain.svg?style=flat)](https://github.com/rdignard08/RGLockbox/blob/swift-master/LICENSE)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=rdignard08/rglockbox)](http://clayallsopp.github.io/readme-score?url=rdignard08/rglockbox)
 
 RGSwiftKeychain
