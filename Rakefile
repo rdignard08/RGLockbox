@@ -40,11 +40,6 @@ task :release do
   sh "rake version"
 
   unless ENV['SKIP_CHECKS']
-    if `git symbolic-ref HEAD 2>/dev/null`.strip.split('/').last != 'master'
-      $stderr.puts "[!] You need to be on the `master' branch in order to be able to do a release."
-      exit 1
-    end
-
     if `git tag`.strip.split("\n").include?(spec_version)
       $stderr.puts "[!] A tag for version `#{spec_version}' already exists. Change the version in the podspec"
       exit 1
