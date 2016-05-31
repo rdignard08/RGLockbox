@@ -77,7 +77,7 @@ assert([readArray isEqual:array]);
 ```
 `id<NSCoding>`:
 ```objc
-NSURL* url = [NSURL URLWithString:google.com];
+NSURL* url = [NSURL URLWithString:@"google.com"];
 RGLockbox* lockbox = [RGLockbox manager];
 [lockbox setCodeable:url forKey:@"urlKey"];
 NSURL* readURL = [lockbox codeableForKey:@"urlKey"];
