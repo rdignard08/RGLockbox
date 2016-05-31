@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/rdignard08/RGLockbox.svg?branch=swift-master)](https://travis-ci.org/rdignard08/RGLockbox)
-[![Coverage Status](https://codecov.io/github/rdignard08/RGLockbox/coverage.svg?branch=swift-master)](https://codecov.io/github/rdignard08/RGLockbox?branch=swift-master)
+[![Coverage Status](https://codecov.io/github/rdignard08/RGLockbox/coverage.svg?branch=objc-master)](https://codecov.io/github/rdignard08/RGLockbox?branch=objc-master)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/rdignard08/RGLockbox)
 [![Pod Version](https://img.shields.io/cocoapods/v/RGSwiftKeychain.svg)](https://cocoapods.org/pods/RGSwiftKeychain)
 [![Pod Platform](http://img.shields.io/cocoapods/p/RGSwiftKeychain.svg?style=flat)](http://cocoadocs.org/docsets/RGLockbox/)
