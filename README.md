@@ -12,10 +12,10 @@ RGLockbox is a simple to use interface with the standard keychain.  Using object
 
 Default supported types include:
 - `NSData`
-- `NSString`
+- `String`
 - `NSDate`
-- `NSDictionary`
-- `NSArray`
+- `Dictionary`
+- `Array`
 - `id<NSCoding>`
   - `NSURL`
   - `NSValue` (including `NSNumber` and `NSDecimalNumber`)
@@ -25,72 +25,67 @@ Note for safety Apple encourages developers to conform their objects to `NSSecur
 
 Example
 =======
-```objc
-NSData* data = [@"abcd" dataWithEncoding:NSUTF8StringEncoding];
-RGLockbox* lockbox = [RGLockbox manager];
-[lockbox setData:data forKey:@"myData"];
+```swift
+let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
+RGLockbox.manager().setData(data, forKey:"myData")
 ```
 Writing data is as simple as creating it and applying it to your keychain manager.  By default these managers are namespaced to your bundle's identifier.
 
-```objc 
-RGLockbox* lockbox = [RGLockbox manager];
-NSData* data = [lockbox dataForKey:@"myData"];
-NSString* string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-assert([string isEqual:@"abcd"]);
+```swift 
+let data = RGLockbox.manager().dataForKey("myData")
+let string = String.init(data: data, encoding: NSUTF8StringEncoding)!
+assert(string == "abcd")
 ```
 Retrieving data is as simple as remembering your key assuming you use the same manager throughout.  Mixing and matching managers with different namespaces is possible, but more of an advanced use case.
 
 In addition to the primitive interface supporting reading and writing raw `NSData` there is implicit support for a variety of types.
 `NSDate`:
-```objc
-NSDate* date = [NSDate new];
-RGLockbox* lockbox = [RGLockbox manager];
-[lockbox setDate:date forKey:@"myDate"];
-NSDate* readDate = [lockbox dateForKey:@"myDate"];
-assert([readDate timeIntervalSince1970] == [date timeIntervalSince1970]);
+```swift
+let date = NSDate.init()
+RGLockbox.manager().setDate(date, "myDate")
+let readDate = RGLockbox.manager().dateForKey("myDate")!
+assert(date.timeIntervalSince1970 == readDate.timeIntervalSince1970)
 ```
 `NSString`:
-```objc
-NSString* string = @"aString";
-RGLockbox* lockbox = [RGLockbox manager];
-[lockbox setString:string forKey:@"stringKey"];
-NSString* readString = [lockbox stringForKey:@"stringKey"];
-assert([readString isEqual:string]);
+```swift
+let string = "aString"
+RGLockbox.manager().setString(string, "stringKey")
+let readString = RGLockbox.manager().stringForKey("stringKey")!
+assert(string == readString)
 ```
 `NSDictionary`:
-```objc
-NSDictionary* dictionary = @{ @"aKey" : @"aValue" };
-RGLockbox* lockbox = [RGLockbox manager];
-[lockbox setJSONObject:dictionary forKey:@"dictionaryKey"];
-NSDictionary* readDictionary = [lockbox JSONObjectForKey:@"dictionaryKey"];
-assert([readDictionary isEqual:dictionary]);
+```swift
+let dictionary = [ "aKey" : "aValue" ]
+RGLockbox.manager().setJSONObject(dictionary, forKey: "dictionaryKey")
+let readDictionary = RGLockbox.manager().JSONObjectForKey("dictionaryKey")
+assert(dictionary == readDictionary)
 ```
 `NSArray`:
-```objc
-NSArray* array = @[ @"aValue1", @"aValue2" ];
-RGLockbox* lockbox = [RGLockbox manager];
-[lockbox setJSONObject:array forKey:@"arrayKey"];
-NSArray* readArray = [lockbox JSONObjectForKey:@"arrayKey"];
-assert([readArray isEqual:array]);
+```swift
+let array = [ "aValue1", "aValue2" ]
+RGLockbox.manager().setJSONObject(array, forKey: "arrayKey")
+let readArray = RGLockbox.manager().JSONObjectForKey("arrayKey")
+assert(array == readArray)
 ```
 `id<NSCoding>`:
-```objc
-NSURL* url = [NSURL URLWithString:google.com];
-RGLockbox* lockbox = [RGLockbox manager];
-[lockbox setCodeable:url forKey:@"urlKey"];
-NSURL* readURL = [lockbox codeableForKey:@"urlKey"];
-assert([readURL isEqual:url]);
+```swift
+let url = NSURL.init(string: "google.com")
+RGLockbox.manager().setCodeable(url, forKey: "urlKey")
+let readURL = RGLockbox.manager().codeableForKey("urlKey")
+assert(url == readURL)
 ```
 
 Finally, this library supports arbitrary namespacing which allows sharing keychain data across app bundles as well as setting different item accessibility for advanced use cases.
-```objc
-NSDate* signupDate = [NSDate dateWithTimeIntervalSince1970:1453075980.0];
-RGLockbox* lockbox = [[RGLockbox alloc] initWithNamespace:@"com.rglockbox.appbundle" accessibility:kSecAttrAccessibleAlways];
-[lockbox setDate:signup forKey:@"userSignupDate"];
+```swift
+let signupDate = NSDate.init(timeIntervalSince1970: 1453075980.0)
+let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways)
+lockbox.setDate(signupDate, "userSignupDate")
+
 /* In another program, app extension, component framework, etc. ... */
-RGLockbox* lockbox = [[RGLockbox alloc] initWithNamespace:@"com.rglockbox.appbundle" accessibility:kSecAttrAccessibleAlways];
-NSDate* signupDate = [lockbox dateForKey:@"userSignupDate"];
-assert([signupDate timeIntervalSince1970] == 1453075980.0);
+
+let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways)
+let signupDate = lockbox.dateForKey("userSignupDate")!
+assert(signupDate.timeIntervalSince1970 == 1453075980.0)
 ```
 
 Installation
