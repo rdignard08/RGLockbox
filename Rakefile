@@ -58,7 +58,7 @@ task :release do
   # Then release
   sh "git commit #{podspec_path} CHANGELOG.md VERSION -m 'Release #{spec_version}' --allow-empty"
   sh "git tag -a #{spec_version} -m 'Release #{spec_version}'"
-  sh "git push origin master"
+  sh "git push origin"
   sh "git push origin --tags"
   if repo == "master"
     sh "pod trunk push #{podspec_path}"
@@ -81,7 +81,7 @@ def remote_spec_version
   require 'cocoapods-core'
 
   if spec_file_exist_on_remote?
-    remote_spec = eval(`git show origin/master:#{podspec_path}`)
+    remote_spec = eval(`git show origin/objc-master:#{podspec_path}`)
     remote_spec.version
   else
     nil
@@ -91,7 +91,7 @@ end
 # @return [Bool] If the remote repository has a copy of the podpesc file or not.
 #
 def spec_file_exist_on_remote?
-  test_condition = `if git rev-parse --verify --quiet origin/master:#{podspec_path} >/dev/null;
+  test_condition = `if git rev-parse --verify --quiet origin/objc-master:#{podspec_path} >/dev/null;
   then
   echo 'true'
   else
