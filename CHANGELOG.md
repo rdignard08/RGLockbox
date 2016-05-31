@@ -1,3 +1,6 @@
+## 2.0.1
+- Added document comments to all items.
+
 ## 2.0.0
 - Library has been rewritten in Swift
 - Re-released as the pod `RGSwiftKeychain`
