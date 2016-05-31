@@ -6,7 +6,7 @@
 [![Pod License](http://img.shields.io/cocoapods/l/RGLockbox.svg?style=flat)](https://github.com/rdignard08/RGLockbox/blob/master/LICENSE)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=rdignard08/rglockbox)](http://clayallsopp.github.io/readme-score?url=rdignard08/rglockbox)
 
-RGLockbox
+RGSwiftKeychain
 =======
 RGLockbox is a simple to use interface with the standard keychain.  Using object-orientented approaches it is simple to pick a key and store any rudimentary value there.
 
@@ -90,7 +90,7 @@ assert(signupDate.timeIntervalSince1970 == 1453075980.0)
 
 Installation
 =======
-Using cocoapods add `pod 'RGLockbox'` to your Podfile and run `pod install`
+Using cocoapods add `pod 'RGSwiftKeychain'` to your Podfile and run `pod install`
 
 License
 =======
