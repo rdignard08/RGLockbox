@@ -1,3 +1,7 @@
+## 2.0.0
+- Library has been rewritten in Swift
+- Re-released as the pod `RGSwiftKeychain`
+
 ## 1.2.0
 - Raises an exception when writing to the keychain and it is unavailable (usually due to password lock)
 - Returns `nil` when the keychain is unavailable and will retry the key on the next request
