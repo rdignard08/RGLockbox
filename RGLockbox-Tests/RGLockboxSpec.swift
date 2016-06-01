@@ -47,6 +47,7 @@ class RGLockboxSpec : XCTestCase {
         for key in testKeys {
             RGLockbox.manager().setData(nil, forKey: key)
         }
+        RGLockbox.valueCache.removeAll()
     }
     
     override func tearDown() {

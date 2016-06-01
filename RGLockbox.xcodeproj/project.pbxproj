@@ -23,9 +23,9 @@
 
 /* Begin PBXBuildFile section */
 		BE0976CC1C573571001E6467 /* libRGLockbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9ACD001C57347E0052D171 /* libRGLockbox.a */; };
-		BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */; };
 		BE0DB07E1C72CD45002914BC /* RGLockboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DB07D1C72CD45002914BC /* RGLockboxSpec.swift */; };
 		BEB7E65D1CFD59DB0028908A /* RGLockbox+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */; };
+		BECE2AE21CFEB3EA00E3D686 /* RGLockbox+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */; };
 		BED8B7581C728BA200289B25 /* RGLockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED8B7571C728BA200289B25 /* RGLockbox.swift */; };
 		BEF95B1A1C7AD0B600D3916D /* RGKeychainReplacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */; };
 /* End PBXBuildFile section */
@@ -62,11 +62,11 @@
 /* Begin PBXFileReference section */
 		BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RGLockbox-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0976CB1C573571001E6467 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+ConvenienceSpec.m"; sourceTree = "<group>"; };
 		BE0DB07D1C72CD45002914BC /* RGLockboxSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLockboxSpec.swift; sourceTree = "<group>"; };
 		BE0DB0831C72E34C002914BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RGLockbox+Convenience.swift"; sourceTree = "<group>"; };
+		BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RGLockbox+Convenience.swift"; sourceTree = "<group>"; };
 		BED8B7571C728BA200289B25 /* RGLockbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLockbox.swift; sourceTree = "<group>"; };
 		BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGKeychainReplacement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,7 +104,7 @@
 		BE0976D91C59D539001E6467 /* CategorySpecs */ = {
 			isa = PBXGroup;
 			children = (
-				BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */,
+				BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */,
 			);
 			name = CategorySpecs;
 			sourceTree = "<group>";
@@ -257,7 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0DB07E1C72CD45002914BC /* RGLockboxSpec.swift in Sources */,
-				BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */,
+				BECE2AE21CFEB3EA00E3D686 /* RGLockbox+Convenience.swift in Sources */,
 				BEF95B1A1C7AD0B600D3916D /* RGKeychainReplacement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
