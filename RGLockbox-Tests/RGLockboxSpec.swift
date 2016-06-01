@@ -26,8 +26,8 @@ import XCTest
 import RGLockbox
 
 
-let kKey1 = "aKey1";
-let kKey2 = "aKey2";
+let kKey1 = "aKey1"
+let kKey2 = "aKey2"
 let testKeys = [
     kKey1,
     kKey2
@@ -36,23 +36,24 @@ let testKeys = [
 class RGLockboxSpec : XCTestCase {
     
     override class func initialize() {
-        rg_SecItemCopyMatch = replacementItemCopy;
-        rg_SecItemAdd = replacementAddItem;
-        rg_SecItemUpdate = replacementUpdateItem;
-        rg_SecItemDelete = replacementDeleteItem;
+        rg_SecItemCopyMatch = replacementItemCopy
+        rg_SecItemAdd = replacementAddItem
+        rg_SecItemUpdate = replacementUpdateItem
+        rg_SecItemDelete = replacementDeleteItem
     }
     
     override func setUp() {
         RGLockbox.bundleIdentifier = NSBundle(forClass: self.dynamicType).infoDictionary![kCFBundleIdentifierKey as String] as! String?
         for key in testKeys {
-            RGLockbox.manager().setData(nil, forKey: key);
+            RGLockbox.manager().setData(nil, forKey: key)
         }
     }
     
     override func tearDown() {
         for key in testKeys {
-            RGLockbox.manager().setData(nil, forKey: key);
+            RGLockbox.manager().setData(nil, forKey: key)
         }
+        RGLockbox.valueCache.removeAll()
     }
     
 // MARK: - Reading / Writing / Deleting

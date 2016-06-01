@@ -23,8 +23,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 import Foundation
 
-var theKeychainLol:Dictionary<String, NSData> = [:];
-var keychainLock = NSLock();
+var theKeychainLol:Dictionary<String, NSData> = [:]
+var keychainLock = NSLock()
 
 let replacementItemCopy:(CFDictionaryRef, UnsafeMutablePointer<AnyObject?>) -> OSStatus = { query, value in
     let key:String = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService)), CFString.self) as String

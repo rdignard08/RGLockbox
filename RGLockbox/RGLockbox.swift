@@ -67,7 +67,7 @@ public class RGLockbox {
 /**
  `valueCache` stores in memory the values known to the given manager.  A key that has been seen before will used the cached value.
 */
-    public static var valueCache:[String : AnyObject] = [:];
+    public static var valueCache:[String : AnyObject] = [:]
     
 /**
  Determines the service name used by the manager.
