@@ -50,7 +50,10 @@ extension RGLockbox {
 */
     public func JSONObjectForKey(key:String) -> AnyObject? {
         let data = self.dataForKey(key)
-        return data != nil ? try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0)) : nil
+        if (data != nil) {
+            return try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+        }
+        return nil
     }
     
 /**
