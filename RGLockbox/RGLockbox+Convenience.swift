@@ -60,7 +60,7 @@ extension RGLockbox {
 - parameter object: An `Array` or `Dictionary` object that is convertible by `NSJSONSerialization` or `nil`.  `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
-    public func setJSONObject(object:AnyObject?, key:String) {
+    public func setJSONObject(object:AnyObject?, key:String) throws {
         let data = object != nil ? try! NSJSONSerialization.dataWithJSONObject(object!, options: NSJSONWritingOptions(rawValue: 0)) : nil as NSData?
         self.setData(data, forKey: key)
     }
