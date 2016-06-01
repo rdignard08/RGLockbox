@@ -1,5 +1,7 @@
 ## 2.0.1
 - Added document comments to all items.
+- `setJSONObject(_, key:)` is now correctly marked that it is `throws`.
+- `JSONObjectForKey(_)` does not implicitly throw on some read inputs.
 
 ## 2.0.0
 - Library has been rewritten in Swift
