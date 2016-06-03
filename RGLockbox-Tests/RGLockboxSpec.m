@@ -65,6 +65,32 @@ CLASS_SPEC(RGLockbox)
     method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)), class_getInstanceMethod([NSObject self], @selector(override_init)));
 }
 
+#pragma mark - testCacheForKey
+- (void) testCacheNil {
+    id value = [[RGLockbox manager] testCacheForKey:kKey1];
+    XCTAssert(value == nil);
+}
+
+- (void) testCacheNull {
+    [[RGLockbox manager] dataForKey:kKey1];
+    id value = [[RGLockbox manager] testCacheForKey:kKey1];
+    XCTAssert(value == [NSNull null]);
+}
+
+- (void) testCacheData {
+    [[RGLockbox manager] setData:[NSData new] forKey:kKey1];
+    id value = [[RGLockbox manager] testCacheForKey:kKey1];
+    XCTAssert([value isEqual:[NSData new]]);
+}
+
+- (void) testCacheNoNamespace {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil accessibility:kSecAttrAccessibleAlways];
+    [manager setData:[NSData new] forKey:@"com.abcd.www"];
+    id value = [manager testCacheForKey:@"com.abcd.www"];
+    XCTAssert([value isEqual:[NSData new]]);
+    [manager setData:nil forKey:@"com.abcd.www"];
+}
+
 #pragma mark - Reading / Writing / Deleting
 - (void) testReadNotExist {
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];

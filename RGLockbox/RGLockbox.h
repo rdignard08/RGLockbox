@@ -84,6 +84,13 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 + (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue;
 
 /**
+ @brief Tests whether the cache has a value.
+ @param key the key on which to check the cache.  `self.namespace` will be applied if available.
+ @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData`.
+ */
+- (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key;
+
+/**
  @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil`
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the

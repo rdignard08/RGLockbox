@@ -94,6 +94,14 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     return self;
 }
 
+- (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key {
+    NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    [[[self class] valueCacheLock] lock];
+    id value = [[self class] valueCache][hierarchyKey];
+    [[[self class] valueCacheLock] unlock];
+    return value;
+}
+
 - (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key {
     NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
     [[[self class] valueCacheLock] lock];
