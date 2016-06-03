@@ -1,3 +1,6 @@
+## 1.2.2
+- Provided a method to test what values are currently in the system wide keychain cache
+
 ## 1.2.1
 - Updated podspec to refer to the Objective-C homepage
 
