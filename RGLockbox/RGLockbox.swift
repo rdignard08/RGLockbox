@@ -52,7 +52,7 @@ public class RGLockbox {
 /**
  Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
 */
-    static let keychainQueue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL)
+    public static let keychainQueue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL)
     
 /**
  This lock controls access to `valueCache`.
