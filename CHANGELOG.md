@@ -1,3 +1,6 @@
+## 2.0.2
+- Fixed `keychainQueue` not being public which would prevent terminating apps from flushing their keychain I/O
+
 ## 2.0.1
 - Added document comments to all items.
 - `setJSONObject(_, key:)` is now correctly marked that it is `throws`.
