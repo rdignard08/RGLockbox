@@ -18,7 +18,7 @@ Default supported types include:
 - `NSDate`
 - `Dictionary`
 - `Array`
-- `id<NSCoding>`
+- `NSCoding`
   - `NSURL`
   - `NSValue` (including `NSNumber` and `NSDecimalNumber`)
   - `NSNull`
@@ -48,28 +48,28 @@ RGLockbox.manager().setDate(date, "myDate")
 let readDate = RGLockbox.manager().dateForKey("myDate")!
 assert(date.timeIntervalSince1970 == readDate.timeIntervalSince1970)
 ```
-`NSString`:
+`String`:
 ```swift
 let string = "aString"
 RGLockbox.manager().setString(string, "stringKey")
 let readString = RGLockbox.manager().stringForKey("stringKey")!
 assert(string == readString)
 ```
-`NSDictionary`:
+`Dictionary`:
 ```swift
 let dictionary = [ "aKey" : "aValue" ]
 RGLockbox.manager().setJSONObject(dictionary, forKey: "dictionaryKey")
 let readDictionary = RGLockbox.manager().JSONObjectForKey("dictionaryKey")
 assert(dictionary == readDictionary)
 ```
-`NSArray`:
+`Array`:
 ```swift
 let array = [ "aValue1", "aValue2" ]
 RGLockbox.manager().setJSONObject(array, forKey: "arrayKey")
 let readArray = RGLockbox.manager().JSONObjectForKey("arrayKey")
 assert(array == readArray)
 ```
-`id<NSCoding>`:
+`NSCoding`:
 ```swift
 let url = NSURL.init(string: "google.com")
 RGLockbox.manager().setCodeable(url, forKey: "urlKey")
