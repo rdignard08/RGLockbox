@@ -65,7 +65,7 @@ public class RGLockbox {
     public static var bundleIdentifier:String? = NSBundle.mainBundle().infoDictionary?[kCFBundleIdentifierKey as String] as? String
     
 /**
- `valueCache` stores in memory the values known to the given manager.  A key that has been seen before will used the cached value.
+ `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
 */
     public static var valueCache:[String : AnyObject] = [:]
     
