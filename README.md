@@ -44,14 +44,14 @@ In addition to the primitive interface supporting reading and writing raw `NSDat
 `NSDate`:
 ```swift
 let date = NSDate.init()
-RGLockbox.manager().setDate(date, "myDate")
+RGLockbox.manager().setDate(date, forKey: "myDate")
 let readDate = RGLockbox.manager().dateForKey("myDate")!
 assert(date.timeIntervalSince1970 == readDate.timeIntervalSince1970)
 ```
 `String`:
 ```swift
 let string = "aString"
-RGLockbox.manager().setString(string, "stringKey")
+RGLockbox.manager().setString(string, forKey: "stringKey")
 let readString = RGLockbox.manager().stringForKey("stringKey")!
 assert(string == readString)
 ```
@@ -81,7 +81,7 @@ Finally, this library supports arbitrary namespacing which allows sharing keycha
 ```swift
 let signupDate = NSDate.init(timeIntervalSince1970: 1453075980.0)
 let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways)
-lockbox.setDate(signupDate, "userSignupDate")
+lockbox.setDate(signupDate, forKey: "userSignupDate")
 
 /* In another program, app extension, component framework, etc. ... */
 
