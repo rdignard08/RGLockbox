@@ -25,6 +25,8 @@ Default supported types include:
 
 Note for safety Apple encourages developers to conform their objects to `NSSecureCoding` instead of `NSCoding` to prevent substitution attacks against your app.
 
+***IMPORTANT*** : when your application will terminate you should run `dispatch_barrier_sync()` on `keychainQueue`.
+
 Example
 =======
 ```swift
