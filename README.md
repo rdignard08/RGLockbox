@@ -31,7 +31,7 @@ Example
 =======
 ```swift
 let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
-RGLockbox.manager().setData(data, forKey:"myData")
+RGLockbox.manager().setData(data, forKey: "myData")
 ```
 Writing data is as simple as creating it and applying it to your keychain manager.  By default these managers are namespaced to your bundle's identifier.
 
