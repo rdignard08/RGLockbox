@@ -29,6 +29,7 @@
 		BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */ = {isa = PBXBuildFile; fileRef = BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */; };
 		BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; };
 		BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
+		BEAFFAF61D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEAFFAF51D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.m */; };
 		BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,8 @@
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
+		BEAFFAF41D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGAtomicMutableDictionary.h; sourceTree = "<group>"; };
+		BEAFFAF51D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGAtomicMutableDictionary.m; sourceTree = "<group>"; };
 		BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGKeychainReplacement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +157,8 @@
 				BE9ACD051C57347E0052D171 /* RGLockbox.m */,
 				BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */,
 				BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */,
+				BEAFFAF41D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.h */,
+				BEAFFAF51D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.m */,
 			);
 			path = RGLockbox;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 			files = (
 				BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */,
 				BE0976D41C59CFD9001E6467 /* RGLockbox+Convenience.m in Sources */,
+				BEAFFAF61D0E5D1F00FF4EB8 /* RGAtomicMutableDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
