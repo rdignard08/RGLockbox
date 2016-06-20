@@ -22,6 +22,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import <Foundation/Foundation.h>
+#import "RGDefines.h"
 
 /**
  @brief `RGMultiStringKey` is meant to represent a set of keys for use with `NSDictionary`.  Can represent null too.
@@ -32,11 +33,11 @@
 /**
  @brief The first string component of the key.
  */
-@property (nonatomic, copy, nullable) NSString* first;
+@property RG_NULLABLE_PROPERTY(nonatomic, copy) NSString* first;
 
 /**
  @brief The second string component of the key.  When reversed will not necessarily result in the same hash value.
  */
-@property (nonatomic, copy, nullable) NSString* second;
+@property RG_NULLABLE_PROPERTY(nonatomic, copy) NSString* second;
 
 @end
