@@ -100,7 +100,7 @@ CLASS_SPEC(RGLockbox)
     [manager setData:[NSData new] forKey:@"abcd"];
     id value = [manager testCacheForKey:@"abcd"];
     XCTAssert([value isEqual:[NSData new]]);
-    [[[manager class] valueCache] removeObjectForKey:@"abcd"];
+    [[[manager class] valueCache] removeAllObjects];
     value = [manager dataForKey:@"abcd"];
     XCTAssert([value isEqual:[NSData new]]);
 }
