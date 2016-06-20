@@ -22,6 +22,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import "RGAtomicMutableDictionary.h"
+#import "RGDefines.h"
 
 static const size_t rg_nibbles_per_pointer = (sizeof(void*) * CHAR_BIT) / 4;
 
@@ -35,9 +36,9 @@ static char rg_number_to_char(char number) {
         case 0 ... 9:
             return '0' + number;
         case 10 ... 15:
+        default:
             return ('A' - 10) + number;
     }
-    return -1;
 }
 
 static char* rg_pointer_to_string(void* pointer) {
@@ -70,25 +71,25 @@ static char* rg_pointer_to_string(void* pointer) {
 
 - (nonnull instancetype) init {
     self = [super init];
-    [self setup];
+    self->_storage = [NSMutableDictionary new];
+    self->_queue = dispatch_queue_create(self.queueName, DISPATCH_QUEUE_CONCURRENT);
     return self;
 }
 
 - (nonnull instancetype) initWithCapacity:(NSUInteger)numItems {
-    self = [super initWithCapacity:numItems];
-    [self setup];
-    return self;
-}
-
-- (nullable instancetype) initWithCoder:(NSCoder*)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    [self setup];
-    return self;
-}
-
-- (void) setup {
-    self->_storage = [NSMutableDictionary new];
+    self = [super init];
+    self->_storage = [[NSMutableDictionary alloc] initWithCapacity:numItems];
     self->_queue = dispatch_queue_create(self.queueName, DISPATCH_QUEUE_CONCURRENT);
+    return self;
+}
+
+- (instancetype)initWithObjects:(const RG_SUFFIX_NONNULL __unsafe_unretained id[])objects
+                        forKeys:(const RG_SUFFIX_NONNULL __unsafe_unretained id<NSCopying>[])keys
+                          count:(NSUInteger)count {
+    self = [super init];
+    self->_storage = [[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:count];
+    self->_queue = dispatch_queue_create(self.queueName, DISPATCH_QUEUE_CONCURRENT);
+    return self;
 }
 
 - (void) dealloc {
@@ -108,6 +109,28 @@ static char* rg_pointer_to_string(void* pointer) {
     dispatch_barrier_async(self.queue, ^{
         self.storage[aKey] = anObject;
     });
+}
+
+- (void) removeObjectForKey:(nonnull id<NSCopying>)aKey {
+    dispatch_barrier_async(self.queue, ^{
+        [self.storage removeObjectForKey:aKey];
+    });
+}
+
+- (NSUInteger) count {
+    __block NSUInteger output;
+    dispatch_sync(self.queue, ^{
+        output = self.storage.count;
+    });
+    return output;
+}
+
+- (NSEnumerator*) keyEnumerator {
+    __block NSEnumerator* output;
+    dispatch_sync(self.queue, ^{
+        output = self.storage.keyEnumerator;
+    });
+    return output;
 }
 
 #pragma mark - Properties

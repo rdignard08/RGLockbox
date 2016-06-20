@@ -1,4 +1,4 @@
-/* Copyright (c) 06/12/2016, Ryan Dignard
+/* Copyright (c) 06/20/2016, Ryan Dignard
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -21,17 +21,37 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+#import "RGAtomicMutableDictionary.h"
 
-@interface RGAtomicMutableDictionary : NSMutableDictionary
+CLASS_SPEC(RGAtomicMutableDictionary)
 
-///**
-// @brief Not thread safe, only use within the context of block / unblock.
-// */
-//@property (nonatomic, strong) NSMutableDictionary* storage;
-//
-//- (void) block;
-//
-//- (void) unblock;
+- (void) testAssignAndRetreive {
+    RGAtomicMutableDictionary* container = [RGAtomicMutableDictionary new];
+    container[@"aKey"] = @"aValue";
+    id value = container[@"aKey"];
+    XCTAssert([value isEqual:@"aValue"]);
+    
+    RGAtomicMutableDictionary* container2 = [[RGAtomicMutableDictionary alloc] initWithCapacity:4];
+    container2[@"aKey2"] = @"aValue2";
+    XCTAssert([container2[@"aKey2"] isEqual:@"aValue2"]);
+    
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:container2];
+    NSMutableDictionary* restored = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
-@end
+    restored[@"aKey3"] = @"aValue3";
+    id value3 = restored[@"aKey3"];
+    id value2 = restored[@"aKey2"];
+    XCTAssert([value3 isEqual:@"aValue3"]);
+    XCTAssert([value2 isEqual:@"aValue2"]);
+    
+    [container2 removeObjectForKey:@"aKey2"];
+    XCTAssert(container2[@"aKey2"] == nil);
+    
+    id objs[] = { @"aValue4" };
+    id keys[] = { @"aKey4" };
+    RGAtomicMutableDictionary* oneMore = [[RGAtomicMutableDictionary alloc] initWithObjects:objs forKeys:keys count:1];
+    XCTAssert([oneMore[@"aKey4"] isEqual:@"aValue4"]);
+}
+
+SPEC_END

@@ -33,6 +33,7 @@
 		BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */; };
 		BEEADE7A1D171B69002B6CE3 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
 		BEEADE7D1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE7C1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m */; };
+		BEEADE7F1D17D872002B6CE3 /* RGAtomicMutableDictionarySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE7E1D17D872002B6CE3 /* RGAtomicMutableDictionarySpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMultiStringKey.h; sourceTree = "<group>"; };
 		BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMultiStringKey.m; sourceTree = "<group>"; };
 		BEEADE7C1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMultiStringKeySpec.m; sourceTree = "<group>"; };
+		BEEADE7E1D17D872002B6CE3 /* RGAtomicMutableDictionarySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGAtomicMutableDictionarySpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			children = (
 				BE0976C91C573571001E6467 /* RGLockboxSpec.m */,
 				BEEADE7C1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m */,
+				BEEADE7E1D17D872002B6CE3 /* RGAtomicMutableDictionarySpec.m */,
 			);
 			name = ClassSpecs;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */,
 				BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */,
 				BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */,
+				BEEADE7F1D17D872002B6CE3 /* RGAtomicMutableDictionarySpec.m in Sources */,
 				BEEADE7D1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m in Sources */,
 				BE0976CA1C573571001E6467 /* RGLockboxSpec.m in Sources */,
 			);
