@@ -102,7 +102,7 @@ CLASS_SPEC(RGLockbox)
     XCTAssert([value isEqual:[NSData new]]);
     [[[manager class] valueCache] removeObjectForKey:@"abcd"];
     value = [manager dataForKey:@"abcd"];
-    XCTAssert(value == nil);
+    XCTAssert([value isEqual:[NSData new]]);
 }
 
 #pragma mark - Reading / Writing / Deleting
