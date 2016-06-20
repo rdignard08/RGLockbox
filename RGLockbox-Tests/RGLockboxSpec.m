@@ -93,6 +93,18 @@ CLASS_SPEC(RGLockbox)
     [manager setData:nil forKey:@"com.abcd.www"];
 }
 
+- (void) testReadWriteAccountName {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:@"com.rglockbox"
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:@"com.restgoatee.rglockbox"];
+    [manager setData:[NSData new] forKey:@"abcd"];
+    id value = [manager testCacheForKey:@"abcd"];
+    XCTAssert([value isEqual:[NSData new]]);
+    [[[manager class] valueCache] removeObjectForKey:@"abcd"];
+    value = [manager dataForKey:@"abcd"];
+    XCTAssert(value == nil);
+}
+
 #pragma mark - Reading / Writing / Deleting
 - (void) testReadNotExist {
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];
