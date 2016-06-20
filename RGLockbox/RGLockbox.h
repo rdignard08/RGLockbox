@@ -65,6 +65,11 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
+ @brief keychain accepts a service name which will be passed this value if provided.
+ */
+@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* serviceName;
+
+/**
  @brief The default accessibility when assigning to the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
  @note On OS X 7 and 8 the value of this property is sent along with the data, but it is ignored by the system.
  */
