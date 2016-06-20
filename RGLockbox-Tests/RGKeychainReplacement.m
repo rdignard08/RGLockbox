@@ -74,7 +74,7 @@ OSStatus replacementDeleteItem(CFDictionaryRef query) {
     NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     [keychainLock lock];
     id value = theKeychainLol[account][key];
-    [theKeychainLol[account] removeObjectForKey:key];
+    [(NSMutableDictionary*)theKeychainLol[account] removeObjectForKey:key];
     [keychainLock unlock];
     return value ? errSecSuccess : errSecItemNotFound;
 }
