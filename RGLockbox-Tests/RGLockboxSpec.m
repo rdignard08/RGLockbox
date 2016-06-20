@@ -84,7 +84,9 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) testCacheNoNamespace {
-    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil accessibility:kSecAttrAccessibleAlways];
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:nil];
     [manager setData:[NSData new] forKey:@"com.abcd.www"];
     id value = [manager testCacheForKey:@"com.abcd.www"];
     XCTAssert([value isEqual:[NSData new]]);
@@ -134,7 +136,7 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) testReadNoNameSpace {
-    RGLockbox* rawAccess = [[RGLockbox alloc] initWithNamespace:nil accessibility:nil];
+    RGLockbox* rawAccess = [[RGLockbox alloc] initWithNamespace:nil accessibility:nil accountName:nil];
     [rawAccess setData:[@"abes" dataUsingEncoding:NSUTF8StringEncoding] forKey:@"com.restgoatee.rglockbox.foobar"];
     NSData* data = [rawAccess dataForKey:@"com.restgoatee.rglockbox.foobar"];
     XCTAssert([data isEqual:[@"abes" dataUsingEncoding:NSUTF8StringEncoding]]);

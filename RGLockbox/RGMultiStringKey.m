@@ -29,8 +29,8 @@
 
 - (BOOL) isEqual:(RGMultiStringKey*)object {
     return [object isMemberOfClass:[self class]] &&
-           [object.first isEqual:self.first] &&
-           [object.second isEqual:self.second];
+           ((!object.first && !self.first) || [object.first isEqual:self.first]) &&
+           ((!object.second && !self.second) || [object.second isEqual:self.second]);
 }
 
 - (NSUInteger) hash { /* without rotate, first = hello, second = world would have the same hash as (world, hello) */

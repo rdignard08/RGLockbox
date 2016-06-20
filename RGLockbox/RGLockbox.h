@@ -65,9 +65,9 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
- @brief keychain accepts a service name which will be passed this value if provided.
+ @brief keychain accepts an account name which will be passed this value if provided.
  */
-@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* serviceName;
+@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* accountName;
 
 /**
  @brief The default accessibility when assigning to the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
@@ -90,7 +90,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 
 /**
  @brief Tests whether the cache has a value.
- @param key the key on which to check the cache.  `self.namespace` will be applied if available.
+ @param key the key on which to check the cache.  `.namespace` and `accountName` will be applied if available.
  @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData`.
  */
 - (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key;
@@ -103,9 +103,9 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  @return an instance of `RGLockbox` which has the provided namespace and accessibility.
  @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
-- (RG_PREFIX_NONNULL instancetype)
-    initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
-        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility NS_DESIGNATED_INITIALIZER;
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+                                       accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
+                                         accountName:(RG_PREFIX_NULLABLE NSString*)account NS_DESIGNATED_INITIALIZER;
 
 /**
  @brief Primitive method to return the data on `key`.  Threadsafe.

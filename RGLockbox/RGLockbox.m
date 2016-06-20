@@ -22,6 +22,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import "RGLockbox.h"
+#import "RGMultiStringKey.h"
 #import <Security/Security.h>
 
 NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
@@ -70,7 +71,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     return _sValueCacheLock;
 }
 
-+ (RG_PREFIX_NONNULL NSMutableDictionary RG_GENERIC(NSString*, id) *) valueCache {
++ (RG_PREFIX_NONNULL NSMutableDictionary RG_GENERIC(RGMultiStringKey*, id) *) valueCache {
     static dispatch_once_t onceToken;
     static NSMutableDictionary* _sValueCache;
     dispatch_once(&onceToken, ^{
@@ -80,32 +81,38 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
 }
 
 - (RG_PREFIX_NONNULL instancetype) init {
-    return [self initWithNamespace:rg_bundle_identifier() accessibility:nil];
+    return [self initWithNamespace:rg_bundle_identifier() accessibility:nil accountName:nil];
 }
 
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
-                                       accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility {
+                                       accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
+                                         accountName:(RG_PREFIX_NULLABLE NSString*)account {
     self = [super init];
     if (self) {
         CFStringRef nonnullAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
         self->_namespace = namespace;
         self->_itemAccessibility = nonnullAccessibility;
+        self->_accountName = account;
     }
     return self;
 }
 
 - (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key {
-    NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    RGMultiStringKey* fullKey = [RGMultiStringKey new];
+    fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    fullKey.second = self.accountName;
     [[[self class] valueCacheLock] lock];
-    id value = [[self class] valueCache][hierarchyKey];
+    id value = [[self class] valueCache][fullKey];
     [[[self class] valueCacheLock] unlock];
     return value;
 }
 
 - (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key {
-    NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    RGMultiStringKey* fullKey = [RGMultiStringKey new];
+    fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    fullKey.second = self.accountName;
     [[[self class] valueCacheLock] lock];
-    id value = [[self class] valueCache][hierarchyKey];
+    id value = [[self class] valueCache][fullKey];
     if (value) {
         [[[self class] valueCacheLock] unlock];
         return [value isKindOfClass:[NSData self]] ? value : nil;
@@ -113,33 +120,41 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     __block CFTypeRef data = nil;
     __unused __block OSStatus status;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSDictionary* query = @{
+        NSMutableDictionary* query = [@{
                                 (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                (__bridge id)kSecAttrService : hierarchyKey,
+                                (__bridge id)kSecAttrService : fullKey.first,
                                 (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
                                 (__bridge id)kSecReturnData : @YES
-                                };
+                                } mutableCopy];
+        if (fullKey.second) {
+            query[(__bridge id)kSecAttrAccount] = fullKey.second;
+        }
         status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
         RGLog(@"SecItemCopyMatching with %@ returned %@", query, @(status));
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data;
     if (status != errSecInteractionNotAllowed) { /* Not allowed means we need to try again so don't cache NSNull */
-        [[self class] valueCache][hierarchyKey] = bridgedData ?: [NSNull null];
+        [[self class] valueCache][fullKey] = bridgedData ?: [NSNull null];
     } /* NSNull is a placeholder in the cache to say we've tried */
     [[[self class] valueCacheLock] unlock];
     return bridgedData;
 }
 
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    NSString* hierarchyKey = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    RGMultiStringKey* fullKey = [RGMultiStringKey new];
+    fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
+    fullKey.second = self.accountName;
     [[[self class] valueCacheLock] lock];
-    [[self class] valueCache][hierarchyKey] = object ?: [NSNull null];
+    [[self class] valueCache][fullKey] = object ?: [NSNull null];
     dispatch_async([[self class] keychainQueue], ^{
         OSStatus status;
         NSMutableDictionary* query = [@{
                                         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                        (__bridge id)kSecAttrService : hierarchyKey
+                                        (__bridge id)kSecAttrService : fullKey.first
                                         } mutableCopy];
+        if (fullKey.second) {
+            query[(__bridge id)kSecAttrAccount] = fullKey.second;
+        }
         if (object) { /* Add or Update... */
             NSDictionary* payload = @{
                                       (__bridge id)kSecValueData : object,
