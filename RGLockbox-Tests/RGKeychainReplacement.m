@@ -26,13 +26,16 @@ static NSLock* keychainLock;
 
 void initializeKeychain(void) {
     theKeychainLol = [NSMutableDictionary new];
+    theKeychainLol[@""] = [NSMutableDictionary new];
+    theKeychainLol[@"com.restgoatee.rglockbox"] = [NSMutableDictionary new];
     keychainLock = [NSLock new];
 }
 
 OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     [keychainLock lock];
-    id storedValue = theKeychainLol[key];
+    id storedValue = theKeychainLol[account][key];
     [keychainLock unlock];
     if (storedValue) {
         *value = (__bridge_retained CFTypeRef)storedValue;
@@ -43,11 +46,12 @@ OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
 
 OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* __unused value) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     NSData* data = (__bridge NSData*)CFDictionaryGetValue(query, kSecValueData);
     [keychainLock lock];
-    id storedValue = theKeychainLol[key];
+    id storedValue = theKeychainLol[account][key];
     if (!storedValue) {
-        theKeychainLol[key] = data;
+        theKeychainLol[account][key] = data;
         [keychainLock unlock];
         return errSecSuccess;
     }
@@ -57,18 +61,20 @@ OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* __unused value) {
 
 OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     NSData* data = (__bridge NSData*)CFDictionaryGetValue(attributes, kSecValueData);
     [keychainLock lock];
-    theKeychainLol[key] = data;
+    theKeychainLol[account][key] = data;
     [keychainLock unlock];
     return errSecSuccess;
 }
 
 OSStatus replacementDeleteItem(CFDictionaryRef query) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
+    NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     [keychainLock lock];
-    id value = theKeychainLol[key];
-    [theKeychainLol removeObjectForKey:key];
+    id value = theKeychainLol[account][key];
+    [theKeychainLol[account] removeObjectForKey:key];
     [keychainLock unlock];
     return value ? errSecSuccess : errSecItemNotFound;
 }
