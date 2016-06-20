@@ -1,2 +1,6 @@
 codecov:
   branch: objc-master
+  
+coverage:
+  ignore:
+    - "RGLockbox-Tests/*"
