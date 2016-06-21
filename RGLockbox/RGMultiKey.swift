@@ -24,21 +24,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 import Foundation
 
 /**
- `RGMultiKey` is meant to represent a set of keys for use with `NSDictionary`.  Can represent null too.
+ `RGMultiKey` is meant to represent a set of keys for use with `NSDictionary`.  Can represent a null too.
   Technically this is only a `Pair<NSString*, NSString*>`, but it could be expanded.
 */
 public final class RGMultiKey: NSObject, NSCopying {
 
 /**
-@brief The first string component of the key.
+ The first string component of the key.
 */
     public var first:String?
 
 /**
-@brief The second string component of the key.  When reversed will not necessarily result in the same hash value.
+ The second string component of the key.  When reversed will not necessarily result in the same hash value.
 */
     public var second:String?
     
+/**
+ Method for use with NSObject based equality to parallel the `==` implementation.
+*/
     override public func isEqual(object: AnyObject?) -> Bool {
         if let object = object as? RGMultiKey {
             return self.first == object.first && self.second == object.second
@@ -46,12 +49,18 @@ public final class RGMultiKey: NSObject, NSCopying {
         return false
     }
     
+/**
+ Returns a hash of the `first` and `second` properties.
+*/
     override public var hash: Int {
         let firstHash = self.first == nil ? 0 : self.first!.hash
         let secondHash = self.second == nil ? 0 : self.second!.hash
         return firstHash ^ secondHash
     }
     
+/**
+ To be a key in an `NSMutableDictionary` this class must conform to `NSCopying`.
+*/
     public func copyWithZone(zone: NSZone) -> AnyObject {
         let copy = RGMultiKey.init()
         copy.first = self.first
@@ -61,6 +70,10 @@ public final class RGMultiKey: NSObject, NSCopying {
 
 }
 
+/**
+ Returns `true` if both are `nil` or both are not `nil` and their `first` and `second`
+  properties match respectively.  Otherwise `false`.
+*/
 func == (lhs: RGMultiKey?, rhs: RGMultiKey?) -> Bool {
     if lhs == nil && rhs == nil {
         return true
