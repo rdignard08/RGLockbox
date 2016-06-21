@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'RGLockbox'
-  s.version  = '1.2.2'
+  s.version  = '1.3.0'
   s.license  = 'BSD'
   s.summary  = 'A simpler & faster keychain interface'
   s.homepage = 'https://github.com/rdignard08/RGLockbox/tree/objc-master/'

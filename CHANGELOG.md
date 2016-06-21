@@ -1,3 +1,7 @@
+## 1.3.0
+- initializer `initWithNamespace:accessibility:` is now `initWithNamespace:accessibility:accountName:`
+- internally values are grouped by account if provided
+
 ## 1.2.2
 - Provided a method to test what values are currently in the system wide keychain cache
 
