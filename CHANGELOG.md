@@ -1,3 +1,7 @@
+## 2.1.0
+- `valueCache` is now of type `[RGMultiKey:AnyObject]`
+- `init(withNamespace:, accessibility:)` is now `init(withNamespace:, accessibility:, accountName:)`
+
 ## 2.0.2
 - Fixed `keychainQueue` not being public which would prevent terminating apps from flushing their keychain I/O
 
