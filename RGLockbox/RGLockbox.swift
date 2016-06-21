@@ -97,6 +97,7 @@ public class RGLockbox {
  A new instance of `RGLockbox`.
  - parameter namespace: The service to which the instance is associated.
  - parameter accessibilty: The item accessibility to write to the keychain items.
+ - parameter accountName: The manager's associated account if account qualified.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
 */
     public required init(withNamespace namespace:String?, accessibility:CFStringRef, accountName:String?) {
