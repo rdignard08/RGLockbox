@@ -10,7 +10,7 @@ RGLockbox
 =======
 RGLockbox is a simple to use interface with the standard keychain.  Using object-orientented approaches it is simple to pick a key and store any rudimentary value there.
 
-The Swift version of this pod is named `RGSwiftKeychain` and is available on the branch swift-master.
+The Swift version of this pod is named `RGSwiftKeychain` and is available on the branch [swift-master](https://github.com/rdignard08/RGLockbox/tree/swift-master).
 
 Default supported types include:
 - `NSData`
