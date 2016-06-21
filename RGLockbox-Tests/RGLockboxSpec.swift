@@ -83,10 +83,11 @@ class RGLockboxSpec : XCTestCase {
     }
     
     func testReadNotSeen() {
-        let key = "\(RGLockbox.manager().namespace).\(kKey2)"
+        let fullKey = RGMultiKey()
+        fullKey.first = "\(RGLockbox.manager().namespace).\(kKey2)"
         let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
         RGLockbox.manager().setData(data, forKey: kKey2)
-        RGLockbox.valueCache[key] = nil
+        RGLockbox.valueCache[fullKey] = nil
         let readData = RGLockbox.manager().dataForKey(kKey2)
         XCTAssert(readData == data)
     }
@@ -101,17 +102,18 @@ class RGLockboxSpec : XCTestCase {
     
 // MARK: - Updating
     func testUpdateValue() {
-        let key = "\(RGLockbox.manager().namespace!).\(kKey1)"
+        let fullKey = RGMultiKey()
+        fullKey.first = "\(RGLockbox.manager().namespace!).\(kKey1)"
         let firstData = "abew".dataUsingEncoding(NSUTF8StringEncoding)!
         let secondData = "qwew".dataUsingEncoding(NSUTF8StringEncoding)!
         RGLockbox.manager().setData(firstData, forKey: kKey1)
-        NSLog("1 \(RGLockbox.valueCache[key])")
+        NSLog("1 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.manager().setData(secondData, forKey: kKey1)
-        NSLog("2 \(RGLockbox.valueCache[key])")
-        RGLockbox.valueCache[key] = nil
-        NSLog("3 \(RGLockbox.valueCache[key])")
+        NSLog("2 \(RGLockbox.valueCache[fullKey])")
+        RGLockbox.valueCache[fullKey] = nil
+        NSLog("3 \(RGLockbox.valueCache[fullKey])")
         let readData = RGLockbox.manager().dataForKey(kKey1)
-        NSLog("4 \(RGLockbox.valueCache[key])")
+        NSLog("4 \(RGLockbox.valueCache[fullKey])")
         XCTAssert(readData == secondData)
     }
 }

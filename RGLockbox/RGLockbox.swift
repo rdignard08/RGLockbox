@@ -67,7 +67,7 @@ public class RGLockbox {
 /**
  `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
 */
-    public static var valueCache:[String : AnyObject] = [:]
+    public static var valueCache:[RGMultiKey : AnyObject] = [:]
     
 /**
  Determines the service name used by the manager.
@@ -120,9 +120,11 @@ public class RGLockbox {
  - returns: `NSData` which is `nil` if not found.
 */
     public func dataForKey(key:String) -> NSData? {
-        let hierarchyKey = namespace != nil ? "\(namespace!).\(key)" : key
+        let fullKey = RGMultiKey()
+        fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
+        fullKey.second = self.accountName
         RGLockbox.valueCacheLock.lock()
-        let value = RGLockbox.valueCache[hierarchyKey]
+        let value = RGLockbox.valueCache[fullKey]
         if value != nil {
             RGLockbox.valueCacheLock.unlock()
             NSLog("returning prematurely for key \(key) and value \(value)")
@@ -132,17 +134,20 @@ public class RGLockbox {
         var status:OSStatus = errSecSuccess
         dispatch_sync(RGLockbox.keychainQueue, {
             NSLog("hit sync with key \(key)")
-            let query:[NSString:AnyObject] = [
+            var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
-                kSecAttrService : hierarchyKey,
+                kSecAttrService : fullKey.first!,
                 kSecMatchLimit : kSecMatchLimitOne,
                 kSecReturnData : true
             ]
+            if fullKey.second != nil {
+                query[kSecAttrAccount] = fullKey.second!
+            }
             status = rg_SecItemCopyMatch(query, &data)
             NSLog("SecItemCopyMatching with \(query) returned \(status)")
         })
         let bridgedData = data as! NSData?
-        RGLockbox.valueCache[hierarchyKey] = bridgedData != nil ? bridgedData : NSNull()
+        RGLockbox.valueCache[fullKey] = bridgedData != nil ? bridgedData : NSNull()
         RGLockbox.valueCacheLock.unlock()
         return bridgedData
     }
@@ -153,16 +158,21 @@ public class RGLockbox {
  - parameter key: The identifier of the keychain item.
 */
     public func setData(data:NSData?, forKey key:String) {
-        let hierarchyKey = namespace != nil ? "\(namespace!).\(key)" : key
+        let fullKey = RGMultiKey()
+        fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
+        fullKey.second = self.accountName
         RGLockbox.valueCacheLock.lock()
-        RGLockbox.valueCache[hierarchyKey] = ((data != nil) ? data : NSNull())
+        RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         dispatch_async(RGLockbox.keychainQueue, {
-            NSLog("key is \(hierarchyKey) with data \(data)")
+            NSLog("key is \(fullKey.first) with data \(data)")
             var status:OSStatus = errSecSuccess
             let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
                 kSecClass : kSecClassGenericPassword,
-                kSecAttrService : hierarchyKey
+                kSecAttrService : fullKey.first!
             ])
+            if fullKey.second != nil {
+                query.setObject(fullKey.second!, forKey: kSecAttrAccount as NSString)
+            }
             if let data = data {
                 let payload:[NSString:AnyObject] = [
                     kSecValueData : data,
