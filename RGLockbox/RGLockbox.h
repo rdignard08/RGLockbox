@@ -26,9 +26,8 @@
 /**
  @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the
    `itemAccessibility`.
- @return the bundle identifier of the `RGLockbox` class.
  */
-NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void);
+extern NSString* RG_SUFFIX_NONNULL (* RG_SUFFIX_NONNULL rg_bundle_identifier)(void);
 
 /**
  @brief C function used to retrieve an item from the keychain.  Defaults to `SecItemCopyMatching`.

@@ -24,16 +24,43 @@
 #import "RGLockbox.h"
 #import "RGMultiStringKey.h"
 #import <Security/Security.h>
+#import <objc/runtime.h>
 
-NSString* RG_SUFFIX_NONNULL rg_bundle_identifier(void) {
-    static NSString* _sBundleIdentifier;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sBundleIdentifier = [NSBundle bundleForClass:[RGLockbox self]].infoDictionary[(id)kCFBundleIdentifierKey];
-    });
+#pragma mark - Swizzle
+static void rg_swizzle(Class RG_SUFFIX_NULLABLE cls, SEL RG_SUFFIX_NULLABLE original, SEL RG_SUFFIX_NULLABLE replace) {
+    IMP replacementImp = method_setImplementation(class_getInstanceMethod(cls, replace),
+                                                  class_getMethodImplementation(cls, original));
+    // get the replacement IMP
+    // we assume swizzle is called on the class with replacement, so we can safety force original onto replacement
+    // set the original IMP on the replacement selector
+    // try to add the replacement IMP directly to the class on original selector
+    // if it succeeds then we're all good (the original before was located on the superclass)
+    // if it doesn't then that means an IMP is already there so we have to overwrite it
+    if (!class_addMethod(cls,
+                         original,
+                         replacementImp,
+                         method_getTypeEncoding(class_getInstanceMethod(cls, replace)))) {
+        method_setImplementation(class_getInstanceMethod(cls, original), replacementImp);
+    }
+}
+
+#pragma mark - Bundle Identifier
+static NSString* _sBundleIdentifier;
+static NSString* RG_SUFFIX_NONNULL override_rg_bundle_identifier(void) {
     return _sBundleIdentifier;
 }
 
+static NSString* RG_SUFFIX_NONNULL backing_rg_bundle_identifier(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sBundleIdentifier = [NSBundle bundleForClass:[RGLockbox self]].infoDictionary[(id)kCFBundleIdentifierKey];
+        rg_bundle_identifier = override_rg_bundle_identifier;
+    });
+    return _sBundleIdentifier;
+}
+NSString* RG_SUFFIX_NONNULL (* RG_SUFFIX_NONNULL rg_bundle_identifier)(void) = backing_rg_bundle_identifier;
+
+#pragma mark - Keychain Function Pointers
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL,
                                                    CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL,
@@ -42,6 +69,7 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNUL
                                                 CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
 
+#pragma mark - RGLockbox Implementation
 @implementation RGLockbox
 
 + (instancetype) manager {
@@ -53,21 +81,33 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
     return _sManager;
 }
 
+#pragma mark - keychainQueue
+static dispatch_queue_t _sQueue;
 + (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue {
     static dispatch_once_t onceToken;
-    static dispatch_queue_t queue;
     dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL);
+        _sQueue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL);
+        rg_swizzle(objc_getMetaClass("RGLockbox"), @selector(keychainQueue), @selector(override_keychainQueue));
     });
-    return queue;
+    return _sQueue;
 }
 
++ (RG_PREFIX_NONNULL dispatch_queue_t) override_keychainQueue {
+    return _sQueue;
+}
+
+#pragma mark - valueCacheLock
+static NSLock* _sValueCacheLock;
 + (RG_PREFIX_NONNULL NSLock*) valueCacheLock {
     static dispatch_once_t onceToken;
-    static NSLock* _sValueCacheLock;
     dispatch_once(&onceToken, ^{
         _sValueCacheLock = [NSLock new];
+        rg_swizzle(objc_getMetaClass("RGLockbox"), @selector(valueCacheLock), @selector(override_valueCacheLock));
     });
+    return _sValueCacheLock;
+}
+
++ (RG_PREFIX_NONNULL NSLock*) override_valueCacheLock {
     return _sValueCacheLock;
 }
 
