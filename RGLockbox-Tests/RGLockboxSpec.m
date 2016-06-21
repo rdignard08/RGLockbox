@@ -55,6 +55,7 @@ CLASS_SPEC(RGLockbox)
     for (int i = 0; i < 2; i++) {
         [[RGLockbox manager] setData:nil forKey:testKeys[i]];
     }
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
     [[RGLockbox valueCache] removeAllObjects];
 }
 
