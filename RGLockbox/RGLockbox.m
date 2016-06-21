@@ -112,12 +112,17 @@ static NSLock* _sValueCacheLock;
 }
 
 #pragma mark - valueCache
+static NSMutableDictionary* _sValueCache;
 + (RG_PREFIX_NONNULL NSMutableDictionary RG_GENERIC(RGMultiStringKey*, id) *) valueCache {
     static dispatch_once_t onceToken;
-    static NSMutableDictionary* _sValueCache;
     dispatch_once(&onceToken, ^{
         _sValueCache = [NSMutableDictionary new];
+        rg_swizzle(objc_getMetaClass("RGLockbox"), @selector(valueCache), @selector(override_valueCache));
     });
+    return _sValueCache;
+}
+
++ (RG_PREFIX_NONNULL NSMutableDictionary RG_GENERIC(RGMultiStringKey*, id) *) override_valueCache {
     return _sValueCache;
 }
 
