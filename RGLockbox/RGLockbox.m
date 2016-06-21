@@ -111,6 +111,7 @@ static NSLock* _sValueCacheLock;
     return _sValueCacheLock;
 }
 
+#pragma mark - valueCache
 + (RG_PREFIX_NONNULL NSMutableDictionary RG_GENERIC(RGMultiStringKey*, id) *) valueCache {
     static dispatch_once_t onceToken;
     static NSMutableDictionary* _sValueCache;
@@ -120,6 +121,7 @@ static NSLock* _sValueCacheLock;
     return _sValueCache;
 }
 
+#pragma mark - Public Methods
 - (RG_PREFIX_NONNULL instancetype) init {
     return [self initWithNamespace:rg_bundle_identifier() accessibility:nil accountName:nil];
 }
