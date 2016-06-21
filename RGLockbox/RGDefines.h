@@ -126,8 +126,8 @@
                 }                                                                                       \
                 file = replacement;                                                                     \
             }                                                                                           \
-            NSString* output = [[NSString alloc] initWithFormat:format, ## __VA_ARGS__];                \
-            (void)fprintf(stderr, "[%s:%lu] %s\n", file, (unsigned long)__LINE__, output.UTF8String);   \
+            NSString* rg_output = [[NSString alloc] initWithFormat:format, ## __VA_ARGS__];             \
+            (void)fprintf(stderr, "[%s:%lu] %s\n", file, (unsigned long)__LINE__, rg_output.UTF8String);\
         })
     #else /* we define out with `RG_VOID_NOOP` generally this is `NULL` to allow usage in conditional operators. */
 /**
