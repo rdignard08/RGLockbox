@@ -80,10 +80,17 @@ public class RGLockbox {
     public let itemAccessibility:CFStringRef
     
 /**
+ Qualifies entries by account if provided.
+*/
+    public let accountName:String?
+    
+/**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
 */
     public class func manager() -> RGLockbox {
-        return RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier, accessibility: kSecAttrAccessibleAfterFirstUnlock)
+        return RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
+                              accessibility: kSecAttrAccessibleAfterFirstUnlock,
+                                accountName: nil)
     }
     
 /**
@@ -92,16 +99,19 @@ public class RGLockbox {
  - parameter accessibilty: The item accessibility to write to the keychain items.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
 */
-    public required init(withNamespace namespace:String?, accessibility: CFStringRef) {
+    public required init(withNamespace namespace:String?, accessibility:CFStringRef, accountName:String?) {
         self.namespace = namespace
-        itemAccessibility = accessibility
+        self.itemAccessibility = accessibility
+        self.accountName = accountName
     }
     
 /**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
 */
     public convenience init() {
-        self.init(withNamespace: RGLockbox.bundleIdentifier, accessibility: kSecAttrAccessibleAfterFirstUnlock)
+        self.init(withNamespace: RGLockbox.bundleIdentifier,
+                  accessibility: kSecAttrAccessibleAfterFirstUnlock,
+                    accountName: nil)
     }
     
 /**

@@ -92,7 +92,7 @@ class RGLockboxSpec : XCTestCase {
     }
 
     func testReadNoNameSpace() {
-        let rawLockbox = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAfterFirstUnlock)
+        let rawLockbox = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAfterFirstUnlock, accountName: nil)
         let data = "abes".dataUsingEncoding(NSUTF8StringEncoding)!
         rawLockbox.setData(data, forKey: "com.restgoatee.rglockbox.foobar")
         let readData = rawLockbox.dataForKey("com.restgoatee.rglockbox.foobar")
