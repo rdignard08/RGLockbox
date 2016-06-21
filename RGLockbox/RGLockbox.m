@@ -36,12 +36,7 @@ static void rg_swizzle(Class RG_SUFFIX_NULLABLE cls, SEL RG_SUFFIX_NULLABLE orig
     // try to add the replacement IMP directly to the class on original selector
     // if it succeeds then we're all good (the original before was located on the superclass)
     // if it doesn't then that means an IMP is already there so we have to overwrite it
-    if (!class_addMethod(cls,
-                         original,
-                         replacementImp,
-                         method_getTypeEncoding(class_getInstanceMethod(cls, replace)))) {
-        method_setImplementation(class_getInstanceMethod(cls, original), replacementImp);
-    }
+    method_setImplementation(class_getInstanceMethod(cls, original), replacementImp);
 }
 
 #pragma mark - Bundle Identifier
