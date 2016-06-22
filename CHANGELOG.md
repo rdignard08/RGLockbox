@@ -1,3 +1,6 @@
+## 2.1.1
+- Document comments added to all declarations.
+
 ## 2.1.0
 - `valueCache` is now of type `[RGMultiKey:AnyObject]`
 - `init(withNamespace:, accessibility:)` is now `init(withNamespace:, accessibility:, accountName:)`
