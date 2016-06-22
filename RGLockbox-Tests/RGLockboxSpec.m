@@ -24,6 +24,7 @@
 #import "RGLockbox.h"
 #import <objc/runtime.h>
 #import "NSObject+RGBadInit.h"
+#import "RGMultiStringKey.h"
 
 @interface RGLockbox (RGForwardDeclarations)
 
@@ -159,8 +160,10 @@ CLASS_SPEC(RGLockbox)
 - (void) testUpdateValue {
     [[RGLockbox manager] setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     [[RGLockbox manager] setData:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    NSString* key = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey1];
-    [[RGLockbox valueCache] removeObjectForKey:key];
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
+    RGMultiStringKey* fullKey = [RGMultiStringKey new];
+    fullKey.first = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey1];
+    [[RGLockbox valueCache] removeObjectForKey:fullKey];
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
