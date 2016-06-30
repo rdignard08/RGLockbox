@@ -26,6 +26,9 @@
 		BE0DB07E1C72CD45002914BC /* RGLockboxSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0DB07D1C72CD45002914BC /* RGLockboxSpec.swift */; };
 		BE5EA4801D1922FA00007BA0 /* RGMultiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5EA47F1D1922FA00007BA0 /* RGMultiKey.swift */; };
 		BEB7E65D1CFD59DB0028908A /* RGLockbox+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */; };
+		BEC2DCE81D24FA7700531942 /* RGLockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED8B7571C728BA200289B25 /* RGLockbox.swift */; };
+		BEC2DCE91D24FA7A00531942 /* RGLockbox+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */; };
+		BEC2DCEA1D24FA7C00531942 /* RGMultiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5EA47F1D1922FA00007BA0 /* RGMultiKey.swift */; };
 		BECE2AE21CFEB3EA00E3D686 /* RGLockbox+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */; };
 		BED8B7581C728BA200289B25 /* RGLockbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED8B7571C728BA200289B25 /* RGLockbox.swift */; };
 		BEF95B1A1C7AD0B600D3916D /* RGKeychainReplacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */; };
@@ -68,6 +71,8 @@
 		BE5EA47F1D1922FA00007BA0 /* RGMultiKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGMultiKey.swift; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RGLockbox+Convenience.swift"; sourceTree = "<group>"; };
+		BEC2DCE11D24FA6500531942 /* RGLockboxFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RGLockboxFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEC2DCE51D24FA6500531942 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RGLockbox+Convenience.swift"; sourceTree = "<group>"; };
 		BED8B7571C728BA200289B25 /* RGLockbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLockbox.swift; sourceTree = "<group>"; };
 		BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGKeychainReplacement.swift; sourceTree = "<group>"; };
@@ -83,6 +88,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BE9ACCFD1C57347E0052D171 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEC2DCDD1D24FA6500531942 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -124,6 +136,7 @@
 			children = (
 				BE9ACD021C57347E0052D171 /* RGLockbox */,
 				BE0976C81C573570001E6467 /* RGLockbox-Tests */,
+				BEC2DCE21D24FA6500531942 /* RGLockboxFramework */,
 				BE9ACD011C57347E0052D171 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -133,6 +146,7 @@
 			children = (
 				BE9ACD001C57347E0052D171 /* libRGLockbox.a */,
 				BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */,
+				BEC2DCE11D24FA6500531942 /* RGLockboxFramework.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,7 +162,25 @@
 			path = RGLockbox;
 			sourceTree = "<group>";
 		};
+		BEC2DCE21D24FA6500531942 /* RGLockboxFramework */ = {
+			isa = PBXGroup;
+			children = (
+				BEC2DCE51D24FA6500531942 /* Info.plist */,
+			);
+			path = RGLockboxFramework;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BEC2DCDE1D24FA6500531942 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		BE0976C61C573570001E6467 /* RGLockbox-Tests */ = {
@@ -186,6 +218,24 @@
 			productReference = BE9ACD001C57347E0052D171 /* libRGLockbox.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		BEC2DCE01D24FA6500531942 /* RGLockboxFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEC2DCE71D24FA6500531942 /* Build configuration list for PBXNativeTarget "RGLockboxFramework" */;
+			buildPhases = (
+				BEC2DCDC1D24FA6500531942 /* Sources */,
+				BEC2DCDD1D24FA6500531942 /* Frameworks */,
+				BEC2DCDE1D24FA6500531942 /* Headers */,
+				BEC2DCDF1D24FA6500531942 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RGLockboxFramework;
+			productName = RGLockboxFramework;
+			productReference = BEC2DCE11D24FA6500531942 /* RGLockboxFramework.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -207,6 +257,9 @@
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 5W2NB69P29;
 					};
+					BEC2DCE01D24FA6500531942 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 				};
 			};
 			buildConfigurationList = BE9ACCFB1C57347E0052D171 /* Build configuration list for PBXProject "RGLockbox" */;
@@ -224,12 +277,20 @@
 				BE9ACCFF1C57347E0052D171 /* RGLockbox */,
 				BE0976C61C573570001E6467 /* RGLockbox-Tests */,
 				BEA76BB21C6851E600BF5C94 /* OCLint */,
+				BEC2DCE01D24FA6500531942 /* RGLockboxFramework */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BE0976C51C573570001E6467 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEC2DCDF1D24FA6500531942 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,6 +333,16 @@
 				BE5EA4801D1922FA00007BA0 /* RGMultiKey.swift in Sources */,
 				BEB7E65D1CFD59DB0028908A /* RGLockbox+Convenience.swift in Sources */,
 				BED8B7581C728BA200289B25 /* RGLockbox.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEC2DCDC1D24FA6500531942 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEC2DCEA1D24FA7C00531942 /* RGMultiKey.swift in Sources */,
+				BEC2DCE81D24FA7700531942 /* RGLockbox.swift in Sources */,
+				BEC2DCE91D24FA7A00531942 /* RGLockbox+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +484,32 @@
 			};
 			name = Debug;
 		};
+		BEC2DCE61D24FA6500531942 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = RGLockboxFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.RGLockboxFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -447,6 +544,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		BEC2DCE71D24FA6500531942 /* Build configuration list for PBXNativeTarget "RGLockboxFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEC2DCE61D24FA6500531942 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
