@@ -61,21 +61,21 @@ assert(string == readString)
 ```swift
 let dictionary = [ "aKey" : "aValue" ]
 RGLockbox.manager().setJSONObject(dictionary, forKey: "dictionaryKey")
-let readDictionary = RGLockbox.manager().JSONObjectForKey("dictionaryKey")
+let readDictionary = RGLockbox.manager().JSONObjectForKey("dictionaryKey")!
 assert(dictionary == readDictionary)
 ```
 `Array`:
 ```swift
 let array = [ "aValue1", "aValue2" ]
 RGLockbox.manager().setJSONObject(array, forKey: "arrayKey")
-let readArray = RGLockbox.manager().JSONObjectForKey("arrayKey")
+let readArray = RGLockbox.manager().JSONObjectForKey("arrayKey")!
 assert(array == readArray)
 ```
 `NSCoding`:
 ```swift
 let url = NSURL.init(string: "google.com")
 RGLockbox.manager().setCodeable(url, forKey: "urlKey")
-let readURL = RGLockbox.manager().codeableForKey("urlKey")
+let readURL = RGLockbox.manager().codeableForKey("urlKey")!
 assert(url == readURL)
 ```
 
