@@ -1,3 +1,6 @@
+## 2.2.2
+- Added a shared framework target to support Carthage
+
 ## 2.1.1
 - Document comments added to all declarations.
 
