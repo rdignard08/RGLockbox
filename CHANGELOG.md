@@ -1,3 +1,6 @@
+## 1.3.1
+- Added a shared framework target to support Carthage
+
 ## 1.3.0
 - initializer `initWithNamespace:accessibility:` is now `initWithNamespace:accessibility:accountName:`
 - internally values are grouped by account if provided
