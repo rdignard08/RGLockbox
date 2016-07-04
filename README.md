@@ -36,7 +36,7 @@ RGLockbox.manager().setData(data, forKey: "myData")
 Writing data is as simple as creating it and applying it to your keychain manager.  By default these managers are namespaced to your bundle's identifier.
 
 ```swift 
-let data = RGLockbox.manager().dataForKey("myData")
+let data = RGLockbox.manager().dataForKey("myData")!
 let string = String.init(data: data, encoding: NSUTF8StringEncoding)!
 assert(string == "abcd")
 ```
@@ -48,7 +48,7 @@ In addition to the primitive interface supporting reading and writing raw `NSDat
 let date = NSDate.init()
 RGLockbox.manager().setDate(date, forKey: "myDate")
 let readDate = RGLockbox.manager().dateForKey("myDate")!
-assert(date.timeIntervalSince1970 == readDate.timeIntervalSince1970)
+assert(Int(date.timeIntervalSince1970) == Int(readDate.timeIntervalSince1970))
 ```
 `String`:
 ```swift
