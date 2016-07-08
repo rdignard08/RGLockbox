@@ -13,3 +13,4 @@ xcuserdata
 *.xcscmblueprint
 *.gcno
 compile_commands.json
+Carthage
