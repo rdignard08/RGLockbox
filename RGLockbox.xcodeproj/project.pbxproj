@@ -26,17 +26,41 @@
 		BE0976CC1C573571001E6467 /* libRGLockbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE9ACD001C57347E0052D171 /* libRGLockbox.a */; };
 		BE0976D41C59CFD9001E6467 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
 		BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */; };
+		BE2349BC1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349BD1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349BE1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349BF1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C01D2F7AD000F73F32 /* RGDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D81C59D20D001E6467 /* RGDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C11D2F7AD000F73F32 /* RGLockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C21D2F7AD000F73F32 /* RGLockbox+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C31D2F7AD000F73F32 /* RGMultiStringKey.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C41D2F7AD100F73F32 /* RGDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D81C59D20D001E6467 /* RGDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C51D2F7AD100F73F32 /* RGLockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C61D2F7AD100F73F32 /* RGLockbox+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C71D2F7AD100F73F32 /* RGMultiStringKey.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C81D2F7AD200F73F32 /* RGDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D81C59D20D001E6467 /* RGDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349C91D2F7AD200F73F32 /* RGLockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349CA1D2F7AD200F73F32 /* RGLockbox+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349CB1D2F7AD200F73F32 /* RGMultiStringKey.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349CC1D2F7AD300F73F32 /* RGDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D81C59D20D001E6467 /* RGDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349CD1D2F7AD300F73F32 /* RGLockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349CE1D2F7AD300F73F32 /* RGLockbox+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349CF1D2F7AD300F73F32 /* RGMultiStringKey.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE2349D01D2F7AE400F73F32 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
+		BE2349D11D2F7AE400F73F32 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
+		BE2349D21D2F7AE400F73F32 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
+		BE2349D31D2F7AE600F73F32 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
+		BE2349D41D2F7AE600F73F32 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
+		BE2349D51D2F7AE600F73F32 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
+		BE2349D61D2F7AE600F73F32 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
+		BE2349D71D2F7AE600F73F32 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
+		BE2349D81D2F7AE600F73F32 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
+		BE2349D91D2F7AE700F73F32 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
+		BE2349DA1D2F7AE700F73F32 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
+		BE2349DB1D2F7AE700F73F32 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
 		BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */ = {isa = PBXBuildFile; fileRef = BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */; };
 		BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; };
 		BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
-		BEAC10041D2427CF00A3204E /* RGLockboxFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = BEAC10031D2427CF00A3204E /* RGLockboxFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEAC10091D2427F500A3204E /* RGDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D81C59D20D001E6467 /* RGDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEAC100A1D2427FD00A3204E /* RGLockbox.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEAC100B1D24280400A3204E /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
-		BEAC100C1D24280700A3204E /* RGLockbox+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEAC100D1D24280F00A3204E /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
-		BEAC100E1D24281200A3204E /* RGMultiStringKey.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BEAC100F1D24281800A3204E /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
 		BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */; };
 		BEEADE7A1D171B69002B6CE3 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
 		BEEADE7D1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE7C1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m */; };
@@ -81,12 +105,18 @@
 		BE0976D51C59D006001E6467 /* RGLockbox+ConvenienceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RGLockbox+ConvenienceSpec.m"; sourceTree = "<group>"; };
 		BE0976D71C59D032001E6467 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		BE0976D81C59D20D001E6467 /* RGDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGDefines.h; sourceTree = "<group>"; };
+		BE2349851D2F791A00F73F32 /* RGLockboxWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RGLockboxWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE2349921D2F792C00F73F32 /* RGLockboxTVOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RGLockboxTVOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE23499F1D2F793700F73F32 /* RGLockboxIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RGLockboxIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE2349AC1D2F794400F73F32 /* RGLockboxOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RGLockboxOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE2349B51D2F799C00F73F32 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Framework/Info.plist; sourceTree = "<group>"; };
+		BE2349B61D2F799C00F73F32 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = Framework/module.modulemap; sourceTree = "<group>"; };
+		BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RGLockboxFramework.h; path = Framework/RGLockboxFramework.h; sourceTree = "<group>"; };
 		BE6A2BBB1CF80BFD00C731B7 /* NSObject+RGBadInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RGBadInit.h"; sourceTree = "<group>"; };
 		BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RGBadInit.m"; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
-		BEAC10011D2427CF00A3204E /* RGLockboxFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RGLockboxFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEAC10031D2427CF00A3204E /* RGLockboxFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockboxFramework.h; sourceTree = "<group>"; };
 		BEAC10051D2427CF00A3204E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGKeychainReplacement.m; sourceTree = "<group>"; };
@@ -104,14 +134,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BE9ACCFD1C57347E0052D171 /* Frameworks */ = {
+		BE2349811D2F791A00F73F32 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BEAC0FFD1D2427CF00A3204E /* Frameworks */ = {
+		BE23498E1D2F792C00F73F32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE23499B1D2F793700F73F32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE2349A81D2F794400F73F32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE9ACCFD1C57347E0052D171 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -152,9 +203,20 @@
 			name = ClassSpecs;
 			sourceTree = "<group>";
 		};
+		BE2349B41D2F797900F73F32 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				BE2349B51D2F799C00F73F32 /* Info.plist */,
+				BE2349B61D2F799C00F73F32 /* module.modulemap */,
+				BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */,
+			);
+			name = Framework;
+			sourceTree = "<group>";
+		};
 		BE9ACCF71C57347E0052D171 = {
 			isa = PBXGroup;
 			children = (
+				BE2349B41D2F797900F73F32 /* Framework */,
 				BE9ACD021C57347E0052D171 /* RGLockbox */,
 				BE0976C81C573570001E6467 /* RGLockbox-Tests */,
 				BEAC10021D2427CF00A3204E /* RGLockboxFramework */,
@@ -167,7 +229,10 @@
 			children = (
 				BE9ACD001C57347E0052D171 /* libRGLockbox.a */,
 				BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */,
-				BEAC10011D2427CF00A3204E /* RGLockboxFramework.framework */,
+				BE2349851D2F791A00F73F32 /* RGLockboxWatch.framework */,
+				BE2349921D2F792C00F73F32 /* RGLockboxTVOS.framework */,
+				BE23499F1D2F793700F73F32 /* RGLockboxIOS.framework */,
+				BE2349AC1D2F794400F73F32 /* RGLockboxOSX.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,15 +263,51 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		BEAC0FFE1D2427CF00A3204E /* Headers */ = {
+		BE2349821D2F791A00F73F32 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEAC100C1D24280700A3204E /* RGLockbox+Convenience.h in Headers */,
-				BEAC100A1D2427FD00A3204E /* RGLockbox.h in Headers */,
-				BEAC10091D2427F500A3204E /* RGDefines.h in Headers */,
-				BEAC10041D2427CF00A3204E /* RGLockboxFramework.h in Headers */,
-				BEAC100E1D24281200A3204E /* RGMultiStringKey.h in Headers */,
+				BE2349C21D2F7AD000F73F32 /* RGLockbox+Convenience.h in Headers */,
+				BE2349C11D2F7AD000F73F32 /* RGLockbox.h in Headers */,
+				BE2349C01D2F7AD000F73F32 /* RGDefines.h in Headers */,
+				BE2349BC1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */,
+				BE2349C31D2F7AD000F73F32 /* RGMultiStringKey.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE23498F1D2F792C00F73F32 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349C61D2F7AD100F73F32 /* RGLockbox+Convenience.h in Headers */,
+				BE2349C51D2F7AD100F73F32 /* RGLockbox.h in Headers */,
+				BE2349C41D2F7AD100F73F32 /* RGDefines.h in Headers */,
+				BE2349BD1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */,
+				BE2349C71D2F7AD100F73F32 /* RGMultiStringKey.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE23499C1D2F793700F73F32 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349CA1D2F7AD200F73F32 /* RGLockbox+Convenience.h in Headers */,
+				BE2349C91D2F7AD200F73F32 /* RGLockbox.h in Headers */,
+				BE2349C81D2F7AD200F73F32 /* RGDefines.h in Headers */,
+				BE2349BE1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */,
+				BE2349CB1D2F7AD200F73F32 /* RGMultiStringKey.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE2349A91D2F794400F73F32 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349CE1D2F7AD300F73F32 /* RGLockbox+Convenience.h in Headers */,
+				BE2349CD1D2F7AD300F73F32 /* RGLockbox.h in Headers */,
+				BE2349CC1D2F7AD300F73F32 /* RGDefines.h in Headers */,
+				BE2349BF1D2F799C00F73F32 /* RGLockboxFramework.h in Headers */,
+				BE2349CF1D2F7AD300F73F32 /* RGMultiStringKey.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +332,78 @@
 			productReference = BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		BE2349841D2F791A00F73F32 /* RGLockboxWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE23498A1D2F791A00F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxWatch" */;
+			buildPhases = (
+				BE2349801D2F791A00F73F32 /* Sources */,
+				BE2349811D2F791A00F73F32 /* Frameworks */,
+				BE2349821D2F791A00F73F32 /* Headers */,
+				BE2349831D2F791A00F73F32 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RGLockboxWatch;
+			productName = RGLockboxWatch;
+			productReference = BE2349851D2F791A00F73F32 /* RGLockboxWatch.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BE2349911D2F792C00F73F32 /* RGLockboxTVOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE2349971D2F792C00F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxTVOS" */;
+			buildPhases = (
+				BE23498D1D2F792C00F73F32 /* Sources */,
+				BE23498E1D2F792C00F73F32 /* Frameworks */,
+				BE23498F1D2F792C00F73F32 /* Headers */,
+				BE2349901D2F792C00F73F32 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RGLockboxTVOS;
+			productName = RGLockboxTVOS;
+			productReference = BE2349921D2F792C00F73F32 /* RGLockboxTVOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BE23499E1D2F793700F73F32 /* RGLockboxIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE2349A41D2F793800F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxIOS" */;
+			buildPhases = (
+				BE23499A1D2F793700F73F32 /* Sources */,
+				BE23499B1D2F793700F73F32 /* Frameworks */,
+				BE23499C1D2F793700F73F32 /* Headers */,
+				BE23499D1D2F793700F73F32 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RGLockboxIOS;
+			productName = RGLockboxIOS;
+			productReference = BE23499F1D2F793700F73F32 /* RGLockboxIOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BE2349AB1D2F794400F73F32 /* RGLockboxOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE2349B11D2F794400F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxOSX" */;
+			buildPhases = (
+				BE2349A71D2F794400F73F32 /* Sources */,
+				BE2349A81D2F794400F73F32 /* Frameworks */,
+				BE2349A91D2F794400F73F32 /* Headers */,
+				BE2349AA1D2F794400F73F32 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RGLockboxOSX;
+			productName = RGLockboxOSX;
+			productReference = BE2349AC1D2F794400F73F32 /* RGLockboxOSX.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		BE9ACCFF1C57347E0052D171 /* RGLockbox */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE9ACD091C57347E0052D171 /* Build configuration list for PBXNativeTarget "RGLockbox" */;
@@ -248,24 +421,6 @@
 			productReference = BE9ACD001C57347E0052D171 /* libRGLockbox.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		BEAC10001D2427CF00A3204E /* RGLockboxFramework */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BEAC10081D2427CF00A3204E /* Build configuration list for PBXNativeTarget "RGLockboxFramework" */;
-			buildPhases = (
-				BEAC0FFC1D2427CF00A3204E /* Sources */,
-				BEAC0FFD1D2427CF00A3204E /* Frameworks */,
-				BEAC0FFE1D2427CF00A3204E /* Headers */,
-				BEAC0FFF1D2427CF00A3204E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = RGLockboxFramework;
-			productName = RGLockboxFramework;
-			productReference = BEAC10011D2427CF00A3204E /* RGLockboxFramework.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -279,6 +434,18 @@
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 5W2NB69P29;
 					};
+					BE2349841D2F791A00F73F32 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					BE2349911D2F792C00F73F32 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					BE23499E1D2F793700F73F32 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					BE2349AB1D2F794400F73F32 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 					BE9ACCFF1C57347E0052D171 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 5W2NB69P29;
@@ -286,9 +453,6 @@
 					BEA76BB21C6851E600BF5C94 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 5W2NB69P29;
-					};
-					BEAC10001D2427CF00A3204E = {
-						CreatedOnToolsVersion = 7.2.1;
 					};
 				};
 			};
@@ -307,7 +471,10 @@
 				BE9ACCFF1C57347E0052D171 /* RGLockbox */,
 				BE0976C61C573570001E6467 /* RGLockbox-Tests */,
 				BEA76BB21C6851E600BF5C94 /* OCLint */,
-				BEAC10001D2427CF00A3204E /* RGLockboxFramework */,
+				BE2349841D2F791A00F73F32 /* RGLockboxWatch */,
+				BE2349911D2F792C00F73F32 /* RGLockboxTVOS */,
+				BE23499E1D2F793700F73F32 /* RGLockboxIOS */,
+				BE2349AB1D2F794400F73F32 /* RGLockboxOSX */,
 			);
 		};
 /* End PBXProject section */
@@ -320,7 +487,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BEAC0FFF1D2427CF00A3204E /* Resources */ = {
+		BE2349831D2F791A00F73F32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE2349901D2F792C00F73F32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE23499D1D2F793700F73F32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE2349AA1D2F794400F73F32 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -358,6 +546,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BE2349801D2F791A00F73F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349D01D2F7AE400F73F32 /* RGLockbox.m in Sources */,
+				BE2349D11D2F7AE400F73F32 /* RGLockbox+Convenience.m in Sources */,
+				BE2349D21D2F7AE400F73F32 /* RGMultiStringKey.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE23498D1D2F792C00F73F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349D31D2F7AE600F73F32 /* RGLockbox.m in Sources */,
+				BE2349D41D2F7AE600F73F32 /* RGLockbox+Convenience.m in Sources */,
+				BE2349D51D2F7AE600F73F32 /* RGMultiStringKey.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE23499A1D2F793700F73F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349D61D2F7AE600F73F32 /* RGLockbox.m in Sources */,
+				BE2349D71D2F7AE600F73F32 /* RGLockbox+Convenience.m in Sources */,
+				BE2349D81D2F7AE600F73F32 /* RGMultiStringKey.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE2349A71D2F794400F73F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2349D91D2F7AE700F73F32 /* RGLockbox.m in Sources */,
+				BE2349DA1D2F7AE700F73F32 /* RGLockbox+Convenience.m in Sources */,
+				BE2349DB1D2F7AE700F73F32 /* RGMultiStringKey.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BE9ACCFC1C57347E0052D171 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,16 +593,6 @@
 				BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */,
 				BEEADE7A1D171B69002B6CE3 /* RGMultiStringKey.m in Sources */,
 				BE0976D41C59CFD9001E6467 /* RGLockbox+Convenience.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BEAC0FFC1D2427CF00A3204E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BEAC100B1D24280400A3204E /* RGLockbox.m in Sources */,
-				BEAC100D1D24280F00A3204E /* RGLockbox+Convenience.m in Sources */,
-				BEAC100F1D24281800A3204E /* RGMultiStringKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +640,218 @@
 			};
 			name = Release;
 		};
+		BE23498B1D2F791A00F73F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxwatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		BE23498C1D2F791A00F73F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxwatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		BE2349981D2F792C00F73F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxtvos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		BE2349991D2F792C00F73F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxtvos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		BE2349A51D2F793800F73F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		BE2349A61D2F793800F73F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
+		BE2349B21D2F794400F73F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxosx;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Debug;
+		};
+		BE2349B31D2F794400F73F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				INFOPLIST_FILE = Framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Framework/module.modulemap;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.rglockboxosx;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.1;
+			};
+			name = Release;
+		};
 		BE9ACD071C57347E0052D171 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -459,7 +889,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -490,7 +919,6 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LLVM_LTO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
@@ -540,6 +968,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -600,48 +1029,6 @@
 			};
 			name = Release;
 		};
-		BEAC10061D2427CF00A3204E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				INFOPLIST_FILE = RGLockboxFramework/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.RGLockboxFramework;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		BEAC10071D2427CF00A3204E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				INFOPLIST_FILE = RGLockboxFramework/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.RGLockboxFramework;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -653,6 +1040,38 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BE23498A1D2F791A00F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE23498B1D2F791A00F73F32 /* Debug */,
+				BE23498C1D2F791A00F73F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BE2349971D2F792C00F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxTVOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE2349981D2F792C00F73F32 /* Debug */,
+				BE2349991D2F792C00F73F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BE2349A41D2F793800F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE2349A51D2F793800F73F32 /* Debug */,
+				BE2349A61D2F793800F73F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BE2349B11D2F794400F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE2349B21D2F794400F73F32 /* Debug */,
+				BE2349B31D2F794400F73F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		BE9ACCFB1C57347E0052D171 /* Build configuration list for PBXProject "RGLockbox" */ = {
 			isa = XCConfigurationList;
@@ -680,14 +1099,6 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
-		};
-		BEAC10081D2427CF00A3204E /* Build configuration list for PBXNativeTarget "RGLockboxFramework" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BEAC10061D2427CF00A3204E /* Debug */,
-				BEAC10071D2427CF00A3204E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
