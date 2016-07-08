@@ -644,6 +644,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -671,6 +672,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -697,6 +699,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -724,6 +727,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -919,6 +923,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
@@ -991,6 +996,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
@@ -1039,7 +1045,7 @@
 				BE0976D01C573571001E6467 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		BE23498A1D2F791A00F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxWatch" */ = {
 			isa = XCConfigurationList;
@@ -1048,6 +1054,7 @@
 				BE23498C1D2F791A00F73F32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BE2349971D2F792C00F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxTVOS" */ = {
 			isa = XCConfigurationList;
@@ -1056,6 +1063,7 @@
 				BE2349991D2F792C00F73F32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BE2349A41D2F793800F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxIOS" */ = {
 			isa = XCConfigurationList;
@@ -1064,6 +1072,7 @@
 				BE2349A61D2F793800F73F32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BE2349B11D2F794400F73F32 /* Build configuration list for PBXNativeTarget "RGLockboxOSX" */ = {
 			isa = XCConfigurationList;
@@ -1072,6 +1081,7 @@
 				BE2349B31D2F794400F73F32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		BE9ACCFB1C57347E0052D171 /* Build configuration list for PBXProject "RGLockbox" */ = {
 			isa = XCConfigurationList;
@@ -1080,7 +1090,7 @@
 				BE9ACD081C57347E0052D171 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		BE9ACD091C57347E0052D171 /* Build configuration list for PBXNativeTarget "RGLockbox" */ = {
 			isa = XCConfigurationList;
@@ -1089,7 +1099,7 @@
 				BE9ACD0B1C57347E0052D171 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		BEA76BB51C6851E600BF5C94 /* Build configuration list for PBXAggregateTarget "OCLint" */ = {
 			isa = XCConfigurationList;
@@ -1098,7 +1108,7 @@
 				BEA76BB41C6851E600BF5C94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
