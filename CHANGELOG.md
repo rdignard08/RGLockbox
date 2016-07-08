@@ -1,3 +1,8 @@
+## 1.4.0
+- Removed target "RGLockboxFramework" which is migrated to "RGLockboxIOS"
+- Added targets "RGLockboxTVOS", "RGLockboxWatch", "RGLockboxOSX"
+- Noted in the podspec support for WatchOS 1.0
+
 ## 1.3.1
 - Added a shared framework target to support Carthage
 
