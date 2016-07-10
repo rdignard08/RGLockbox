@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BEC2DCE01D24FA6500531942"
-               BuildableName = "RGLockboxFramework.framework"
-               BlueprintName = "RGLockboxFramework"
+               BlueprintIdentifier = "BE2CCAB21D3301E20034C8E9"
+               BuildableName = "RGLockboxWatch.framework"
+               BlueprintName = "RGLockboxWatch"
                ReferencedContainer = "container:RGLockbox.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BEC2DCE01D24FA6500531942"
-            BuildableName = "RGLockboxFramework.framework"
-            BlueprintName = "RGLockboxFramework"
+            BlueprintIdentifier = "BE2CCAB21D3301E20034C8E9"
+            BuildableName = "RGLockboxWatch.framework"
+            BlueprintName = "RGLockboxWatch"
             ReferencedContainer = "container:RGLockbox.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BEC2DCE01D24FA6500531942"
-            BuildableName = "RGLockboxFramework.framework"
-            BlueprintName = "RGLockboxFramework"
+            BlueprintIdentifier = "BE2CCAB21D3301E20034C8E9"
+            BuildableName = "RGLockboxWatch.framework"
+            BlueprintName = "RGLockboxWatch"
             ReferencedContainer = "container:RGLockbox.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
