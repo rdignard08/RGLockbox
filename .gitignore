@@ -13,3 +13,5 @@ xcuserdata
 *.xcscmblueprint
 *.gcno
 compile_commands.json
+Cartfile.resolved
+Carthage
