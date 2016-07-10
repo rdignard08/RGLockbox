@@ -1,3 +1,6 @@
+## 1.4.1
+- Removed some redundant framework files
+
 ## 1.4.0
 - Removed target "RGLockboxFramework" which is migrated to "RGLockboxIOS"
 - Added targets "RGLockboxTVOS", "RGLockboxWatch", "RGLockboxOSX"
