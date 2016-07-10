@@ -1,4 +1,8 @@
-## 2.2.2
+## 2.2.0
+- Added shared frameworks for iOS, OS X, tvOS, watchOS
+- The original RGLockboxFramework is now RGLockboxIOS
+
+## 2.1.2
 - Added a shared framework target to support Carthage
 
 ## 2.1.1
