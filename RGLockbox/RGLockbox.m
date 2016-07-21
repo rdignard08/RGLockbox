@@ -67,11 +67,11 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNUL
 #pragma mark - RGLockbox Implementation
 @implementation RGLockbox
 
-+ (instancetype) manager {
++ (RGLockbox*) manager {
     static dispatch_once_t onceToken;
     static id _sManager;
     dispatch_once(&onceToken, ^{
-        _sManager = [self new];
+        _sManager = [RGLockbox new];
     });
     return _sManager;
 }

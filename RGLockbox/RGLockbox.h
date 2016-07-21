@@ -77,7 +77,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 /**
  @return the singleton instance for managing access to the key chain.  Uses the default namespace.
  */
-+ (RG_PREFIX_NONNULL instancetype) manager;
++ (RG_PREFIX_NONNULL RGLockbox*) manager;
 
 /**
  @brief This is the queue on which all keychain accesses are performed.  You do not need to use this to synchronize
