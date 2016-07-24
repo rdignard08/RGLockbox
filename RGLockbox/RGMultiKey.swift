@@ -42,7 +42,7 @@ public final class RGMultiKey: NSObject, NSCopying {
 /**
  Method for use with NSObject based equality to parallel the `==` implementation.
 */
-    override public func isEqual(object: AnyObject?) -> Bool {
+    override public func isEqual(_ object: AnyObject?) -> Bool {
         if let object = object as? RGMultiKey {
             return self.first == object.first && self.second == object.second
         }
@@ -61,7 +61,7 @@ public final class RGMultiKey: NSObject, NSCopying {
 /**
  To be a key in an `NSMutableDictionary` this class must conform to `NSCopying`.
 */
-    public func copyWithZone(zone: NSZone) -> AnyObject {
+    public func copy(with zone: NSZone?) -> AnyObject {
         let copy = RGMultiKey.init()
         copy.first = self.first
         copy.second = self.second

@@ -52,17 +52,17 @@ public class RGLockbox {
 /**
  Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
 */
-    public static let keychainQueue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL)
+    public static let keychainQueue = DispatchQueue(label: "RGLockbox-Sync", attributes: DispatchQueueAttributes.serial)
     
 /**
  This lock controls access to `valueCache`.
 */
-    static let valueCacheLock = NSLock()
+    static let valueCacheLock = Lock()
     
 /**
  Your app's bundle identifier pre-calculated.
 */
-    public static var bundleIdentifier:String? = NSBundle.mainBundle().infoDictionary?[kCFBundleIdentifierKey as String] as? String
+    public static var bundleIdentifier:String? = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String
     
 /**
  `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
@@ -77,7 +77,7 @@ public class RGLockbox {
 /**
  Determines the accessibility assigned by the manager to a given item on add or update.
 */
-    public let itemAccessibility:CFStringRef
+    public let itemAccessibility:CFString
     
 /**
  Qualifies entries by account if provided.
@@ -100,7 +100,7 @@ public class RGLockbox {
  - parameter accountName: The manager's associated account if account qualified.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
 */
-    public required init(withNamespace namespace:String?, accessibility:CFStringRef, accountName:String?) {
+    public required init(withNamespace namespace:String?, accessibility:CFString, accountName:String?) {
         self.namespace = namespace
         self.itemAccessibility = accessibility
         self.accountName = accountName
@@ -120,7 +120,7 @@ public class RGLockbox {
  - parameter key: The key used to identify the item.
  - returns: `NSData` which is `nil` if not found.
 */
-    public func dataForKey(key:String) -> NSData? {
+    public func dataForKey(_ key:String) -> Data? {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
         fullKey.second = self.accountName
@@ -129,11 +129,11 @@ public class RGLockbox {
         if value != nil {
             RGLockbox.valueCacheLock.unlock()
             NSLog("returning prematurely for key \(key) and value \(value)")
-            return value is NSData ? (value as! NSData) : nil
+            return value is NSData ? (value as! Data) : nil
         }
         var data:AnyObject? = nil
         var status:OSStatus = errSecSuccess
-        dispatch_sync(RGLockbox.keychainQueue, {
+        RGLockbox.keychainQueue.sync(execute: {
             NSLog("hit sync with key \(key)")
             var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
@@ -147,7 +147,7 @@ public class RGLockbox {
             status = rg_SecItemCopyMatch(query, &data)
             NSLog("SecItemCopyMatching with \(query) returned \(status)")
         })
-        let bridgedData = data as! NSData?
+        let bridgedData = data as! Data?
         RGLockbox.valueCache[fullKey] = bridgedData != nil ? bridgedData : NSNull()
         RGLockbox.valueCacheLock.unlock()
         return bridgedData
@@ -158,13 +158,13 @@ public class RGLockbox {
  - parameter data: The data to store on the given key.  If `nil` clears the value in the keychain.
  - parameter key: The identifier of the keychain item.
 */
-    public func setData(data:NSData?, forKey key:String) {
+    public func setData(_ data:Data?, forKey key:String) {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
         fullKey.second = self.accountName
         RGLockbox.valueCacheLock.lock()
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
-        dispatch_async(RGLockbox.keychainQueue, {
+        RGLockbox.keychainQueue.async(execute: {
             NSLog("key is \(fullKey.first) with data \(data)")
             var status:OSStatus = errSecSuccess
             let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
@@ -179,7 +179,7 @@ public class RGLockbox {
                     kSecValueData : data,
                     kSecAttrAccessible : self.itemAccessibility
                 ]
-                query.addEntriesFromDictionary(payload)
+                query.addEntries(from: payload)
                 status = rg_SecItemAdd(query, nil)
                 NSLog("SecItemAdd with \(query) returned \(status)")
                 assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")

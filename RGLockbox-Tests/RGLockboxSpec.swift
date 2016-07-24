@@ -43,7 +43,7 @@ class RGLockboxSpec : XCTestCase {
     }
     
     override func setUp() {
-        RGLockbox.bundleIdentifier = NSBundle(forClass: self.dynamicType).infoDictionary![kCFBundleIdentifierKey as String] as! String?
+        RGLockbox.bundleIdentifier = Bundle(for: self.dynamicType).infoDictionary![kCFBundleIdentifierKey as String] as! String?
         for key in testKeys {
             RGLockbox.manager().setData(nil, forKey: key)
         }
@@ -64,28 +64,28 @@ class RGLockboxSpec : XCTestCase {
     }
     
     func testReadNotExistDouble() {
-        RGLockbox.manager().dataForKey(kKey1)
+        NSLog("\(RGLockbox.manager().dataForKey(kKey1))");
         let data = RGLockbox.manager().dataForKey(kKey1)
         XCTAssert(data == nil)
     }
     
     func testReadExist() {
-        RGLockbox.manager().setData(NSData(), forKey: kKey1)
+        RGLockbox.manager().setData(Data(), forKey: kKey1)
         let data = RGLockbox.manager().dataForKey(kKey1)
-        XCTAssert(data == NSData())
+        XCTAssert(data == Data())
     }
     
     func testReadExistDouble() {
-        RGLockbox.manager().setData(NSData(), forKey: kKey1)
-        RGLockbox.manager().dataForKey(kKey1)
+        RGLockbox.manager().setData(Data(), forKey: kKey1)
+        NSLog("\(RGLockbox.manager().dataForKey(kKey1))");
         let data = RGLockbox.manager().dataForKey(kKey1)
-        XCTAssert(data == NSData())
+        XCTAssert(data == Data())
     }
     
     func testReadNotSeen() {
         let fullKey = RGMultiKey()
         fullKey.first = "\(RGLockbox.manager().namespace).\(kKey2)"
-        let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
+        let data = "abcd".data(using: String.Encoding.utf8)
         RGLockbox.manager().setData(data, forKey: kKey2)
         RGLockbox.valueCache[fullKey] = nil
         let readData = RGLockbox.manager().dataForKey(kKey2)
@@ -94,7 +94,7 @@ class RGLockboxSpec : XCTestCase {
 
     func testReadNoNameSpace() {
         let rawLockbox = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAfterFirstUnlock, accountName: nil)
-        let data = "abes".dataUsingEncoding(NSUTF8StringEncoding)!
+        let data = "abes".data(using: String.Encoding.utf8)!
         rawLockbox.setData(data, forKey: "com.restgoatee.rglockbox.foobar")
         let readData = rawLockbox.dataForKey("com.restgoatee.rglockbox.foobar")
         XCTAssert(readData == data)
@@ -104,8 +104,8 @@ class RGLockboxSpec : XCTestCase {
     func testUpdateValue() {
         let fullKey = RGMultiKey()
         fullKey.first = "\(RGLockbox.manager().namespace!).\(kKey1)"
-        let firstData = "abew".dataUsingEncoding(NSUTF8StringEncoding)!
-        let secondData = "qwew".dataUsingEncoding(NSUTF8StringEncoding)!
+        let firstData = "abew".data(using: String.Encoding.utf8)!
+        let secondData = "qwew".data(using: String.Encoding.utf8)!
         RGLockbox.manager().setData(firstData, forKey: kKey1)
         NSLog("1 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.manager().setData(secondData, forKey: kKey1)

@@ -36,7 +36,7 @@ class RGLockbox_ConvenienceSpec : XCTestCase {
     }
     
     func testGetJSONBad() {
-        RGLockbox.manager().setCodeable(NSURL.init(string: "google.com"), key: kTestKey)
+        RGLockbox.manager().setCodeable(URL.init(string: "google.com"), key: kTestKey)
         let value = RGLockbox.manager().JSONObjectForKey(kTestKey)
         XCTAssert(value == nil)
     }
@@ -74,7 +74,7 @@ class RGLockbox_ConvenienceSpec : XCTestCase {
     }
     
     func testGetDateNotNil() {
-        let date = NSDate.init()
+        let date = Date.init()
         RGLockbox.manager().setDate(date, key: kTestKey)
         let value = RGLockbox.manager().dateForKey(kTestKey)
         XCTAssert(value!.timeIntervalSince1970 == floor(date.timeIntervalSince1970))
@@ -104,9 +104,9 @@ class RGLockbox_ConvenienceSpec : XCTestCase {
     }
     
     func testGetCodeableNotNil() {
-        RGLockbox.manager().setCodeable(NSURL.init(string: "google.com"), key: kTestKey)
+        RGLockbox.manager().setCodeable(URL.init(string: "google.com"), key: kTestKey)
         let value = RGLockbox.manager().codeableForKey(kTestKey)
-        XCTAssert((value as! NSURL) == NSURL.init(string: "google.com"))
+        XCTAssert((value as! NSURL) == URL.init(string: "google.com"))
     }
     
 }
