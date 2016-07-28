@@ -1,3 +1,6 @@
+## 2.3.0
+- Released as Swift 3 compatible
+
 ## 2.2.1
 - Removed Cartfile that was for testing
 
