@@ -1,3 +1,7 @@
+## 1.4.2
+- Removed Cartfile that was for testing
+- `+[RGLockbox manager]` now correctly does not return `instancetype`
+
 ## 1.4.1
 - Removed some redundant framework files
 
