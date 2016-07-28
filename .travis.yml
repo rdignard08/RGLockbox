@@ -4,5 +4,5 @@ xcode_project: RGLockbox.xcodeproj
 xcode_scheme: RGLockbox-Tests
 xcode_sdk: iphonesimulator10.0
 script:
-- xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox-Tests build test -sdk iphonesimulator10.0
+- xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox-Tests build test -sdk iphonesimulator10.0 -destination 'platform=iOS Simulator,name=iPhone 6'
 - bash <(curl -s https://codecov.io/bash)
