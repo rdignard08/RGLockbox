@@ -1,3 +1,6 @@
+## 2.2.1
+- Removed Cartfile that was for testing
+
 ## 2.2.0
 - Added shared frameworks for iOS, OS X, tvOS, watchOS
 - The original RGLockboxFramework is now RGLockboxIOS
