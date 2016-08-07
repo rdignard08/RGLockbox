@@ -1,3 +1,8 @@
+## 1.4.3
+- A new log facility `RGLogs()` is available to log based on a severity level
+- `RGLog()` has the same behavior but uses the new log backend
+- use `rg_set_logging_severity(RGLogSeverity)` to change the system log level
+
 ## 1.4.2
 - Removed Cartfile that was for testing
 - `+[RGLockbox manager]` now correctly does not return `instancetype`
