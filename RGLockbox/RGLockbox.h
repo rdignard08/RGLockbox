@@ -22,6 +22,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import "RGDefines.h"
+#import "RGLog.h"
 
 /**
  @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the

@@ -172,7 +172,7 @@ static NSMutableDictionary* _sValueCache;
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
         }
         status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
-        RGLog(@"SecItemCopyMatching with %@ returned %@", query, @(status));
+        RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
     });
     NSData* bridgedData = (__bridge_transfer NSData*)data;
     if (status != errSecInteractionNotAllowed) { /* Not allowed means we need to try again so don't cache NSNull */
@@ -204,17 +204,17 @@ static NSMutableDictionary* _sValueCache;
                                       };
             [query addEntriesFromDictionary:payload];
             status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);
-            RGLog(@"SecItemAdd with %@ returned %@", query, @(status));
+            RGLogs(kRGLogSeverityTrace, @"SecItemAdd with %@ returned %@", query, @(status));
             NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
             if (status == errSecDuplicateItem) { /* Duplicate so update */
                 status = rg_SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
-                RGLog(@"SecItemUpdate with %@ and %@ returned %@", query, payload, @(status));
+                RGLogs(kRGLogSeverityTrace, @"SecItemUpdate with %@ and %@ returned %@", query, payload, @(status));
                 NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
             }
             return;
         } /* Not Add or Update, must be delete */
         status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
-        RGLog(@"SecItemDelete with %@ returned %@", query, @(status));
+        RGLogs(kRGLogSeverityTrace, @"SecItemDelete with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
     });
     [[[self class] valueCacheLock] unlock];

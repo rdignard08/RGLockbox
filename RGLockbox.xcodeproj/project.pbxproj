@@ -58,6 +58,16 @@
 		BE2349D91D2F7AE700F73F32 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
 		BE2349DA1D2F7AE700F73F32 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
 		BE2349DB1D2F7AE700F73F32 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
+		BE28A7AD1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
+		BE28A7AE1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
+		BE28A7AF1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
+		BE28A7B01D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
+		BE28A7B21D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
+		BE28A7B31D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
+		BE28A7B41D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
+		BE28A7B51D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
+		BE28A7B61D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
+		BE28A7B91D57EEAA00059452 /* RGLogSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B81D57EEAA00059452 /* RGLogSpec.m */; };
 		BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */ = {isa = PBXBuildFile; fileRef = BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */; };
 		BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; };
 		BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
@@ -112,13 +122,14 @@
 		BE2349B51D2F799C00F73F32 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Framework/Info.plist; sourceTree = "<group>"; };
 		BE2349B61D2F799C00F73F32 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = Framework/module.modulemap; sourceTree = "<group>"; };
 		BE2349B71D2F799C00F73F32 /* RGLockboxFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RGLockboxFramework.h; path = Framework/RGLockboxFramework.h; sourceTree = "<group>"; };
+		BE28A7AC1D57ADC400059452 /* RGLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGLog.h; sourceTree = "<group>"; };
+		BE28A7B11D57ADED00059452 /* RGLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGLog.m; sourceTree = "<group>"; };
+		BE28A7B81D57EEAA00059452 /* RGLogSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGLogSpec.m; sourceTree = "<group>"; };
 		BE6A2BBB1CF80BFD00C731B7 /* NSObject+RGBadInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RGBadInit.h"; sourceTree = "<group>"; };
 		BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RGBadInit.m"; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
-		BEAC10031D2427CF00A3204E /* RGLockboxFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockboxFramework.h; sourceTree = "<group>"; };
-		BEAC10051D2427CF00A3204E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGKeychainReplacement.m; sourceTree = "<group>"; };
 		BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMultiStringKey.h; sourceTree = "<group>"; };
 		BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMultiStringKey.m; sourceTree = "<group>"; };
@@ -175,6 +186,7 @@
 		BE0976C81C573570001E6467 /* RGLockbox-Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BE28A7B71D57EE9200059452 /* FunctionSpecs */,
 				BE0976DA1C59D542001E6467 /* ClassSpecs */,
 				BE0976D91C59D539001E6467 /* CategorySpecs */,
 				BE0976CB1C573571001E6467 /* Info.plist */,
@@ -213,13 +225,20 @@
 			name = Framework;
 			sourceTree = "<group>";
 		};
+		BE28A7B71D57EE9200059452 /* FunctionSpecs */ = {
+			isa = PBXGroup;
+			children = (
+				BE28A7B81D57EEAA00059452 /* RGLogSpec.m */,
+			);
+			name = FunctionSpecs;
+			sourceTree = "<group>";
+		};
 		BE9ACCF71C57347E0052D171 = {
 			isa = PBXGroup;
 			children = (
 				BE2349B41D2F797900F73F32 /* Framework */,
 				BE9ACD021C57347E0052D171 /* RGLockbox */,
 				BE0976C81C573570001E6467 /* RGLockbox-Tests */,
-				BEAC10021D2427CF00A3204E /* RGLockboxFramework */,
 				BE9ACD011C57347E0052D171 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -247,17 +266,10 @@
 				BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */,
 				BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */,
 				BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */,
+				BE28A7AC1D57ADC400059452 /* RGLog.h */,
+				BE28A7B11D57ADED00059452 /* RGLog.m */,
 			);
 			path = RGLockbox;
-			sourceTree = "<group>";
-		};
-		BEAC10021D2427CF00A3204E /* RGLockboxFramework */ = {
-			isa = PBXGroup;
-			children = (
-				BEAC10031D2427CF00A3204E /* RGLockboxFramework.h */,
-				BEAC10051D2427CF00A3204E /* Info.plist */,
-			);
-			path = RGLockboxFramework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +279,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE28A7AD1D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349C21D2F7AD000F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349C11D2F7AD000F73F32 /* RGLockbox.h in Headers */,
 				BE2349C01D2F7AD000F73F32 /* RGDefines.h in Headers */,
@@ -279,6 +292,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE28A7AE1D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349C61D2F7AD100F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349C51D2F7AD100F73F32 /* RGLockbox.h in Headers */,
 				BE2349C41D2F7AD100F73F32 /* RGDefines.h in Headers */,
@@ -291,6 +305,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE28A7AF1D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349CA1D2F7AD200F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349C91D2F7AD200F73F32 /* RGLockbox.h in Headers */,
 				BE2349C81D2F7AD200F73F32 /* RGDefines.h in Headers */,
@@ -303,6 +318,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE28A7B01D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349CE1D2F7AD300F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349CD1D2F7AD300F73F32 /* RGLockbox.h in Headers */,
 				BE2349CC1D2F7AD300F73F32 /* RGDefines.h in Headers */,
@@ -538,6 +554,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE28A7B91D57EEAA00059452 /* RGLogSpec.m in Sources */,
 				BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */,
 				BE0976D61C59D006001E6467 /* RGLockbox+ConvenienceSpec.m in Sources */,
 				BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */,
@@ -551,6 +568,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE2349D01D2F7AE400F73F32 /* RGLockbox.m in Sources */,
+				BE28A7B31D57ADED00059452 /* RGLog.m in Sources */,
 				BE2349D11D2F7AE400F73F32 /* RGLockbox+Convenience.m in Sources */,
 				BE2349D21D2F7AE400F73F32 /* RGMultiStringKey.m in Sources */,
 			);
@@ -561,6 +579,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE2349D31D2F7AE600F73F32 /* RGLockbox.m in Sources */,
+				BE28A7B41D57ADED00059452 /* RGLog.m in Sources */,
 				BE2349D41D2F7AE600F73F32 /* RGLockbox+Convenience.m in Sources */,
 				BE2349D51D2F7AE600F73F32 /* RGMultiStringKey.m in Sources */,
 			);
@@ -571,6 +590,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE2349D61D2F7AE600F73F32 /* RGLockbox.m in Sources */,
+				BE28A7B51D57ADED00059452 /* RGLog.m in Sources */,
 				BE2349D71D2F7AE600F73F32 /* RGLockbox+Convenience.m in Sources */,
 				BE2349D81D2F7AE600F73F32 /* RGMultiStringKey.m in Sources */,
 			);
@@ -581,6 +601,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE2349D91D2F7AE700F73F32 /* RGLockbox.m in Sources */,
+				BE28A7B61D57ADED00059452 /* RGLog.m in Sources */,
 				BE2349DA1D2F7AE700F73F32 /* RGLockbox+Convenience.m in Sources */,
 				BE2349DB1D2F7AE700F73F32 /* RGMultiStringKey.m in Sources */,
 			);
@@ -591,6 +612,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */,
+				BE28A7B21D57ADED00059452 /* RGLog.m in Sources */,
 				BEEADE7A1D171B69002B6CE3 /* RGMultiStringKey.m in Sources */,
 				BE0976D41C59CFD9001E6467 /* RGLockbox+Convenience.m in Sources */,
 			);

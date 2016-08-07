@@ -105,34 +105,3 @@
  */
     #define RG_VOID_NOOP ((void)0)
 #endif
-
-#ifndef RGLog
-    #ifdef DEBUG
-/**
- @brief A complete `NSLog()` replacement, but does not log in production.  It logs the file name & line number.
- @param format the format string of the arguments _after_ lineNumber.  It is a programmer error to pass `nil`.
- @param file the name of the file where the log was called.
- @param line the line number of the log call.
- @param ... values that will be called with `format` to generate the output.
- @throw `NSGenericException` on format being `nil`.
- */
-        #define RGLog(format, ...) ({                                                                   \
-            const size_t length = sizeof(__FILE__) - 1;                                                 \
-            char* file = __FILE__ + length;                                                             \
-            while (file != __FILE__) {                                                                  \
-                char* replacement = file - 1;                                                           \
-                if (*replacement == '/') {                                                              \
-                    break;                                                                              \
-                }                                                                                       \
-                file = replacement;                                                                     \
-            }                                                                                           \
-            NSString* rg_output = [[NSString alloc] initWithFormat:format, ## __VA_ARGS__];             \
-            (void)fprintf(stderr, "[%s:%lu] %s\n", file, (unsigned long)__LINE__, rg_output.UTF8String);\
-        })
-    #else /* we define out with `RG_VOID_NOOP` generally this is `NULL` to allow usage in conditional operators. */
-/**
- @brief A complete `NSLog()` replacement, but does not log in production.
- */
-        #define RGLog(...) RG_VOID_NOOP
-    #endif
-#endif
