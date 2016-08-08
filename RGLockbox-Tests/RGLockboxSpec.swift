@@ -108,13 +108,13 @@ class RGLockboxSpec : XCTestCase {
         let firstData = "abew".dataUsingEncoding(NSUTF8StringEncoding)!
         let secondData = "qwew".dataUsingEncoding(NSUTF8StringEncoding)!
         RGLockbox.manager().setData(firstData, forKey: kKey1)
-        NSLog("1 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "1 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.manager().setData(secondData, forKey: kKey1)
-        NSLog("2 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "2 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.valueCache[fullKey] = nil
-        NSLog("3 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "3 \(RGLockbox.valueCache[fullKey])")
         let readData = RGLockbox.manager().dataForKey(kKey1)
-        NSLog("4 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "4 \(RGLockbox.valueCache[fullKey])")
         XCTAssert(readData == secondData)
     }
 }
