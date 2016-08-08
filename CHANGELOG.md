@@ -1,3 +1,6 @@
+## 2.2.2
+- `NSLog()` calls have been replaced with a programable severity based logger
+
 ## 2.2.1
 - Removed Cartfile that was for testing
 
