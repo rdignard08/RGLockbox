@@ -1,3 +1,6 @@
+## 2.2.3
+- Fixed warning preventing publishing to CocoaPods
+
 ## 2.2.2
 - `NSLog()` calls have been replaced with a programable severity based logger
 
