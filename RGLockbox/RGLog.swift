@@ -114,7 +114,7 @@ private func rg_severityDescription(_ severity: RGLogSeverity) -> String {
  Whether this message should be logged.
  - returns: `true` if he severity is greater than or equal to the system log level.
 */
-private func rg_shouldLog(severity: RGLogSeverity) -> Bool {
+private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
     return severity.rawValue >= rg_logging_severity().rawValue
 }
 
