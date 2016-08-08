@@ -118,7 +118,7 @@ public class RGLockbox {
 /**
  Raw read access to the keychain.  Caches reads to `valueCache`.
  - parameter key: The key used to identify the item.
- - returns: `NSData` which is `nil` if not found.
+ - returns: `Data` which is `nil` if not found.
 */
     public func dataForKey(_ key:String) -> Data? {
         let fullKey = RGMultiKey()
@@ -129,7 +129,7 @@ public class RGLockbox {
         if value != nil {
             RGLockbox.valueCacheLock.unlock()
             RGLogs(.Trace, "returning prematurely for key \(key) and value \(value)")
-            return value is NSData ? (value as! Data) : nil
+            return value is Data ? (value as! Data) : nil
         }
         var data:AnyObject? = nil
         var status:OSStatus = errSecSuccess
