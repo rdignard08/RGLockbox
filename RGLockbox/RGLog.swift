@@ -139,6 +139,6 @@ public func RGLogs(_ severity: RGLogSeverity, _ message: String, _ file: String 
     if rg_shouldLog(severity) {
         let fileName = NSURL(fileURLWithPath: file).lastPathComponent
         let severityDescription = rg_severityDescription(severity)
-        print("[\(fileName):\(line)] \(severityDescription)\(message)")
+        print("[\(fileName != nil ? fileName! : "(unknown)"):\(line)] \(severityDescription)\(message)")
     }
 }
