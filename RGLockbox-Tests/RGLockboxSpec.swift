@@ -40,6 +40,7 @@ class RGLockboxSpec : XCTestCase {
         rg_SecItemAdd = replacementAddItem
         rg_SecItemUpdate = replacementUpdateItem
         rg_SecItemDelete = replacementDeleteItem
+        rg_set_logging_severity(RGLogSeverity.Trace)
     }
     
     override func setUp() {
