@@ -27,37 +27,37 @@ import RGLockbox
 
 class RGLogSpec : XCTestCase {
     func testTraceMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Trace);
-        RGLogs(RGLogSeverity.Trace, "Hello Trace");
+        rg_set_logging_severity(RGLogSeverity.Trace)
+        RGLogs(RGLogSeverity.Trace, "Hello Trace")
     }
     
     func testDebugMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Debug);
-        RGLogs(RGLogSeverity.Debug, "Hello Debug");
+        rg_set_logging_severity(RGLogSeverity.Debug)
+        RGLogs(RGLogSeverity.Debug, "Hello Debug")
     }
     
     func testWarnMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Warning);
-        RGLogs(RGLogSeverity.Warning, "Hello Warn");
+        rg_set_logging_severity(RGLogSeverity.Warning)
+        RGLogs(RGLogSeverity.Warning, "Hello Warn")
     }
     
     func testWarnMessageDoesntLog() {
-        rg_set_logging_severity(RGLogSeverity.Error);
-        RGLogs(RGLogSeverity.Warning, "No Warn");
+        rg_set_logging_severity(RGLogSeverity.Error)
+        RGLogs(RGLogSeverity.Warning, "No Warn")
     }
     
     func testErrorMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Error);
-        RGLogs(RGLogSeverity.Error, "Hello Error");
+        rg_set_logging_severity(RGLogSeverity.Error)
+        RGLogs(RGLogSeverity.Error, "Hello Error")
     }
     
     func testFatalMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Fatal);
-        RGLogs(RGLogSeverity.Fatal, "Hello Fatal");
+        rg_set_logging_severity(RGLogSeverity.Fatal)
+        RGLogs(RGLogSeverity.Fatal, "Hello Fatal")
     }
     
     func testNoneMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.None);
-        RGLogs(RGLogSeverity.None, "Hello None");
+        rg_set_logging_severity(RGLogSeverity.None)
+        RGLogs(RGLogSeverity.None, "Hello None")
     }
 }

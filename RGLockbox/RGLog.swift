@@ -58,7 +58,7 @@ public enum RGLogSeverity: Int {
      Log level appropriate for messages which should always appear.
     */
     case None
-};
+}
 
 #if DEBUG
     /**
@@ -115,7 +115,7 @@ private func rg_severityDescription(severity: RGLogSeverity) -> String {
  - returns: `true` if he severity is greater than or equal to the system log level.
 */
 private func rg_shouldLog(severity: RGLogSeverity) -> Bool {
-    return severity.rawValue >= rg_logging_severity().rawValue;
+    return severity.rawValue >= rg_logging_severity().rawValue
 }
 
 /**

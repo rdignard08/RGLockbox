@@ -128,7 +128,7 @@ public class RGLockbox {
         let value = RGLockbox.valueCache[fullKey]
         if value != nil {
             RGLockbox.valueCacheLock.unlock()
-            RGLogs(RGLogSeverity.Trace, "returning prematurely for key \(key) and value \(value)");
+            RGLogs(RGLogSeverity.Trace, "returning prematurely for key \(key) and value \(value)")
             return value is NSData ? (value as! NSData) : nil
         }
         var data:AnyObject? = nil
