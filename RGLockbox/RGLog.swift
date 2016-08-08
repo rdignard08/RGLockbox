@@ -84,7 +84,7 @@ public func rg_logging_severity() -> RGLogSeverity {
 /**
  Provide the system logging level for subsequent log messages.
 */
-public func rg_set_logging_severity(severity: RGLogSeverity) {
+public func rg_set_logging_severity(_ severity: RGLogSeverity) {
     rg_systemSeverity = severity
     OSMemoryBarrier()
 }
@@ -93,7 +93,7 @@ public func rg_set_logging_severity(severity: RGLogSeverity) {
  String describing the log level.
  - returns: a string appropriate to describe the log level in English.
 */
-private func rg_severityDescription(severity: RGLogSeverity) -> String {
+private func rg_severityDescription(_ severity: RGLogSeverity) -> String {
     switch (severity) {
         case .Trace:
             return "Trace, "
