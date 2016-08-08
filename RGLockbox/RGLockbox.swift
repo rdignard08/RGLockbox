@@ -128,13 +128,13 @@ public class RGLockbox {
         let value = RGLockbox.valueCache[fullKey]
         if value != nil {
             RGLockbox.valueCacheLock.unlock()
-            NSLog("returning prematurely for key \(key) and value \(value)")
+            RGLogs(RGLogSeverity.Trace, "returning prematurely for key \(key) and value \(value)");
             return value is NSData ? (value as! NSData) : nil
         }
         var data:AnyObject? = nil
         var status:OSStatus = errSecSuccess
         dispatch_sync(RGLockbox.keychainQueue, {
-            NSLog("hit sync with key \(key)")
+            RGLogs(RGLogSeverity.Trace, "hit sync with key \(key)")
             var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
@@ -145,7 +145,7 @@ public class RGLockbox {
                 query[kSecAttrAccount] = fullKey.second!
             }
             status = rg_SecItemCopyMatch(query, &data)
-            NSLog("SecItemCopyMatching with \(query) returned \(status)")
+            RGLogs(RGLogSeverity.Trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
         let bridgedData = data as! NSData?
         RGLockbox.valueCache[fullKey] = bridgedData != nil ? bridgedData : NSNull()
@@ -165,7 +165,7 @@ public class RGLockbox {
         RGLockbox.valueCacheLock.lock()
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         dispatch_async(RGLockbox.keychainQueue, {
-            NSLog("key is \(fullKey.first) with data \(data)")
+            RGLogs(RGLogSeverity.Trace, "key is \(fullKey.first) with data \(data)")
             var status:OSStatus = errSecSuccess
             let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
                 kSecClass : kSecClassGenericPassword,
@@ -181,17 +181,17 @@ public class RGLockbox {
                 ]
                 query.addEntriesFromDictionary(payload)
                 status = rg_SecItemAdd(query, nil)
-                NSLog("SecItemAdd with \(query) returned \(status)")
+                RGLogs(RGLogSeverity.Trace, "SecItemAdd with \(query) returned \(status)")
                 assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
                 if status == errSecDuplicateItem {
                     status = rg_SecItemUpdate(query, payload)
-                    NSLog("SecItemUpdate with \(query) and \(payload) returned \(status)")
+                    RGLogs(RGLogSeverity.Trace, "SecItemUpdate with \(query) and \(payload) returned \(status)")
                     assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
                 }
                 return
             }
             status = rg_SecItemDelete(query)
-            NSLog("SecItemDelete with \(query) returned \(status)")
+            RGLogs(RGLogSeverity.Trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
         })
         RGLockbox.valueCacheLock.unlock()
