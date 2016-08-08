@@ -57,7 +57,7 @@ public class RGLockbox {
 /**
  This lock controls access to `valueCache`.
 */
-    static let valueCacheLock = Lock()
+    static let valueCacheLock = NSLock()
     
 /**
  Your app's bundle identifier pre-calculated.
