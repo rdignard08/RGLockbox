@@ -65,7 +65,7 @@ let replacementUpdateItem:(CFDictionary, CFDictionary) -> OSStatus = { query, at
         keychainLock.unlock()
         return errSecSuccess
     }
-    keychainLock.unlock();
+    keychainLock.unlock()
     return errSecItemNotFound
 }
 

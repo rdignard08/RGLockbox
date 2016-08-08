@@ -40,6 +40,7 @@ class RGLockboxSpec : XCTestCase {
         rg_SecItemAdd = replacementAddItem
         rg_SecItemUpdate = replacementUpdateItem
         rg_SecItemDelete = replacementDeleteItem
+        rg_set_logging_severity(RGLogSeverity.Trace)
     }
     
     override func setUp() {
@@ -107,13 +108,13 @@ class RGLockboxSpec : XCTestCase {
         let firstData = "abew".data(using: String.Encoding.utf8)!
         let secondData = "qwew".data(using: String.Encoding.utf8)!
         RGLockbox.manager().setData(firstData, forKey: kKey1)
-        NSLog("1 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "1 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.manager().setData(secondData, forKey: kKey1)
-        NSLog("2 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "2 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.valueCache[fullKey] = nil
-        NSLog("3 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "3 \(RGLockbox.valueCache[fullKey])")
         let readData = RGLockbox.manager().dataForKey(kKey1)
-        NSLog("4 \(RGLockbox.valueCache[fullKey])")
+        RGLogs(.Debug, "4 \(RGLockbox.valueCache[fullKey])")
         XCTAssert(readData == secondData)
     }
 }
