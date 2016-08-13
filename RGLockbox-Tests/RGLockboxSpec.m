@@ -263,6 +263,8 @@ CLASS_SPEC(RGLockbox)
                                                   accessGroup:nil
                                                  synchronized:YES];
     [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
+    [[RGLockbox valueCache] removeAllObjects];
     [[RGLockbox manager] setData:[NSData new] forKey:kKey2];
     NSArray* items = manager.allItems;
     XCTAssert([items.firstObject isEqual:kKey1]);
