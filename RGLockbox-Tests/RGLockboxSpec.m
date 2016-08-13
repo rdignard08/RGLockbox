@@ -244,4 +244,22 @@ CLASS_SPEC(RGLockbox)
     XCTAssert([description containsString:RG_STRING_SEL(isSynchronized)]);
 }
 
+#pragma mark - isSynchronized
+- (void) testReadWriteIsSynchronized {
+    
+}
+
+- (void) testAllItemsSynchronized {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:@"com.restgoatee.rglockbox"
+                                                  accessGroup:nil
+                                                 synchronized:YES];
+    [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [[RGLockbox manager] setData:[NSData new] forKey:kKey2];
+    NSArray* items = manager.allItems;
+    XCTAssert([items.firstObject isEqual:kKey1]);
+    XCTAssert(items.count == 1);
+}
+
 SPEC_END
