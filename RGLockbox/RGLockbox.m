@@ -180,7 +180,8 @@ static NSMutableDictionary* _sValueCache;
                                 (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecAttrService : fullKey.first,
                                 (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                                (__bridge id)kSecReturnData : @YES
+                                (__bridge id)kSecReturnData : @YES,
+                                (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
                                 } mutableCopy];
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
@@ -206,7 +207,8 @@ static NSMutableDictionary* _sValueCache;
         OSStatus status;
         NSMutableDictionary* query = [@{
                                         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                        (__bridge id)kSecAttrService : fullKey.first
+                                        (__bridge id)kSecAttrService : fullKey.first,
+                                        (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
                                         } mutableCopy];
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
