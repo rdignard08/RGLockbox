@@ -223,13 +223,12 @@ static NSMutableDictionary* _sValueCache;
     NSArray RG_GENERIC(NSDictionary *) *bridgedArray = (__bridge_transfer NSArray*)items;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
-        if ([service isKindOfClass:[NSString class]]) {
-            if (!self.namespace) {
-                [output addObject:service];
-            } else if ([service hasPrefix:(NSString* RG_SUFFIX_NONNULL)self.namespace]) {
-                NSRange range = [service rangeOfString:(NSString* RG_SUFFIX_NONNULL)self.namespace];
-                [output addObject:[service substringFromIndex:range.location + range.length + 1]];
-            }
+        NSAssert([service isKindOfClass:[NSString self]], @"Wrong type something is really wrong");
+        if (!self.namespace) {
+            [output addObject:service];
+        } else if ([service hasPrefix:(NSString* RG_SUFFIX_NONNULL)self.namespace]) {
+            NSRange range = [service rangeOfString:(NSString* RG_SUFFIX_NONNULL)self.namespace];
+            [output addObject:[service substringFromIndex:range.location + range.length + 1]];
         }
     }
     return output;
