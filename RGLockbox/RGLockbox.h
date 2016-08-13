@@ -109,7 +109,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 #pragma mark - Initializers
 
 /**
- @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil`
+ @param namespace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
@@ -121,7 +121,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account;
 
 /**
- @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil`
+ @param namespace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
@@ -141,7 +141,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 /**
  @brief Tests whether the cache has a value.  Threadsafe.
  @param key the key on which to check the cache.  `.namespace` and `accountName` will be applied if available.
- @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData`.
+ @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData*`.
  */
 - (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key;
 
