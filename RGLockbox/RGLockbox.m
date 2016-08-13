@@ -180,9 +180,11 @@ static NSMutableDictionary* _sValueCache;
                                 (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecAttrService : fullKey.first,
                                 (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                                (__bridge id)kSecReturnData : @YES,
-                                (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
+                                (__bridge id)kSecReturnData : @YES
                                 } mutableCopy];
+        if (self.isSynchronized) {
+            query[(__bridge id)kSecAttrSynchronizable] = @YES;
+        }
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
         }
@@ -197,6 +199,42 @@ static NSMutableDictionary* _sValueCache;
     return bridgedData;
 }
 
+- (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString *) *) allItems {
+    [[[self class] valueCacheLock] lock];
+    __block CFTypeRef items = nil;
+    dispatch_sync([[self class] keychainQueue], ^{
+        NSMutableDictionary* query = [@{
+                                        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+                                        (__bridge id)kSecReturnAttributes : @YES,
+                                        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitAll
+                                        } mutableCopy];
+        if (self.isSynchronized) {
+            query[(__bridge id)kSecAttrSynchronizable] = @YES;
+        }
+        if (self.accountName) {
+            query[(__bridge id)kSecAttrAccount] = self.accountName;
+        }
+        OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &items);
+        RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
+        NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
+    });
+    [[[self class] valueCacheLock] unlock];
+    NSMutableArray<NSString *> *output = [NSMutableArray new];
+    NSArray<NSDictionary *> *bridgedArray = (__bridge_transfer NSArray*)items;
+    for (NSUInteger i = 0; i < bridgedArray.count; i++) {
+        id service = bridgedArray[i][(__bridge id)kSecAttrService];
+        if ([service isKindOfClass:[NSString class]]) {
+            if (!self.namespace) {
+                [output addObject:service];
+            } else if ([service hasPrefix:(NSString* RG_SUFFIX_NONNULL)self.namespace]) {
+                NSRange range = [service rangeOfString:(NSString* RG_SUFFIX_NONNULL)self.namespace];
+                [output addObject:[service substringFromIndex:range.location + range.length + 1]];
+            }
+        }
+    }
+    return output;
+}
+
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
     RGMultiStringKey* fullKey = [RGMultiStringKey new];
     fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
@@ -207,9 +245,11 @@ static NSMutableDictionary* _sValueCache;
         OSStatus status;
         NSMutableDictionary* query = [@{
                                         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                        (__bridge id)kSecAttrService : fullKey.first,
-                                        (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
+                                        (__bridge id)kSecAttrService : fullKey.first
                                         } mutableCopy];
+        if (self.isSynchronized) {
+            query[(__bridge id)kSecAttrSynchronizable] = @YES;
+        }
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
         }
