@@ -276,4 +276,19 @@ static NSMutableDictionary* _sValueCache;
     [[[self class] valueCacheLock] unlock];
 }
 
+- (NSString*) description
+{
+    return [NSString stringWithFormat:@"%@\n\tnamespace:%@"
+                                      @"\n\taccountName:%@"
+                                      @"\n\taccessGroup:%@"
+                                      @"\n\titemAccessibility:%@"
+                                      @"\n\tisSynchronized:%@",
+                                      super.description,
+                                      self.namespace,
+                                      self.accountName,
+                                      self.accessGroup,
+                                      self.itemAccessibility,
+                                      @(self.isSynchronized)];
+}
+
 @end

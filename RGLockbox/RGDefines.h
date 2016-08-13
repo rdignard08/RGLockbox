@@ -105,3 +105,14 @@
  */
     #define RG_VOID_NOOP ((void)0)
 #endif
+
+#ifndef RG_STRING_SEL
+/**
+ @brief Enables selector declarations to be used in place of an `NSString`, provides spell checking.
+ */
+    #ifdef DEBUG
+        #define RG_STRING_SEL(sel) (YES ? @ # sel : NSStringFromSelector(@selector(sel)))
+    #else
+        #define RG_STRING_SEL(sel) @ # sel
+    #endif
+#endif

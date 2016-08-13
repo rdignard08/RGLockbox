@@ -210,4 +210,13 @@ CLASS_SPEC(RGLockbox)
     XCTAssert(keys.count == 0);
 }
 
+- (void) testDescription {
+    NSString* description = [RGLockbox manager].description;
+    XCTAssert([description containsString:RG_STRING_SEL(namespace)]);
+    XCTAssert([description containsString:RG_STRING_SEL(accountName)]);
+    XCTAssert([description containsString:RG_STRING_SEL(accessGroup)]);
+    XCTAssert([description containsString:RG_STRING_SEL(itemAccessibility)]);
+    XCTAssert([description containsString:RG_STRING_SEL(isSynchronized)]);
+}
+
 SPEC_END
