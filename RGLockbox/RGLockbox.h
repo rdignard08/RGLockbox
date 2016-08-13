@@ -24,6 +24,8 @@
 #import "RGDefines.h"
 #import "RGLog.h"
 
+#pragma mark - Global Symbols
+
 /**
  @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the
    `itemAccessibility`.
@@ -53,11 +55,15 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX
  */
 extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL);
 
+#pragma mark - RGLockbox Class
+
 /**
  @brief `RGLockbox` is a keychain manager class.  It provides the rudimentary actions get, add, update, delete on
    `NSData` instances.  The class is threadsafe and may be read from and written to on multiple threads simultaneously.
  */
 @interface RGLockbox : NSObject
+
+#pragma mark - Properties
 
 /**
  @brief Defaults to this class's bundle identifier.
@@ -85,6 +91,8 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  */
 @property (nonatomic, assign, readonly) BOOL isSynchronized;
 
+#pragma mark - Class Methods
+
 /**
  @return the singleton instance for managing access to the key chain.  Uses the default namespace.
  */
@@ -98,12 +106,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  */
 + (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue;
 
-/**
- @brief Tests whether the cache has a value.
- @param key the key on which to check the cache.  `.namespace` and `accountName` will be applied if available.
- @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData`.
- */
-- (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key;
+#pragma mark - Initializers
 
 /**
  @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil`
@@ -132,6 +135,15 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account
                                          accessGroup:(RG_PREFIX_NULLABLE NSString*)accessGroup
                                         synchronized:(BOOL)synchronized NS_DESIGNATED_INITIALIZER;
+
+#pragma mark - Instance Methods
+
+/**
+ @brief Tests whether the cache has a value.  Threadsafe.
+ @param key the key on which to check the cache.  `.namespace` and `accountName` will be applied if available.
+ @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData`.
+ */
+- (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key;
 
 /**
  @brief Primitive method to return the data on `key`.  Threadsafe.
