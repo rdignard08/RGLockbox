@@ -246,7 +246,14 @@ CLASS_SPEC(RGLockbox)
 
 #pragma mark - isSynchronized
 - (void) testReadWriteIsSynchronized {
-    
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:@"com.restgoatee.rglockbox"
+                                                  accessGroup:nil
+                                                 synchronized:YES];
+    [manager setData:[NSData new] forKey:kKey2];
+    id value = [manager dataForKey:kKey2];
+    XCTAssert([value isEqual:[NSData new]]);
 }
 
 - (void) testAllItemsSynchronized {
