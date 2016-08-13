@@ -126,17 +126,17 @@ static NSMutableDictionary* _sValueCache;
     return [self initWithNamespace:rg_bundle_identifier() accessibility:nil accountName:nil];
 }
 
-- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account {
-    return [self initWithNamespace:namespace
+    return [self initWithNamespace:nameSpace
                      accessibility:accessibility
                        accountName:account
                        accessGroup:nil
                       synchronized:NO];
 }
 
-- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account
                                          accessGroup:(RG_PREFIX_NULLABLE NSString*)accessGroup
@@ -144,7 +144,7 @@ static NSMutableDictionary* _sValueCache;
     self = [super init];
     if (self) {
         CFStringRef nonnullAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
-        self->_namespace = namespace;
+        self->_namespace = nameSpace;
         self->_itemAccessibility = nonnullAccessibility;
         self->_accountName = account;
         self->_accessGroup = accessGroup;

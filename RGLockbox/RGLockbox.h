@@ -109,19 +109,19 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 #pragma mark - Initializers
 
 /**
- @param namespace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
+ @param nameSpace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
  @return an instance of `RGLockbox` which has the provided namespace and accessibility.
  @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
-- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account;
 
 /**
- @param namespace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
+ @param nameSpace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
@@ -130,7 +130,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  @return an instance of `RGLockbox` which has the provided parameters.
  @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
-- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account
                                          accessGroup:(RG_PREFIX_NULLABLE NSString*)accessGroup
