@@ -39,6 +39,7 @@ static NSString* testKeys[] = { @"aKey1", @"aKey2" };
 CLASS_SPEC(RGLockbox)
 
 + (void) load {
+    rg_set_logging_severity(kRGLogSeverityTrace);
     initializeKeychain();
     rg_SecItemCopyMatch = &replacementItemCopy;
     rg_SecItemAdd = &replacementAddItem;
@@ -47,24 +48,34 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) tearDown {
-    for (int i = 0; i < 2; i++) {
-        [[RGLockbox manager] setData:nil forKey:testKeys[i]];
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:nil];
+    for (NSString* key in manager.allItems) {
+        [manager setData:nil forKey:key];
     }
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
+    [[RGLockbox valueCache] removeAllObjects];
 }
 
 - (void) setUp {
-    for (int i = 0; i < 2; i++) {
-        [[RGLockbox manager] setData:nil forKey:testKeys[i]];
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:nil];
+    for (NSString* key in manager.allItems) {
+        [manager setData:nil forKey:key];
     }
     dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
     [[RGLockbox valueCache] removeAllObjects];
 }
 
 - (void) testBadInit {
-    method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)), class_getInstanceMethod([NSObject self], @selector(override_init)));
+    method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)),
+                                   class_getInstanceMethod([NSObject self], @selector(override_init)));
     RGLockbox* lockbox = [RGLockbox new];
     XCTAssert(lockbox == nil);
-    method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)), class_getInstanceMethod([NSObject self], @selector(override_init)));
+    method_exchangeImplementations(class_getInstanceMethod([NSObject self], @selector(init)),
+                                   class_getInstanceMethod([NSObject self], @selector(override_init)));
 }
 
 #pragma mark - testCacheForKey
@@ -158,14 +169,45 @@ CLASS_SPEC(RGLockbox)
 
 #pragma mark - Updating
 - (void) testUpdateValue {
-    [[RGLockbox manager] setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    [[RGLockbox manager] setData:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:nil];
+    [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [manager setData:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
     RGMultiStringKey* fullKey = [RGMultiStringKey new];
-    fullKey.first = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey1];
+    fullKey.first = [NSString stringWithFormat:@"%@.%@", manager.namespace, kKey1];
     [[RGLockbox valueCache] removeObjectForKey:fullKey];
-    NSData* data = [[RGLockbox manager] dataForKey:kKey1];
+    NSData* data = [manager dataForKey:kKey1];
     XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
+- (void) testAllItemsNamespaced {
+    [[RGLockbox manager] setData:[NSData new] forKey:kKey1];
+    [[RGLockbox manager] setData:[NSData new] forKey:kKey2];
+    NSMutableArray* keys = [@[ kKey1, kKey2 ] mutableCopy];
+    NSArray* items = [RGLockbox manager].allItems;
+    for (NSString* item in items) {
+        XCTAssert([keys containsObject:item]);
+        [keys removeObject:item];
+    }
+    XCTAssert(keys.count == 0);
+}
+
+- (void) testAllItemsNoNamespace {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:nil];
+    [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]];
+    [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2]];
+    NSMutableArray* keys = [@[ [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1],
+                               [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2] ] mutableCopy];
+    NSArray* items = manager.allItems;
+    for (NSString* item in items) {
+        XCTAssert([keys containsObject:item]);
+        [keys removeObject:item];
+    }
+    XCTAssert(keys.count == 0);
 }
 
 SPEC_END

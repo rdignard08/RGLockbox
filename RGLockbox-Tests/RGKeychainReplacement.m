@@ -35,6 +35,23 @@ OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     [keychainLock lock];
+    if ([(__bridge id)CFDictionaryGetValue(query, kSecMatchLimit) isEqual:(__bridge id)kSecMatchLimitAll]) {
+        NSMutableArray* output = [NSMutableArray new];
+        for (NSString* localAccount in theKeychainLol) {
+            if (!account.length || [localAccount isEqual:account]) {
+                NSArray* keys = [(NSDictionary*)theKeychainLol[account] allKeys];
+                for (NSString* localKey in keys) {
+                    NSDictionary* dict = @{ (__bridge id)kSecAttrService : localKey };
+                    if (![output containsObject:dict]) {
+                        [output addObject:dict];
+                    }
+                }
+            }
+        }
+        [keychainLock unlock];
+        *value = (__bridge_retained CFTypeRef)output;
+        return output.count ? errSecSuccess : errSecItemNotFound;
+    }
     id storedValue = theKeychainLol[account][key];
     [keychainLock unlock];
     if (storedValue) {
