@@ -110,6 +110,8 @@ CLASS_SPEC(RGLockbox)
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:@"com.rglockbox"
                                                 accessibility:kSecAttrAccessibleAlways
                                                   accountName:@"com.restgoatee.rglockbox"];
+    [manager setData:nil forKey:@"abcd"];
+    dispatch_sync([RGLockbox keychainQueue], ^{});
     [manager setData:[NSData new] forKey:@"abcd"];
     id value = [manager testCacheForKey:@"abcd"];
     XCTAssert([value isEqual:[NSData new]]);
@@ -138,11 +140,13 @@ CLASS_SPEC(RGLockbox)
 
 - (void) testReadNotUnlocked {
     [[RGLockbox valueCache] removeAllObjects];
+    void* oldValue = (void*)rg_SecItemCopyMatch;
     rg_SecItemCopyMatch = &replacementItemCopyBad;
     NSData* data = [[RGLockbox manager] dataForKey:kKey1];
     XCTAssert(data == nil);
     XCTAssert([RGLockbox valueCache][kKey1] == nil); // no cache
-    rg_SecItemCopyMatch = &replacementItemCopy;
+    rg_SecItemCopyMatch = (OSStatus(* RG_SUFFIX_NONNULL)(CFDictionaryRef RG_SUFFIX_NONNULL,
+                                                         CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE))oldValue;
 }
 
 - (void) testReadExistDouble {
