@@ -65,15 +65,25 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
 
 /**
- @brief keychain accepts an account name which will be passed this value if provided.
+ @brief Keychain accepts an account name which will be passed this value if provided.
  */
 @property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* accountName;
+
+/**
+ @brief If set will limit this manager to the given accessGroup.
+ */
+@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* accessGroup;
 
 /**
  @brief The default accessibility when assigning to the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
  @note On OS X 7 and 8 the value of this property is sent along with the data, but it is ignored by the system.
  */
 @property RG_NONNULL_PROPERTY(nonatomic, assign, readonly) CFStringRef itemAccessibility;
+
+/**
+ @brief If set will write to the cloud and search there as well.
+ */
+@property (nonatomic, assign, readonly) BOOL isSynchronized;
 
 /**
  @return the singleton instance for managing access to the key chain.  Uses the default namespace.
@@ -105,7 +115,23 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  */
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
-                                         accountName:(RG_PREFIX_NULLABLE NSString*)account NS_DESIGNATED_INITIALIZER;
+                                         accountName:(RG_PREFIX_NULLABLE NSString*)account;
+
+/**
+ @param namespace an optional `NSString` to append to the front of the key given for writing and reading.  Passing `nil`
+   will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
+ @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
+   default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
+ @param accessGroup if provided will limit searches to items in that group.  Also writes items to that group.
+ @param synchronized if provided will attempt synchronize writes to cloud.
+ @return an instance of `RGLockbox` which has the provided parameters.
+ @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
+ */
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+                                       accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
+                                         accountName:(RG_PREFIX_NULLABLE NSString*)account
+                                         accessGroup:(RG_PREFIX_NULLABLE NSString*)accessGroup
+                                        synchronized:(BOOL)synchronized NS_DESIGNATED_INITIALIZER;
 
 /**
  @brief Primitive method to return the data on `key`.  Threadsafe.

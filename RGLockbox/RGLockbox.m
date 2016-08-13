@@ -129,12 +129,26 @@ static NSMutableDictionary* _sValueCache;
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
                                          accountName:(RG_PREFIX_NULLABLE NSString*)account {
+    return [self initWithNamespace:namespace
+                     accessibility:accessibility
+                       accountName:account
+                       accessGroup:nil
+                      synchronized:NO];
+}
+
+- (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)namespace
+                                       accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
+                                         accountName:(RG_PREFIX_NULLABLE NSString*)account
+                                         accessGroup:(RG_PREFIX_NULLABLE NSString*)accessGroup
+                                        synchronized:(BOOL)synchronized {
     self = [super init];
     if (self) {
         CFStringRef nonnullAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
         self->_namespace = namespace;
         self->_itemAccessibility = nonnullAccessibility;
         self->_accountName = account;
+        self->_accessGroup = accessGroup;
+        self->_isSynchronized = synchronized;
     }
     return self;
 }
