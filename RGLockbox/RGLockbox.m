@@ -219,15 +219,16 @@ static NSMutableDictionary* _sValueCache;
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
     });
     [[[self class] valueCacheLock] unlock];
-    NSMutableArray RG_GENERIC(NSString *) *output = [NSMutableArray new];
-    NSArray RG_GENERIC(NSDictionary *) *bridgedArray = (__bridge_transfer NSArray*)items;
+    NSMutableArray RG_GENERIC(NSString *) * output = [NSMutableArray new];
+    NSArray RG_GENERIC(NSDictionary *) * bridgedArray = (__bridge_transfer NSArray*)items;
+    NSString *nameSpace = self.namespace;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
         NSAssert([service isKindOfClass:[NSString self]], @"Wrong type something is really wrong");
-        if (!self.namespace) {
+        if (!nameSpace) {
             [output addObject:service];
-        } else if ([service hasPrefix:(NSString* RG_SUFFIX_NONNULL)self.namespace]) {
-            NSRange range = [service rangeOfString:(NSString* RG_SUFFIX_NONNULL)self.namespace];
+        } else if ([service hasPrefix:nameSpace]) {
+            NSRange range = [service rangeOfString:nameSpace];
             [output addObject:[service substringFromIndex:range.location + range.length + 1]];
         }
     }
