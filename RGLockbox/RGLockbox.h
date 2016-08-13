@@ -62,17 +62,17 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 /**
  @brief Defaults to this class's bundle identifier.
  */
-@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* namespace;
+@property RG_NULLABLE_PROPERTY(nonatomic, copy, readonly) NSString* namespace;
 
 /**
  @brief Keychain accepts an account name which will be passed this value if provided.
  */
-@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* accountName;
+@property RG_NULLABLE_PROPERTY(nonatomic, copy, readonly) NSString* accountName;
 
 /**
  @brief If set will limit this manager to the given accessGroup.
  */
-@property RG_NULLABLE_PROPERTY(nonatomic, strong, readonly) NSString* accessGroup;
+@property RG_NULLABLE_PROPERTY(nonatomic, copy, readonly) NSString* accessGroup;
 
 /**
  @brief The default accessibility when assigning to the keychain, defaults to `kSecAttrAccessibleAfterFirstUnlock`.
