@@ -218,6 +218,23 @@ CLASS_SPEC(RGLockbox)
     XCTAssert(keys.count == 0);
 }
 
+- (void) testAllItemsWithAccount {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:kSecAttrAccessibleAlways
+                                                  accountName:@"com.restgoatee.rglockbox"];
+    [[RGLockbox manager] setData:[NSData new] forKey:@"abcd"];
+    [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]];
+    [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2]];
+    NSMutableArray* keys = [@[ [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1],
+                               [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2] ] mutableCopy];
+    NSArray* items = manager.allItems;
+    for (NSString* item in items) {
+        XCTAssert([keys containsObject:item]);
+        [keys removeObject:item];
+    }
+    XCTAssert(keys.count == 0);
+}
+
 - (void) testDescription {
     NSString* description = [RGLockbox manager].description;
     XCTAssert([description containsString:RG_STRING_SEL(namespace)]);
