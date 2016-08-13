@@ -221,7 +221,7 @@ static NSMutableDictionary* _sValueCache;
     [[[self class] valueCacheLock] unlock];
     NSMutableArray RG_GENERIC(NSString *) * output = [NSMutableArray new];
     NSArray RG_GENERIC(NSDictionary *) * bridgedArray = (__bridge_transfer NSArray*)items;
-    NSString *nameSpace = self.namespace;
+    NSString* nameSpace = self.namespace;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
         NSAssert([service isKindOfClass:[NSString self]], @"Wrong type something is really wrong");
