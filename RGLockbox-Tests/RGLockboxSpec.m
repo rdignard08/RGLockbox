@@ -172,6 +172,10 @@ CLASS_SPEC(RGLockbox)
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
                                                 accessibility:kSecAttrAccessibleAlways
                                                   accountName:nil];
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
+    [manager setData:nil forKey:kKey1];
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
+    [[RGLockbox valueCache] removeAllObjects];
     [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     [manager setData:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
