@@ -219,8 +219,8 @@ static NSMutableDictionary* _sValueCache;
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
     });
     [[[self class] valueCacheLock] unlock];
-    NSMutableArray<NSString *> *output = [NSMutableArray new];
-    NSArray<NSDictionary *> *bridgedArray = (__bridge_transfer NSArray*)items;
+    NSMutableArray RG_GENERIC(NSString *) *output = [NSMutableArray new];
+    NSArray RG_GENERIC(NSDictionary *) *bridgedArray = (__bridge_transfer NSArray*)items;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
         if ([service isKindOfClass:[NSString class]]) {
