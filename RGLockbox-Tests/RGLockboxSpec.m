@@ -252,6 +252,8 @@ CLASS_SPEC(RGLockbox)
                                                   accessGroup:nil
                                                  synchronized:YES];
     [manager setData:[NSData new] forKey:kKey2];
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
+    [[RGLockbox valueCache] removeAllObjects];
     id value = [manager dataForKey:kKey2];
     XCTAssert([value isEqual:[NSData new]]);
 }
