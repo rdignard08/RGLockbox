@@ -264,6 +264,7 @@ CLASS_SPEC(RGLockbox)
                                                   accountName:@"com.restgoatee.rglockbox"
                                                   accessGroup:nil
                                                  synchronized:YES];
+    [[RGLockbox manager] setData:[NSData new] forKey:@"abcd"];
     [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
     [[RGLockbox valueCache] removeAllObjects];

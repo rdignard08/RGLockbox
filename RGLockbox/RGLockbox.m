@@ -180,11 +180,9 @@ static NSMutableDictionary* _sValueCache;
                                 (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                 (__bridge id)kSecAttrService : fullKey.first,
                                 (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                                (__bridge id)kSecReturnData : @YES
+                                (__bridge id)kSecReturnData : @YES,
+                                (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
                                 } mutableCopy];
-        if (self.isSynchronized) {
-            query[(__bridge id)kSecAttrSynchronizable] = @YES;
-        }
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
         }
@@ -206,11 +204,9 @@ static NSMutableDictionary* _sValueCache;
         NSMutableDictionary* query = [@{
                                         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                         (__bridge id)kSecReturnAttributes : @YES,
-                                        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitAll
+                                        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitAll,
+                                        (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
                                         } mutableCopy];
-        if (self.isSynchronized) {
-            query[(__bridge id)kSecAttrSynchronizable] = @YES;
-        }
         if (self.accountName) {
             query[(__bridge id)kSecAttrAccount] = self.accountName;
         }
@@ -245,18 +241,17 @@ static NSMutableDictionary* _sValueCache;
         OSStatus status;
         NSMutableDictionary* query = [@{
                                         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                        (__bridge id)kSecAttrService : fullKey.first
+                                        (__bridge id)kSecAttrService : fullKey.first,
+                                        (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
                                         } mutableCopy];
-        if (self.isSynchronized) {
-            query[(__bridge id)kSecAttrSynchronizable] = @YES;
-        }
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
         }
         if (object) { /* Add or Update... */
             NSDictionary* payload = @{
                                       (__bridge id)kSecValueData : object,
-                                      (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility
+                                      (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility,
+                                      (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
                                       };
             [query addEntriesFromDictionary:payload];
             status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);
