@@ -52,9 +52,9 @@ static const char * const rg_severityDescription(RGLogSeverity severity) {
         case kRGLogSeverityFatal:
             return "Fatal, ";
         case kRGLogSeverityNone:
-        default:
             return "";
     }
+    return "";
 }
 
 static BOOL rg_shouldLog(RGLogSeverity severity) {

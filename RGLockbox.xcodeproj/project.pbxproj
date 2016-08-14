@@ -953,7 +953,10 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WARNING_CFLAGS = "-Wno-gnu";
+				WARNING_CFLAGS = (
+					"-Wno-gnu",
+					"-Wall",
+				);
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -1026,7 +1029,10 @@
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
-				WARNING_CFLAGS = "-Wno-gnu";
+				WARNING_CFLAGS = (
+					"-Wno-gnu",
+					"-Wall",
+				);
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
