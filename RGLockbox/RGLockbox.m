@@ -81,7 +81,7 @@ static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey*
         query[(__bridge id)kSecAttrAccount] = key.second;
     }
     if (key.third) {
-        query[(__bridge id)kSecAttrAccessGroup] = key.third;
+        query[rg_accessgroup_key()] = key.third;
     }
     return query;
 }
