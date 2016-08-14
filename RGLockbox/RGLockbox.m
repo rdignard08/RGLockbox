@@ -175,10 +175,10 @@ static NSMutableDictionary* _sValueCache;
     self = [super init];
     if (self) {
         CFStringRef nonnullAccessibility = accessibility ?: rg_accessibility_default();
-        self->_namespace = nameSpace;
+        self->_namespace = [nameSpace copy];
         self->_itemAccessibility = nonnullAccessibility;
-        self->_accountName = account;
-        self->_accessGroup = accessGroup;
+        self->_accountName = [account copy];
+        self->_accessGroup = [accessGroup copy];
         self->_isSynchronized = synchronized;
     }
     return self;
