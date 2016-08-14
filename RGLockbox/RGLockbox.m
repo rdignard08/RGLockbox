@@ -65,11 +65,9 @@ static RGMultiStringKey* RG_SUFFIX_NONNULL rg_multi_key(NSString* RG_SUFFIX_NULL
     return ret;
 }
 
-static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey* RG_SUFFIX_NULLABLE key, BOOL limit) {
+static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey* RG_SUFFIX_NULLABLE key) {
     NSMutableDictionary* query = [@{
                                     (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                    (__bridge id)kSecMatchLimit : limit ? (__bridge id)kSecMatchLimitOne :
-                                                                          (__bridge id)kSecMatchLimitAll,
                                     rg_synchronizable_key() : rg_synchronizable_any()
                                     } mutableCopy];
     if (key.first) {
@@ -202,7 +200,8 @@ static NSMutableDictionary* _sValueCache;
     __block CFTypeRef data = nil;
     __unused __block OSStatus status;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = rg_generic_query(fullKey, YES);
+        NSMutableDictionary* query = rg_generic_query(fullKey);
+        query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
         query[(__bridge id)kSecReturnData] = @YES;
         status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
         RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
@@ -220,7 +219,8 @@ static NSMutableDictionary* _sValueCache;
     [[[self class] valueCacheLock] lock];
     __block CFTypeRef items = nil;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = rg_generic_query(fullKey, NO);
+        NSMutableDictionary* query = rg_generic_query(fullKey);
+        query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitAll;
         query[(__bridge id)kSecReturnAttributes] = @YES;
         OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &items);
         RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
@@ -248,8 +248,7 @@ static NSMutableDictionary* _sValueCache;
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][fullKey] = object ?: [NSNull null];
     dispatch_async([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = rg_generic_query(fullKey, NO);
-        [query removeObjectForKey:(__bridge id)kSecMatchLimit];
+        NSMutableDictionary* query = rg_generic_query(fullKey);
         OSStatus status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
         RGLogs(kRGLogSeverityTrace, @"SecItemDelete with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
