@@ -36,6 +36,19 @@ NSString* RG_SUFFIX_NONNULL rg_synchronizable_key(void) {
     return synchronizableKey;
 }
 
+NSString* RG_SUFFIX_NONNULL rg_synchronizable_any(void) {
+    static dispatch_once_t onceToken;
+    static NSString* synchronizableAny;
+    dispatch_once(&onceToken, ^{
+        if (&kSecAttrSynchronizableAny) {
+            synchronizableAny = (__bridge id)kSecAttrSynchronizableAny;
+        } else {
+            synchronizableAny = @"syna";
+        }
+    });
+    return synchronizableAny;
+}
+
 NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void) {
     static dispatch_once_t onceToken;
     static NSString* accessibilityKey;

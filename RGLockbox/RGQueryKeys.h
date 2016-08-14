@@ -30,6 +30,11 @@
 NSString* RG_SUFFIX_NONNULL rg_synchronizable_key(void);
 
 /**
+ @return the value of `kSecAttrSynchronizableAny` on all supported platforms.
+ */
+NSString* RG_SUFFIX_NONNULL rg_synchronizable_any(void);
+
+/**
  @return the value of `kSecAttrAccessible` on all supported platforms.
  */
 NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void);

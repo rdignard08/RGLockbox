@@ -72,7 +72,7 @@ static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey*
                                     (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                     (__bridge id)kSecMatchLimit : limit ? (__bridge id)kSecMatchLimitOne :
                                                                           (__bridge id)kSecMatchLimitAll,
-                                    rg_synchronizable_key() : (__bridge id)kSecAttrSynchronizableAny
+                                    rg_synchronizable_key() : rg_synchronizable_any()
                                     } mutableCopy];
     if (key.first) {
         query[(__bridge id)kSecAttrService] = key.first;
