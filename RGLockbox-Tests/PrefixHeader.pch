@@ -14,7 +14,6 @@
 
 OSStatus replacementItemCopy(CFDictionaryRef query, CFTypeRef* value);
 OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* value);
-OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes);
 OSStatus replacementDeleteItem(CFDictionaryRef query);
 void initializeKeychain(void);
 OSStatus replacementItemCopyBad(CFDictionaryRef query, CFTypeRef* value);

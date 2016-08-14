@@ -26,6 +26,11 @@
 #import "NSObject+RGBadInit.h"
 #import "RGMultiStringKey.h"
 
+#define CACHE_PURGE() do { \
+    dispatch_barrier_sync([RGLockbox keychainQueue], ^{}); \
+    [[RGLockbox valueCache] removeAllObjects]; \
+    } while (0)
+
 @interface RGLockbox (RGForwardDeclarations)
 
 + (NSMutableDictionary*)valueCache;
@@ -43,7 +48,6 @@ CLASS_SPEC(RGLockbox)
     initializeKeychain();
     rg_SecItemCopyMatch = &replacementItemCopy;
     rg_SecItemAdd = &replacementAddItem;
-    rg_SecItemUpdate = &replacementUpdateItem;
     rg_SecItemDelete = &replacementDeleteItem;
 }
 
@@ -54,8 +58,7 @@ CLASS_SPEC(RGLockbox)
     for (NSString* key in manager.allItems) {
         [manager setData:nil forKey:key];
     }
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
-    [[RGLockbox valueCache] removeAllObjects];
+    CACHE_PURGE();
 }
 
 - (void) setUp {
@@ -65,8 +68,7 @@ CLASS_SPEC(RGLockbox)
     for (NSString* key in manager.allItems) {
         [manager setData:nil forKey:key];
     }
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
-    [[RGLockbox valueCache] removeAllObjects];
+    CACHE_PURGE();
 }
 
 - (void) testBadInit {
@@ -111,11 +113,11 @@ CLASS_SPEC(RGLockbox)
                                                 accessibility:kSecAttrAccessibleAlways
                                                   accountName:@"com.restgoatee.rglockbox"];
     [manager setData:nil forKey:@"abcd"];
-    dispatch_sync([RGLockbox keychainQueue], ^{});
+    CACHE_PURGE();
     [manager setData:[NSData new] forKey:@"abcd"];
     id value = [manager testCacheForKey:@"abcd"];
     XCTAssert([value isEqual:[NSData new]]);
-    [[[manager class] valueCache] removeAllObjects];
+    CACHE_PURGE();
     value = [manager dataForKey:@"abcd"];
     XCTAssert([value isEqual:[NSData new]]);
 }
@@ -157,9 +159,8 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) testReadNotSeen {
-    NSString* key = [NSString stringWithFormat:@"%@.%@", [RGLockbox manager].namespace, kKey2];
     [[RGLockbox manager] setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
-    [[RGLockbox valueCache] removeObjectForKey:key];
+    CACHE_PURGE();
     NSData* data = [[RGLockbox manager] dataForKey:kKey2];
     XCTAssert([data isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
@@ -176,16 +177,11 @@ CLASS_SPEC(RGLockbox)
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
                                                 accessibility:kSecAttrAccessibleAlways
                                                   accountName:nil];
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
     [manager setData:nil forKey:kKey1];
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
-    [[RGLockbox valueCache] removeAllObjects];
+    CACHE_PURGE();
     [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     [manager setData:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
-    RGMultiStringKey* fullKey = [RGMultiStringKey new];
-    fullKey.first = [NSString stringWithFormat:@"%@.%@", manager.namespace, kKey1];
-    [[RGLockbox valueCache] removeObjectForKey:fullKey];
+    CACHE_PURGE();
     NSData* data = [manager dataForKey:kKey1];
     XCTAssert([data isEqual:[@"qwew" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
@@ -252,8 +248,7 @@ CLASS_SPEC(RGLockbox)
                                                   accessGroup:nil
                                                  synchronized:YES];
     [manager setData:[NSData new] forKey:kKey2];
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
-    [[RGLockbox valueCache] removeAllObjects];
+    CACHE_PURGE();
     id value = [manager dataForKey:kKey2];
     XCTAssert([value isEqual:[NSData new]]);
 }
@@ -266,12 +261,53 @@ CLASS_SPEC(RGLockbox)
                                                  synchronized:YES];
     [[RGLockbox manager] setData:[NSData new] forKey:@"abcd"];
     [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    dispatch_barrier_sync([RGLockbox keychainQueue], ^{});
-    [[RGLockbox valueCache] removeAllObjects];
+    CACHE_PURGE();
     [[RGLockbox manager] setData:[NSData new] forKey:kKey2];
     NSArray* items = manager.allItems;
     XCTAssert([items.firstObject isEqual:kKey1]);
     XCTAssert(items.count == 1);
+}
+
+- (void) testMakeItemSynchronized {
+    RGLockbox* nonSyncManager = [RGLockbox manager];
+    RGLockbox* syncManager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                    accessibility:kSecAttrAccessibleAlways
+                                                      accountName:nil
+                                                      accessGroup:nil
+                                                     synchronized:YES];
+    [nonSyncManager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    id value = [nonSyncManager dataForKey:kKey1];
+    XCTAssert([value isEqual:[@"abew" dataUsingEncoding:NSUTF8StringEncoding]]);
+    CACHE_PURGE();
+    
+    [syncManager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    CACHE_PURGE();
+    value = [syncManager dataForKey:kKey1];
+    XCTAssert([value isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
+    CACHE_PURGE();
+    value = [nonSyncManager dataForKey:kKey1];
+    XCTAssert([value isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
+- (void) testMakeItemNotSynchronized {
+    RGLockbox* nonSyncManager = [RGLockbox manager];
+    RGLockbox* syncManager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                    accessibility:kSecAttrAccessibleAlways
+                                                      accountName:nil
+                                                      accessGroup:nil
+                                                     synchronized:YES];
+    [syncManager setData:[@"qwas" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
+    CACHE_PURGE();
+    id value = [nonSyncManager dataForKey:kKey2];
+    XCTAssert([value isEqual:[@"qwas" dataUsingEncoding:NSUTF8StringEncoding]]);
+    CACHE_PURGE();
+    [nonSyncManager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
+    CACHE_PURGE();
+    value = [nonSyncManager dataForKey:kKey2];
+    XCTAssert([value isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
+    CACHE_PURGE();
+    value = [syncManager dataForKey:kKey2];
+    XCTAssert([value isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
 SPEC_END

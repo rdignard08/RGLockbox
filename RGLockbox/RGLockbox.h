@@ -45,12 +45,6 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NO
                                                     CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE);
 
 /**
- @brief C function used to update an existing item in the keychain.  Defaults to `SecItemUpdate`.
- */
-extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL,
-                                                       CFDictionaryRef RG_SUFFIX_NONNULL);
-
-/**
  @brief C function used to delete an item from the keychain.  Defaults to `SecItemDelete`.
  */
 extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL);

@@ -60,8 +60,6 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NON
                                                    CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL,
                                              CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
-OSStatus (* RG_SUFFIX_NONNULL rg_SecItemUpdate)(CFDictionaryRef RG_SUFFIX_NONNULL,
-                                                CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemUpdate;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
 
 #pragma mark - RGLockbox Implementation
@@ -246,26 +244,19 @@ static NSMutableDictionary* _sValueCache;
         if (fullKey.second) {
             query[(__bridge id)kSecAttrAccount] = fullKey.second;
         }
-        if (object) { /* Add or Update... */
-            NSDictionary* payload = @{
-                                      (__bridge id)kSecValueData : object,
-                                      (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility,
-                                      (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
-                                      };
-            [query addEntriesFromDictionary:payload];
-            OSStatus status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);
-            RGLogs(kRGLogSeverityTrace, @"SecItemAdd with %@ returned %@", query, @(status));
-            NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
-            if (status == errSecDuplicateItem) { /* Duplicate so update */
-                status = rg_SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)payload);
-                RGLogs(kRGLogSeverityTrace, @"SecItemUpdate with %@ and %@ returned %@", query, payload, @(status));
-                NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
-            }
-            return;
-        } /* Not Add or Update, must be delete */
         OSStatus status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
         RGLogs(kRGLogSeverityTrace, @"SecItemDelete with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
+        if (object) { /* Add it */
+            [query addEntriesFromDictionary:@{
+                                              (__bridge id)kSecValueData : object,
+                                              (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility,
+                                              (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
+                                              }];
+            status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+            RGLogs(kRGLogSeverityTrace, @"SecItemAdd with %@ returned %@", query, @(status));
+            NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
+        }
     });
     [[[self class] valueCacheLock] unlock];
 }

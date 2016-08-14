@@ -76,16 +76,6 @@ OSStatus replacementAddItem(CFDictionaryRef query, CFTypeRef* __unused value) {
     return errSecDuplicateItem;
 }
 
-OSStatus replacementUpdateItem(CFDictionaryRef query, CFDictionaryRef attributes) {
-    NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
-    NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
-    NSData* data = (__bridge NSData*)CFDictionaryGetValue(attributes, kSecValueData);
-    [keychainLock lock];
-    theKeychainLol[account][key] = data;
-    [keychainLock unlock];
-    return errSecSuccess;
-}
-
 OSStatus replacementDeleteItem(CFDictionaryRef query) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
