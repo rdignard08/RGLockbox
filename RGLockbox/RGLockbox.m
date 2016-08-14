@@ -258,7 +258,7 @@ static NSMutableDictionary* _sValueCache;
         if (object) { /* Add it */
             [query addEntriesFromDictionary:@{
                                               (__bridge id)kSecValueData : object,
-                                              (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility,
+                                              rg_accessibility_key() : (__bridge id)self.itemAccessibility,
                                               rg_synchronizable_key() : @(self.isSynchronized)
                                               }];
             status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);

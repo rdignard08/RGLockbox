@@ -35,3 +35,20 @@ NSString* RG_SUFFIX_NONNULL rg_synchronizable_key(void) {
     });
     return synchronizableKey;
 }
+
+NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void) {
+    static dispatch_once_t onceToken;
+    static NSString* accessibilityKey;
+    dispatch_once(&onceToken, ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpointer-bool-conversion"
+#pragma clang diagnostic ignored "-Wunreachable-code"
+        if (&kSecAttrAccessible) {
+            accessibilityKey = (__bridge id)kSecAttrAccessible;
+        } else {
+            accessibilityKey = @"pdmn";
+        }
+#pragma clang diagnostic pop
+    });
+    return accessibilityKey;
+}
