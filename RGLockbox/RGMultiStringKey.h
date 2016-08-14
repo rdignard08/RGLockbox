@@ -26,7 +26,7 @@
 
 /**
  @brief `RGMultiStringKey` is meant to represent a set of keys for use with `NSDictionary`.  Can represent null too.
-  Technically this is only a `Pair<NSString*, NSString*>`, but it could be expanded.
+  Technically this is only a `Triple<NSString*, NSString*, NSString*>`, but it could be expanded.
  */
 @interface RGMultiStringKey : NSObject <NSCopying>
 
@@ -39,5 +39,10 @@
  @brief The second string component of the key.  When reversed will not necessarily result in the same hash value.
  */
 @property RG_NULLABLE_PROPERTY(nonatomic, copy) NSString* second;
+
+/**
+ @brief The third string component of the key.
+ */
+@property RG_NULLABLE_PROPERTY(nonatomic, copy) NSString* third;
 
 @end

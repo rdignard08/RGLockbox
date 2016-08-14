@@ -44,14 +44,42 @@ CLASS_SPEC(RGMultiStringKey)
     XCTAssert([key1 hash] == [key2 hash]);
 }
 
+- (void) testBothUsedAndNotEqual {
+    RGMultiStringKey* key1 = [RGMultiStringKey new];
+    key1.first = @"abcd";
+    key1.second = @"qwe";
+    key1.third = @".com";
+    RGMultiStringKey* key2 = [RGMultiStringKey new];
+    key2.first = @"abcd";
+    key2.second = @"qwe";
+    XCTAssert(![key1 isEqual:key2]);
+    XCTAssert([key1 hash] != [key2 hash]);
+}
+
+- (void) testThirdUsedAndEqual {
+    RGMultiStringKey* key1 = [RGMultiStringKey new];
+    key1.first = @"abcd";
+    key1.second = @"qwe";
+    key1.third = @".com";
+    RGMultiStringKey* key2 = [RGMultiStringKey new];
+    key2.first = @"abcd";
+    key2.second = @"qwe";
+    key2.third = @".com";
+    XCTAssert([key1 isEqual:key2]);
+    XCTAssert([key1 hash] == [key2 hash]);
+}
+
 - (void) testDescription {
     RGMultiStringKey* key = [RGMultiStringKey new];
     key.first = @"abcd";
     key.second = @"aString";
+    key.third = @"aThird";
     XCTAssert([key.description containsString:RG_STRING_SEL(first)]);
     XCTAssert([key.description containsString:(NSString*)key.first]);
     XCTAssert([key.description containsString:RG_STRING_SEL(second)]);
     XCTAssert([key.description containsString:(NSString*)key.second]);
+    XCTAssert([key.description containsString:RG_STRING_SEL(third)]);
+    XCTAssert([key.description containsString:(NSString*)key.third]);
 }
 
 SPEC_END

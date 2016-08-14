@@ -30,22 +30,28 @@
 - (BOOL) isEqual:(RGMultiStringKey*)object {
     return [object isMemberOfClass:[self class]] &&
            ((!object.first && !self.first) || [object.first isEqual:self.first]) &&
-           ((!object.second && !self.second) || [object.second isEqual:self.second]);
+           ((!object.second && !self.second) || [object.second isEqual:self.second]) &&
+           ((!object.third && !self.third) || [object.third isEqual:self.third]);
 }
 
 - (NSUInteger) hash { /* without rotate, first = hello, second = world would have the same hash as (world, hello) */
-    return self.first.hash ^ RIGHT_ROTATE(self.second.hash, 13);
+    return self.first.hash ^ RIGHT_ROTATE(self.second.hash, 13) ^ RIGHT_ROTATE(self.third.hash, 7);
 }
 
 - (id) copyWithZone:(__unused NSZone *)zone {
     RGMultiStringKey* copy = [[self class] new];
     copy->_first = self->_first;
     copy->_second = self->_second;
+    copy->_third = self->_third;
     return copy;
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@\n\tfirst:%@\n\tsecond:%@", super.description, self.first, self.second];
+    return [NSString stringWithFormat:@"%@\n\tfirst:%@\n\tsecond:%@\n\tthird:%@",
+                                      super.description,
+                                      self.first,
+                                      self.second,
+                                      self.third];
 }
 
 @end
