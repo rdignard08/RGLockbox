@@ -60,4 +60,8 @@ CLASS_SPEC(RGLog)
     RGLogs(kRGLogSeverityNone, @"Hello None");
 }
 
+- (void) testBadSeverity {
+    RGLogs((RGLogSeverity)INT_MAX, @"Hello Problem");
+}
+
 SPEC_END
