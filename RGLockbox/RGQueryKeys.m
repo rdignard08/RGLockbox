@@ -90,4 +90,3 @@ NSString* RG_SUFFIX_NONNULL rg_accessgroup_key(void) {
     });
     return accessgroupKey;
 }
-#pragma clang diagnostic pop
