@@ -55,6 +55,15 @@ static NSString* RG_SUFFIX_NONNULL backing_rg_bundle_identifier(void) {
 }
 NSString* RG_SUFFIX_NONNULL (* RG_SUFFIX_NONNULL rg_bundle_identifier)(void) = backing_rg_bundle_identifier;
 
+static RGMultiStringKey* RG_SUFFIX_NONNULL rg_multi_key(NSString* RG_SUFFIX_NULLABLE nameSpace,
+                                                        NSString* RG_SUFFIX_NONNULL key,
+                                                        NSString* RG_SUFFIX_NULLABLE accountName) {
+    RGMultiStringKey* ret = [RGMultiStringKey new];
+    ret.first = nameSpace ? [NSString stringWithFormat:@"%@.%@", nameSpace, key] : key;
+    ret.second = accountName;
+    return ret;
+}
+
 #pragma mark - Keychain Function Pointers
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL,
                                                    CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
@@ -152,19 +161,14 @@ static NSMutableDictionary* _sValueCache;
 }
 
 - (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key {
-    RGMultiStringKey* fullKey = [RGMultiStringKey new];
-    fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    fullKey.second = self.accountName;
     [[[self class] valueCacheLock] lock];
-    id value = [[self class] valueCache][fullKey];
+    id value = [[self class] valueCache][rg_multi_key(self.namespace, key, self.accountName)];
     [[[self class] valueCacheLock] unlock];
     return value;
 }
 
 - (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key {
-    RGMultiStringKey* fullKey = [RGMultiStringKey new];
-    fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    fullKey.second = self.accountName;
+    RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName);
     [[[self class] valueCacheLock] lock];
     id value = [[self class] valueCache][fullKey];
     if (value) {
@@ -230,9 +234,7 @@ static NSMutableDictionary* _sValueCache;
 }
 
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    RGMultiStringKey* fullKey = [RGMultiStringKey new];
-    fullKey.first = self.namespace ? [NSString stringWithFormat:@"%@.%@", self.namespace, key] : key;
-    fullKey.second = self.accountName;
+    RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName);
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][fullKey] = object ?: [NSNull null];
     dispatch_async([[self class] keychainQueue], ^{
