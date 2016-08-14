@@ -81,7 +81,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NONNULL_PROPERTY(nonatomic, assign, readonly) CFStringRef itemAccessibility;
 
 /**
- @brief If set will write to the cloud and search there as well.
+ @brief This value will be written to new or changed items; if set will write to the cloud.
  */
 @property (nonatomic, assign, readonly) BOOL isSynchronized;
 
