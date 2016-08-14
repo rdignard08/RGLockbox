@@ -151,7 +151,11 @@ static NSMutableDictionary* _sValueCache;
 
 #pragma mark - Public Methods
 - (RG_PREFIX_NONNULL instancetype) init {
-    return [self initWithNamespace:rg_bundle_identifier() accessibility:nil accountName:nil];
+    return [self initWithNamespace:rg_bundle_identifier()
+                     accessibility:nil
+                       accountName:nil
+                       accessGroup:nil
+                      synchronized:NO];
 }
 
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
