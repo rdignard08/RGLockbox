@@ -119,8 +119,8 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
- @param accessGroup if provided will limit searches to items in that group.  Also writes items to that group.
- @param synchronized if provided will attempt synchronize writes to cloud.
+ @param accessGroup if provided will limit searches and writes to items in that group.
+ @param synchronized if provided will attempt synchronize writes to cloud.  Default is `NO`.
  @return an instance of `RGLockbox` which has the provided parameters.
  @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
