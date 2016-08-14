@@ -54,7 +54,9 @@ CLASS_SPEC(RGLockbox)
 - (void) tearDown {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:nil];
+                                                  accountName:nil
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     for (NSString* key in manager.allItems) {
         [manager setData:nil forKey:key];
     }
@@ -64,7 +66,9 @@ CLASS_SPEC(RGLockbox)
 - (void) setUp {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:nil];
+                                                  accountName:nil
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     for (NSString* key in manager.allItems) {
         [manager setData:nil forKey:key];
     }
@@ -101,7 +105,9 @@ CLASS_SPEC(RGLockbox)
 - (void) testCacheNoNamespace {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:nil];
+                                                  accountName:nil
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     [manager setData:[NSData new] forKey:@"com.abcd.www"];
     id value = [manager testCacheForKey:@"com.abcd.www"];
     XCTAssert([value isEqual:[NSData new]]);
@@ -111,7 +117,9 @@ CLASS_SPEC(RGLockbox)
 - (void) testReadWriteAccountName {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:@"com.rglockbox"
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:@"com.restgoatee.rglockbox"];
+                                                  accountName:@"com.restgoatee.rglockbox"
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     [manager setData:nil forKey:@"abcd"];
     CACHE_PURGE();
     [manager setData:[NSData new] forKey:@"abcd"];
@@ -166,7 +174,11 @@ CLASS_SPEC(RGLockbox)
 }
 
 - (void) testReadNoNameSpace {
-    RGLockbox* rawAccess = [[RGLockbox alloc] initWithNamespace:nil accessibility:nil accountName:nil];
+    RGLockbox* rawAccess = [[RGLockbox alloc] initWithNamespace:nil
+                                                  accessibility:nil
+                                                    accountName:nil
+                                                    accessGroup:nil
+                                                   synchronized:NO];
     [rawAccess setData:[@"abes" dataUsingEncoding:NSUTF8StringEncoding] forKey:@"com.restgoatee.rglockbox.foobar"];
     NSData* data = [rawAccess dataForKey:@"com.restgoatee.rglockbox.foobar"];
     XCTAssert([data isEqual:[@"abes" dataUsingEncoding:NSUTF8StringEncoding]]);
@@ -176,7 +188,9 @@ CLASS_SPEC(RGLockbox)
 - (void) testUpdateValue {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:nil];
+                                                  accountName:nil
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     [manager setData:nil forKey:kKey1];
     CACHE_PURGE();
     [manager setData:[@"abew" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
@@ -201,7 +215,9 @@ CLASS_SPEC(RGLockbox)
 - (void) testAllItemsNoNamespace {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:nil];
+                                                  accountName:nil
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]];
     [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2]];
     NSMutableArray* keys = [@[ [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1],
@@ -217,7 +233,9 @@ CLASS_SPEC(RGLockbox)
 - (void) testAllItemsWithAccount {
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
                                                 accessibility:kSecAttrAccessibleAlways
-                                                  accountName:@"com.restgoatee.rglockbox"];
+                                                  accountName:@"com.restgoatee.rglockbox"
+                                                  accessGroup:nil
+                                                 synchronized:NO];
     [[RGLockbox manager] setData:[NSData new] forKey:@"abcd"];
     [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]];
     [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2]];
@@ -308,6 +326,29 @@ CLASS_SPEC(RGLockbox)
     CACHE_PURGE();
     value = [syncManager dataForKey:kKey2];
     XCTAssert([value isEqual:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
+#pragma mark - accessGroup
+- (void) testAccessGroupSameGroup {
+    RGLockbox* manager1 = [[RGLockbox alloc] initWithNamespace:nil
+                                                 accessibility:nil
+                                                   accountName:nil
+                                                   accessGroup:@"com.restgoatee.lockbox"
+                                                  synchronized:YES];
+    RGLockbox* manager2 = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                 accessibility:nil
+                                                   accountName:nil
+                                                   accessGroup:@"com.restgoatee.lockbox"
+                                                  synchronized:NO];
+    RGLockbox* manager3 = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier()
+                                                 accessibility:nil
+                                                   accountName:nil
+                                                   accessGroup:@"com.restgoatee.other"
+                                                  synchronized:NO];
+    [manager1 setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]];
+    [manager3 setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    id value = [manager2 dataForKey:kKey1];
+    XCTAssert([value isEqual:[NSData new]]);
 }
 
 SPEC_END
