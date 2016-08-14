@@ -56,12 +56,28 @@ static NSString* RG_SUFFIX_NONNULL backing_rg_bundle_identifier(void) {
 NSString* RG_SUFFIX_NONNULL (* RG_SUFFIX_NONNULL rg_bundle_identifier)(void) = backing_rg_bundle_identifier;
 
 static RGMultiStringKey* RG_SUFFIX_NONNULL rg_multi_key(NSString* RG_SUFFIX_NULLABLE nameSpace,
-                                                        NSString* RG_SUFFIX_NONNULL key,
+                                                        NSString* RG_SUFFIX_NULLABLE key,
                                                         NSString* RG_SUFFIX_NULLABLE accountName) {
     RGMultiStringKey* ret = [RGMultiStringKey new];
     ret.first = nameSpace ? [NSString stringWithFormat:@"%@.%@", nameSpace, key] : key;
     ret.second = accountName;
     return ret;
+}
+
+static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey* RG_SUFFIX_NULLABLE key, BOOL limit) {
+    NSMutableDictionary* query = [@{
+                                    (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+                                    (__bridge id)kSecMatchLimit : limit ? (__bridge id)kSecMatchLimitOne :
+                                                                          (__bridge id)kSecMatchLimitAll,
+                                    (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
+                                    } mutableCopy];
+    if (key.first) {
+        query[(__bridge id)kSecAttrService] = key.first;
+    }
+    if (key.second) {
+        query[(__bridge id)kSecAttrAccount] = key.second;
+    }
+    return query;
 }
 
 #pragma mark - Keychain Function Pointers
@@ -178,16 +194,8 @@ static NSMutableDictionary* _sValueCache;
     __block CFTypeRef data = nil;
     __unused __block OSStatus status;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = [@{
-                                (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                (__bridge id)kSecAttrService : fullKey.first,
-                                (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
-                                (__bridge id)kSecReturnData : @YES,
-                                (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
-                                } mutableCopy];
-        if (fullKey.second) {
-            query[(__bridge id)kSecAttrAccount] = fullKey.second;
-        }
+        NSMutableDictionary* query = rg_generic_query(fullKey, YES);
+        query[(__bridge id)kSecReturnData] = @YES;
         status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
         RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
     });
@@ -200,18 +208,12 @@ static NSMutableDictionary* _sValueCache;
 }
 
 - (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString *) *) allItems {
+    RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName);
     [[[self class] valueCacheLock] lock];
     __block CFTypeRef items = nil;
     dispatch_sync([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = [@{
-                                        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                        (__bridge id)kSecReturnAttributes : @YES,
-                                        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitAll,
-                                        (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
-                                        } mutableCopy];
-        if (self.accountName) {
-            query[(__bridge id)kSecAttrAccount] = self.accountName;
-        }
+        NSMutableDictionary* query = rg_generic_query(fullKey, NO);
+        query[(__bridge id)kSecReturnAttributes] = @YES;
         OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &items);
         RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
@@ -238,14 +240,7 @@ static NSMutableDictionary* _sValueCache;
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][fullKey] = object ?: [NSNull null];
     dispatch_async([[self class] keychainQueue], ^{
-        NSMutableDictionary* query = [@{
-                                        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                        (__bridge id)kSecAttrService : fullKey.first,
-                                        (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
-                                        } mutableCopy];
-        if (fullKey.second) {
-            query[(__bridge id)kSecAttrAccount] = fullKey.second;
-        }
+        NSMutableDictionary* query = rg_generic_query(fullKey, NO);
         OSStatus status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
         RGLogs(kRGLogSeverityTrace, @"SecItemDelete with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
