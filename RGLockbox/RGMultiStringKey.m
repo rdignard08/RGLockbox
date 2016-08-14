@@ -23,7 +23,7 @@
 
 #import "RGMultiStringKey.h"
 
-#define RIGHT_ROTATE_13(number) ((number << 13) | (number >> (sizeof(NSUInteger) * CHAR_BIT - 13)))
+#define RIGHT_ROTATE(target, bits) ((target << bits) | (target >> (sizeof(NSUInteger) * CHAR_BIT - bits)))
 
 @implementation RGMultiStringKey
 
@@ -34,7 +34,7 @@
 }
 
 - (NSUInteger) hash { /* without rotate, first = hello, second = world would have the same hash as (world, hello) */
-    return self.first.hash ^ RIGHT_ROTATE_13(self.second.hash);
+    return self.first.hash ^ RIGHT_ROTATE(self.second.hash, 13);
 }
 
 - (id) copyWithZone:(__unused NSZone *)zone {
