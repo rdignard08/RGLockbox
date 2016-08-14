@@ -84,6 +84,14 @@ CLASS_SPEC(RGLockbox)
                                    class_getInstanceMethod([NSObject self], @selector(override_init)));
 }
 
+- (void) testOldInt {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier() accessibility:nil accountName:nil];
+#pragma clang diagnostic pop
+    XCTAssert(manager.itemAccessibility == kSecAttrAccessibleAfterFirstUnlock);
+}
+
 #pragma mark - testCacheForKey
 - (void) testCacheNil {
     id value = [[RGLockbox manager] testCacheForKey:kKey1];
