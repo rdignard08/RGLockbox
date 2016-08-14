@@ -57,10 +57,12 @@ NSString* RG_SUFFIX_NONNULL (* RG_SUFFIX_NONNULL rg_bundle_identifier)(void) = b
 
 static RGMultiStringKey* RG_SUFFIX_NONNULL rg_multi_key(NSString* RG_SUFFIX_NULLABLE nameSpace,
                                                         NSString* RG_SUFFIX_NULLABLE key,
-                                                        NSString* RG_SUFFIX_NULLABLE accountName) {
+                                                        NSString* RG_SUFFIX_NULLABLE accountName,
+                                                        NSString* RG_SUFFIX_NULLABLE accessGroup) {
     RGMultiStringKey* ret = [RGMultiStringKey new];
     ret.first = nameSpace ? [NSString stringWithFormat:@"%@.%@", nameSpace, key] : key;
     ret.second = accountName;
+    ret.third = accessGroup;
     return ret;
 }
 
@@ -76,6 +78,9 @@ static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey*
     }
     if (key.second) {
         query[(__bridge id)kSecAttrAccount] = key.second;
+    }
+    if (key.third) {
+        query[(__bridge id)kSecAttrAccessGroup] = key.third;
     }
     return query;
 }
@@ -178,13 +183,13 @@ static NSMutableDictionary* _sValueCache;
 
 - (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key {
     [[[self class] valueCacheLock] lock];
-    id value = [[self class] valueCache][rg_multi_key(self.namespace, key, self.accountName)];
+    id value = [[self class] valueCache][rg_multi_key(self.namespace, key, self.accountName, self.accessGroup)];
     [[[self class] valueCacheLock] unlock];
     return value;
 }
 
 - (RG_PREFIX_NULLABLE NSData*) dataForKey:(RG_PREFIX_NONNULL NSString*)key {
-    RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName);
+    RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName, self.accessGroup);
     [[[self class] valueCacheLock] lock];
     id value = [[self class] valueCache][fullKey];
     if (value) {
@@ -208,7 +213,7 @@ static NSMutableDictionary* _sValueCache;
 }
 
 - (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString *) *) allItems {
-    RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName);
+    RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName, self.accessGroup);
     [[[self class] valueCacheLock] lock];
     __block CFTypeRef items = nil;
     dispatch_sync([[self class] keychainQueue], ^{
@@ -236,11 +241,12 @@ static NSMutableDictionary* _sValueCache;
 }
 
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
-    RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName);
+    RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName, self.accessGroup);
     [[[self class] valueCacheLock] lock];
     [[self class] valueCache][fullKey] = object ?: [NSNull null];
     dispatch_async([[self class] keychainQueue], ^{
         NSMutableDictionary* query = rg_generic_query(fullKey, NO);
+        [query removeObjectForKey:(__bridge id)kSecMatchLimit];
         OSStatus status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
         RGLogs(kRGLogSeverityTrace, @"SecItemDelete with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
