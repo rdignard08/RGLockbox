@@ -641,6 +641,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.restgoatee.RGLockbox-Tests";
@@ -655,6 +656,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.restgoatee.RGLockbox-Tests";
