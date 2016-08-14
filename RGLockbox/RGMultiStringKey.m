@@ -44,4 +44,8 @@
     return copy;
 }
 
+- (NSString*) description {
+    return [NSString stringWithFormat:@"%@\n\tfirst:%@\n\tsecond:%@", super.description, self.first, self.second];
+}
+
 @end

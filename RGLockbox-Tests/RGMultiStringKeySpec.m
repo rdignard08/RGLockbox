@@ -44,4 +44,14 @@ CLASS_SPEC(RGMultiStringKey)
     XCTAssert([key1 hash] == [key2 hash]);
 }
 
+- (void) testDescription {
+    RGMultiStringKey* key = [RGMultiStringKey new];
+    key.first = @"abcd";
+    key.second = @"aString";
+    XCTAssert([key.description containsString:RG_STRING_SEL(first)]);
+    XCTAssert([key.description containsString:(NSString*)key.first]);
+    XCTAssert([key.description containsString:RG_STRING_SEL(second)]);
+    XCTAssert([key.description containsString:(NSString*)key.second]);
+}
+
 SPEC_END
