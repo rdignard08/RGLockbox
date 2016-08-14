@@ -29,7 +29,7 @@
 #pragma mark - Global Symbols
 
 /**
- @brief Use this function to get the default namespace if you create your own `RGLockbox` but only wish to change the
+ @brief Use this function to get the default namespace if you create your own `RGLockbox*` but only wish to change the
    `itemAccessibility`.
  */
 extern NSString* RG_SUFFIX_NONNULL (* RG_SUFFIX_NONNULL rg_bundle_identifier)(void);
@@ -55,7 +55,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 
 /**
  @brief `RGLockbox` is a keychain manager class.  It provides the rudimentary actions get, add, update, delete on
-   `NSData` instances.  The class is threadsafe and may be read from and written to on multiple threads simultaneously.
+   `NSData*` instances.  The class is threadsafe and may be read from and written to on multiple threads simultaneously.
  */
 @interface RGLockbox : NSObject
 
@@ -72,7 +72,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NULLABLE_PROPERTY(nonatomic, copy, readonly) NSString* accountName;
 
 /**
- @brief If set will limit this manager to the given accessGroup.
+ @brief If set will limit this manager to the given accessGroup.  Ignored on OSX 10.7, 10.8
  */
 @property RG_NULLABLE_PROPERTY(nonatomic, copy, readonly) NSString* accessGroup;
 
@@ -83,7 +83,8 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 @property RG_NONNULL_PROPERTY(nonatomic, assign, readonly) CFStringRef itemAccessibility;
 
 /**
- @brief This value will be written to new or changed items; if set will write to the cloud.
+ @brief This value will be written to new or changed items; if set will write to the cloud.  Ignored on OSX: 10.7, 10.8;
+   iOS: 5.0, 6.0
  */
 @property (nonatomic, assign, readonly) BOOL isSynchronized;
 
@@ -109,6 +110,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
    default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
+ @param account an optional `NSString*` to limit this manager to a particular account.
  @return an instance of `RGLockbox` which has the provided namespace and accessibility.
  @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
@@ -120,11 +122,13 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  @param nameSpace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
    will not prefix it with anything.  The default with `-init` is `rg_bundle_identifier()`.
  @param accessibility an optional `CFStringRef` to modify the accessibility of the items written.  Pass `nil` for the
-   default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.
- @param accessGroup if provided will limit searches and writes to items in that group.
- @param synchronized if provided will attempt synchronize writes to cloud.  Default is `NO`.
+   default which is `kSecAttrAccessibleAfterFirstUnlock`.  See <Security/SecItem.h> for other options.   Ignored on OSX:
+   10.7, 10.8
+ @param account an optional `NSString*` to limit this manager to a particular account.
+ @param accessGroup if provided will limit searches and writes to items in that group.  Ignored on OSX: 10.7, 10.8
+ @param synchronized if provided will attempt synchronize writes to cloud.  Default is `NO`. Ignored on  OSX: 10.7, 10.8;
+   iOS: 5.0, 6.0
  @return an instance of `RGLockbox` which has the provided parameters.
- @note On OS X 7 and 8 the value of `accessibility` is sent along with the data, but it is ignored by the system.
  */
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
@@ -136,8 +140,8 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 
 /**
  @brief Tests whether the cache has a value.  Threadsafe.
- @param key the key on which to check the cache.  `.namespace` and `accountName` will be applied if available.
- @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise `NSData*`.
+ @param key the key on which to check the cache.  `namespace`, `accessGroup` and `accountName` will be applied.
+ @return `nil` if never seen before.  `+[NSNull null]` if seen but the value was not found.  Otherwise an `NSData*`.
  */
 - (RG_PREFIX_NULLABLE id) testCacheForKey:(RG_PREFIX_NONNULL NSString*)key;
 

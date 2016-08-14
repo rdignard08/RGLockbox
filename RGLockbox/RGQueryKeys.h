@@ -25,26 +25,26 @@
 #import "RGDefines.h"
 
 /**
- @return the value of `kSecAttrSynchronizable` on all supported platforms.
+ @return the value of `kSecAttrSynchronizable` on all supported platforms.  OSX: 10.7, 10.8; iOS: 5.0, 6.0 
  */
 NSString* RG_SUFFIX_NONNULL rg_synchronizable_key(void);
 
 /**
- @return the value of `kSecAttrSynchronizableAny` on all supported platforms.
+ @return the value of `kSecAttrSynchronizableAny` on all supported platforms.  OSX: 10.7, 10.8; iOS: 5.0, 6.0
  */
 NSString* RG_SUFFIX_NONNULL rg_synchronizable_any(void);
 
 /**
- @return the value of `kSecAttrAccessible` on all supported platforms.
+ @return the value of `kSecAttrAccessible` on all supported platforms.  OSX 10.7, 10.8
  */
 NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void);
 
 /**
- @return the value of `kSecAttrAccessibleAfterFirstUnlock` on all supported platforms.
+ @return the value of `kSecAttrAccessibleAfterFirstUnlock` on all supported platforms.  OSX 10.7, 10.8
  */
 CFStringRef RG_SUFFIX_NONNULL rg_accessibility_default(void);
 
 /**
- @return the value of `kSecAttrAccessGroup` on all supported platforms.
+ @return the value of `kSecAttrAccessGroup` on all supported platforms.  OSX 10.7, 10.8
  */
 NSString* RG_SUFFIX_NONNULL rg_accessgroup_key(void);
