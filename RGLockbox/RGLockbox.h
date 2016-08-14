@@ -112,7 +112,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
  */
 - (RG_PREFIX_NONNULL instancetype) initWithNamespace:(RG_PREFIX_NULLABLE NSString*)nameSpace
                                        accessibility:(RG_PREFIX_NULLABLE CFStringRef)accessibility
-                                         accountName:(RG_PREFIX_NULLABLE NSString*)account;
+                                         accountName:(RG_PREFIX_NULLABLE NSString*)account __attribute__((deprecated));
 
 /**
  @param nameSpace an optional `NSString*` to append to the front of the key given for writing and reading.  Passing `nil`
