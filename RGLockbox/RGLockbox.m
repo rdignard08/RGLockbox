@@ -23,6 +23,7 @@
 
 #import "RGLockbox.h"
 #import "RGMultiStringKey.h"
+#import "RGQueryKeys.h"
 #import <Security/Security.h>
 #import <objc/runtime.h>
 
@@ -71,7 +72,7 @@ static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey*
                                     (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
                                     (__bridge id)kSecMatchLimit : limit ? (__bridge id)kSecMatchLimitOne :
                                                                           (__bridge id)kSecMatchLimitAll,
-                                    (__bridge id)kSecAttrSynchronizable : (__bridge id)kSecAttrSynchronizableAny
+                                    rg_synchronizable_key() : (__bridge id)kSecAttrSynchronizableAny
                                     } mutableCopy];
     if (key.first) {
         query[(__bridge id)kSecAttrService] = key.first;
@@ -258,7 +259,7 @@ static NSMutableDictionary* _sValueCache;
             [query addEntriesFromDictionary:@{
                                               (__bridge id)kSecValueData : object,
                                               (__bridge id)kSecAttrAccessible : (__bridge id)self.itemAccessibility,
-                                              (__bridge id)kSecAttrSynchronizable : @(self.isSynchronized)
+                                              rg_synchronizable_key() : @(self.isSynchronized)
                                               }];
             status = rg_SecItemAdd((__bridge CFDictionaryRef)query, NULL);
             RGLogs(kRGLogSeverityTrace, @"SecItemAdd with %@ returned %@", query, @(status));
