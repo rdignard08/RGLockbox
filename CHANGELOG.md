@@ -1,3 +1,10 @@
+## 1.4.4
+- New parameters `accessGroup` and `isSynchronized` used on platforms where available
+- New initializer, old one is deprecated
+- New method `allItems` to see all keys available to this manager
+- The properties `namespace`, `accountName` are `copy` for safety purposes
+- The symbol `rg_SecItemUpdate` is gone as the library logic is tweaked to delete->add 
+
 ## 1.4.3
 - A new log facility `RGLogs()` is available to log based on a severity level
 - `RGLog()` has the same behavior but uses the new log backend
