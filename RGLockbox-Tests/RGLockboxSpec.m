@@ -89,7 +89,7 @@ CLASS_SPEC(RGLockbox)
 #pragma clang diagnostic ignored "-Wdeprecated"
     RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:rg_bundle_identifier() accessibility:nil accountName:nil];
 #pragma clang diagnostic pop
-    XCTAssert(manager.itemAccessibility == kSecAttrAccessibleAfterFirstUnlock);
+    XCTAssert(manager.itemAccessibility == rg_accessibility_default());
 }
 
 #pragma mark - testCacheForKey

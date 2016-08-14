@@ -65,6 +65,19 @@ NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void) {
     return accessibilityKey;
 }
 
+CFStringRef RG_SUFFIX_NONNULL rg_accessibility_default(void) {
+    static dispatch_once_t onceToken;
+    static CFStringRef accessibilityDefault;
+    dispatch_once(&onceToken, ^{
+        if (&kSecAttrAccessibleAfterFirstUnlock) {
+            accessibilityDefault = kSecAttrAccessibleAfterFirstUnlock;
+        } else {
+            accessibilityDefault = (__bridge CFStringRef)@"ck";
+        }
+    });
+    return accessibilityDefault;
+}
+
 NSString* RG_SUFFIX_NONNULL rg_accessgroup_key(void) {
     static dispatch_once_t onceToken;
     static NSString* accessgroupKey;

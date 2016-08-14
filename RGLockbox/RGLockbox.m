@@ -22,8 +22,6 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #import "RGLockbox.h"
-#import "RGMultiStringKey.h"
-#import "RGQueryKeys.h"
 #import <Security/Security.h>
 #import <objc/runtime.h>
 
@@ -176,7 +174,7 @@ static NSMutableDictionary* _sValueCache;
                                         synchronized:(BOOL)synchronized {
     self = [super init];
     if (self) {
-        CFStringRef nonnullAccessibility = accessibility ?: kSecAttrAccessibleAfterFirstUnlock;
+        CFStringRef nonnullAccessibility = accessibility ?: rg_accessibility_default();
         self->_namespace = nameSpace;
         self->_itemAccessibility = nonnullAccessibility;
         self->_accountName = account;

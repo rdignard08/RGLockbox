@@ -40,6 +40,11 @@ NSString* RG_SUFFIX_NONNULL rg_synchronizable_any(void);
 NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void);
 
 /**
+ @return the value of `kSecAttrAccessibleAfterFirstUnlock` on all supported platforms.
+ */
+CFStringRef RG_SUFFIX_NONNULL rg_accessibility_default(void);
+
+/**
  @return the value of `kSecAttrAccessGroup` on all supported platforms.
  */
 NSString* RG_SUFFIX_NONNULL rg_accessgroup_key(void);

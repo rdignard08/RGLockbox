@@ -23,6 +23,8 @@
 
 #import "RGDefines.h"
 #import "RGLog.h"
+#import "RGMultiStringKey.h"
+#import "RGQueryKeys.h"
 
 #pragma mark - Global Symbols
 
