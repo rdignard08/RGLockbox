@@ -258,8 +258,7 @@ static NSMutableDictionary* _sValueCache;
     [[[self class] valueCacheLock] unlock];
 }
 
-- (NSString*) description
-{
+- (NSString*) description {
     return [NSString stringWithFormat:@"%@\n\tnamespace:%@"
                                       @"\n\taccountName:%@"
                                       @"\n\taccessGroup:%@"
