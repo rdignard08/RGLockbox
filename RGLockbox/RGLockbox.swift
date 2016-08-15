@@ -93,9 +93,7 @@ public class RGLockbox {
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
  */
     public class func manager() -> RGLockbox {
-        return RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
-                              accessibility: kSecAttrAccessibleAfterFirstUnlock,
-                              accountName: nil)
+        return RGLockbox()
     }
     
 /**
