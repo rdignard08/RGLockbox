@@ -61,7 +61,7 @@ public final class RGMultiKey: NSObject, NSCopying {
         let firstHash = self.first == nil ? 0 : self.first!.hash
         let secondHash = self.second == nil ? 0 : self.second!.hash
         let thirdHash = self.third == nil ? 0 : self.third!.hash
-        return firstHash ^ secondHash ^ thirdHash;
+        return firstHash ^ secondHash ^ thirdHash
     }
     
 /**

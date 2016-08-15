@@ -161,7 +161,6 @@ public class RGLockbox {
             return value is NSData ? (value as! NSData) : nil
         }
         var data:AnyObject? = nil
-        var status:OSStatus = errSecSuccess
         dispatch_sync(RGLockbox.keychainQueue, {
             RGLogs(.Trace, "hit sync with key \(key)")
             var query:[NSString:AnyObject] = [
@@ -177,13 +176,50 @@ public class RGLockbox {
             if fullKey.third != nil {
                 query[kSecAttrAccessGroup] = fullKey.third!
             }
-            status = rg_SecItemCopyMatch(query, &data)
+            let status = rg_SecItemCopyMatch(query, &data)
             RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
         let bridgedData = data as! NSData?
         RGLockbox.valueCache[fullKey] = bridgedData != nil ? bridgedData : NSNull()
         RGLockbox.valueCacheLock.unlock()
         return bridgedData
+    }
+    
+    public func allItems() -> Array<String> {
+        let fullKey = RGMultiKey()
+        fullKey.second = self.accountName
+        fullKey.third = self.accessGroup
+        var data:AnyObject? = nil
+        dispatch_sync(RGLockbox.keychainQueue, {
+            RGLogs(.Trace, "hit sync with fetch all")
+            var query:[NSString:AnyObject] = [
+                kSecClass : kSecClassGenericPassword,
+                kSecMatchLimit : kSecMatchLimitAll,
+                kSecReturnAttributes : true,
+                kSecAttrSynchronizable : kSecAttrSynchronizableAny
+            ]
+            if fullKey.second != nil {
+                query[kSecAttrAccount] = fullKey.second!
+            }
+            if fullKey.third != nil {
+                query[kSecAttrAccessGroup] = fullKey.third!
+            }
+            let status = rg_SecItemCopyMatch(query, &data)
+            RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
+        })
+        let items = data as? Array<Dictionary<String, AnyObject>>
+        var output:Array<String> = []
+        for item in items ?? [] {
+            let service = item[kSecAttrService as String] as! String
+            let namespace = "\(self.namespace)."
+            if self.namespace == nil {
+                output.append(service)
+            } else if service.hasPrefix(namespace) {
+                let range = service.rangeOfString(namespace)
+                output.append(service.substringFromIndex(range!.endIndex))
+            }
+        }
+        return output
     }
     
 /**
