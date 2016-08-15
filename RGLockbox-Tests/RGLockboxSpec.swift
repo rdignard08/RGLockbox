@@ -176,7 +176,7 @@ class RGLockboxSpec : XCTestCase {
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         let value = manager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual(NSData()))
+        XCTAssert(value == NSData())
     }
     
     func testAllItemsSynchronized() {
@@ -189,7 +189,7 @@ class RGLockboxSpec : XCTestCase {
         RGLockbox.valueCache.removeAll()
         RGLockbox().setData(NSData(), forKey: kKey2)
         let items = manager.allItems()
-        XCTAssert(items.first!.isEqual(kKey1))
+        XCTAssert(items.first == kKey1)
         XCTAssert(items.count == 1)
     }
     
@@ -198,18 +198,18 @@ class RGLockboxSpec : XCTestCase {
         let syncManager = RGLockbox(accessibility: kSecAttrAccessibleAlways, synchronized: true)
         nonSyncManager.setData("abew".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
         var value = nonSyncManager.dataForKey(kKey1)
-        XCTAssert(value!.isEqual("abew".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abew".dataUsingEncoding(NSUTF8StringEncoding))
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         syncManager.setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         value = syncManager.dataForKey(kKey1)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abcd".dataUsingEncoding(NSUTF8StringEncoding))
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         value = nonSyncManager.dataForKey(kKey1)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abcd".dataUsingEncoding(NSUTF8StringEncoding))
     }
     
     func testMakeItemNotSynchronized() {
@@ -219,18 +219,18 @@ class RGLockboxSpec : XCTestCase {
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         var value = nonSyncManager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual("qwas".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "qwas".dataUsingEncoding(NSUTF8StringEncoding))
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         nonSyncManager.setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey2)
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         value = nonSyncManager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abcd".dataUsingEncoding(NSUTF8StringEncoding))
         dispatch_sync(RGLockbox.keychainQueue, {})
         RGLockbox.valueCache.removeAll()
         value = syncManager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abcd".dataUsingEncoding(NSUTF8StringEncoding))
     }
     
 }
