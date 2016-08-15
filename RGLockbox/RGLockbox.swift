@@ -35,11 +35,6 @@ public var rg_SecItemCopyMatch = { SecItemCopyMatching($0, $1) }
 public var rg_SecItemAdd = { SecItemAdd($0, $1) }
 
 /**
- block used to update an existing item in the keychain.  Defaults to `SecItemUpdate`.
-*/
-public var rg_SecItemUpdate = { SecItemUpdate($0, $1) }
-
-/**
  block used to delete an item from the keychain.  Defaults to `SecItemDelete`.
 */
 public var rg_SecItemDelete = { SecItemDelete($0) }
@@ -84,6 +79,10 @@ public class RGLockbox {
 */
     public let accountName:String?
     
+    public let accessGroup:String?
+    
+    public let isSynchronized:Bool
+    
 /**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
 */
@@ -104,6 +103,20 @@ public class RGLockbox {
         self.namespace = namespace
         self.itemAccessibility = accessibility
         self.accountName = accountName
+        self.accessGroup = nil
+        self.isSynchronized = false
+    }
+    
+    public required init(withNamespace namespace:String?,
+                                       accessibility:CFStringRef,
+                                       accountName:String?,
+                                       accessGroup:String?,
+                                       synchronized:Bool) {
+        self.namespace = namespace
+        self.itemAccessibility = accessibility
+        self.accountName = accountName
+        self.accessGroup = accessGroup
+        self.isSynchronized = synchronized
     }
     
 /**
@@ -174,6 +187,9 @@ public class RGLockbox {
             if fullKey.second != nil {
                 query.setObject(fullKey.second!, forKey: kSecAttrAccount as NSString)
             }
+            status = rg_SecItemDelete(query)
+            RGLogs(.Trace, "SecItemDelete with \(query) returned \(status)")
+            assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             if let data = data {
                 let payload:[NSString:AnyObject] = [
                     kSecValueData : data,
@@ -183,16 +199,7 @@ public class RGLockbox {
                 status = rg_SecItemAdd(query, nil)
                 RGLogs(.Trace, "SecItemAdd with \(query) returned \(status)")
                 assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
-                if status == errSecDuplicateItem {
-                    status = rg_SecItemUpdate(query, payload)
-                    RGLogs(.Trace, "SecItemUpdate with \(query) and \(payload) returned \(status)")
-                    assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
-                }
-                return
             }
-            status = rg_SecItemDelete(query)
-            RGLogs(.Trace, "SecItemDelete with \(query) returned \(status)")
-            assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
         })
         RGLockbox.valueCacheLock.unlock()
     }

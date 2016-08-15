@@ -55,20 +55,6 @@ let replacementAddItem:(CFDictionaryRef, UnsafeMutablePointer<AnyObject?>) -> OS
     return errSecSuccess
 }
 
-let replacementUpdateItem:(CFDictionaryRef, CFDictionaryRef) -> OSStatus = { query, attributes in
-    let key:String = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService)), CFString.self) as String
-    let data = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddressOf(kSecValueData)), NSData.self)
-    keychainLock.lock()
-    let storedValue = theKeychainLol[key]
-    if let storedValue = storedValue {
-        theKeychainLol[key] = data
-        keychainLock.unlock()
-        return errSecSuccess
-    }
-    keychainLock.unlock()
-    return errSecItemNotFound
-}
-
 let replacementDeleteItem:(CFDictionaryRef) -> OSStatus = { query in
     let key:String = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService)), CFString.self) as String
     keychainLock.lock()
