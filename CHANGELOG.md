@@ -1,3 +1,7 @@
+## 2.2.4
+- New method `allItems`
+- New properties `isSynchronized` and `accessGroup` which are passed to the keychain calls
+
 ## 2.2.3
 - Fixed warning preventing publishing to CocoaPods
 
