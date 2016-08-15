@@ -103,30 +103,15 @@ public class RGLockbox {
  - parameter namespace: The service to which the instance is associated.
  - parameter accessibilty: The item accessibility to write to the keychain items.
  - parameter accountName: The manager's associated account if account qualified.
- - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
- */
-    public required init(withNamespace namespace:String?, accessibility:CFStringRef, accountName:String?) {
-        self.namespace = namespace
-        self.itemAccessibility = accessibility
-        self.accountName = accountName
-        self.accessGroup = nil
-        self.isSynchronized = false
-    }
-    
-/**
- A new instance of `RGLockbox`.
- - parameter namespace: The service to which the instance is associated.
- - parameter accessibilty: The item accessibility to write to the keychain items.
- - parameter accountName: The manager's associated account if account qualified.
  - parameter accessGroup: The manager's associated accessGroup if restricted.
  - parameter synchronized: Whether this manager's writes will be marked synchronizable.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
  */
     public required init(withNamespace namespace:String?,
                                        accessibility:CFStringRef,
-                                       accountName:String?,
-                                       accessGroup:String?,
-                                       synchronized:Bool) {
+                                       accountName:String? = nil,
+                                       accessGroup:String? = nil,
+                                       synchronized:Bool = false) {
         self.namespace = namespace
         self.itemAccessibility = accessibility
         self.accountName = accountName
@@ -211,11 +196,10 @@ public class RGLockbox {
         var output:Array<String> = []
         for item in items ?? [] {
             let service = item[kSecAttrService as String] as! String
-            let namespace = "\(self.namespace)."
             if self.namespace == nil {
                 output.append(service)
-            } else if service.hasPrefix(namespace) {
-                let range = service.rangeOfString(namespace)
+            } else if service.hasPrefix("\(self.namespace!).") {
+                let range = service.rangeOfString("\(self.namespace!).")
                 output.append(service.substringFromIndex(range!.endIndex))
             }
         }

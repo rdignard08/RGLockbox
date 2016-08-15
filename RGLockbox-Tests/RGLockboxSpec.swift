@@ -47,12 +47,20 @@ class RGLockboxSpec : XCTestCase {
         for key in testKeys {
             RGLockbox.manager().setData(nil, forKey: key)
         }
+        let manager = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAlways)
+        for key in manager.allItems() {
+            manager.setData(nil, forKey: key)
+        }
         RGLockbox.valueCache.removeAll()
     }
     
     override func tearDown() {
         for key in testKeys {
             RGLockbox.manager().setData(nil, forKey: key)
+        }
+        let manager = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAlways)
+        for key in manager.allItems() {
+            manager .setData(nil, forKey: key)
         }
         RGLockbox.valueCache.removeAll()
     }
@@ -84,7 +92,7 @@ class RGLockboxSpec : XCTestCase {
     
     func testReadNotSeen() {
         let fullKey = RGMultiKey()
-        fullKey.first = "\(RGLockbox.manager().namespace).\(kKey2)"
+        fullKey.first = "\(RGLockbox.manager().namespace!).\(kKey2)"
         let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
         RGLockbox.manager().setData(data, forKey: kKey2)
         RGLockbox.valueCache[fullKey] = nil
@@ -93,7 +101,7 @@ class RGLockboxSpec : XCTestCase {
     }
 
     func testReadNoNameSpace() {
-        let rawLockbox = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAfterFirstUnlock, accountName: nil)
+        let rawLockbox = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAfterFirstUnlock)
         let data = "abes".dataUsingEncoding(NSUTF8StringEncoding)!
         rawLockbox.setData(data, forKey: "com.restgoatee.rglockbox.foobar")
         let readData = rawLockbox.dataForKey("com.restgoatee.rglockbox.foobar")
@@ -116,4 +124,125 @@ class RGLockboxSpec : XCTestCase {
         RGLogs(.Debug, "4 \(RGLockbox.valueCache[fullKey])")
         XCTAssert(readData == secondData)
     }
+    
+// MARK: - allItems
+    func testAllItemsNamespaced() {
+        RGLockbox.manager().setData(NSData(), forKey: kKey1)
+        RGLockbox.manager().setData(NSData(), forKey: kKey2)
+        var keys = [ kKey1, kKey2 ]
+        let items = RGLockbox.manager().allItems()
+        for key in items {
+            XCTAssert(keys.contains(key))
+            keys.removeAtIndex(keys.indexOf(key)!)
+        }
+        XCTAssert(keys.count == 0)
+    }
+    
+    func testAllItemsNoNamespace() {
+        let manager = RGLockbox.init(withNamespace: nil, accessibility: kSecAttrAccessibleAlways)
+        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
+        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
+        var keys = [ "\(RGLockbox.bundleIdentifier!).\(kKey1)", "\(RGLockbox.bundleIdentifier!).\(kKey2)" ]
+        let items = manager.allItems()
+        for item in items {
+            XCTAssert(keys.contains(item))
+            keys.removeAtIndex(keys.indexOf(item)!)
+        }
+        XCTAssert(keys.count == 0)
+    }
+    
+    func testAllItemsWithAccount() {
+        let manager = RGLockbox.init(withNamespace: nil,
+                                     accessibility: kSecAttrAccessibleAlways,
+                                     accountName: "com.restgoatee.rglockbox")
+        RGLockbox.manager().setData(NSData(), forKey: "abcd")
+        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
+        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
+        var keys = [ "\(RGLockbox.bundleIdentifier!).\(kKey1)", "\(RGLockbox.bundleIdentifier!).\(kKey2)" ]
+        let items = manager.allItems()
+        for item in items {
+            XCTAssert(keys.contains(item))
+            keys.removeAtIndex(keys.indexOf(item)!)
+        }
+        XCTAssert(keys.count == 0)
+    }
+    
+// MARK: - isSynchronized
+    func testReadWriteIsSynchronized() {
+        let manager = RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
+                                     accessibility: kSecAttrAccessibleAlways,
+                                     accountName: "com.restgoatee.rglockbox",
+                                     accessGroup: nil,
+                                     synchronized: true)
+        manager.setData(NSData(), forKey: kKey2)
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        let value = manager.dataForKey(kKey2)
+        XCTAssert(value!.isEqual(NSData()))
+    }
+    
+    func testAllItemsSynchronized() {
+        let manager = RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
+                                     accessibility: kSecAttrAccessibleAlways,
+                                     accountName: "com.restgoatee.rglockbox",
+                                     accessGroup: nil,
+                                     synchronized: true)
+        RGLockbox.manager().setData(NSData(), forKey: "abcd")
+        manager.setData("abew".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        RGLockbox.manager().setData(NSData(), forKey: kKey2)
+        let items = manager.allItems()
+        XCTAssert(items.first!.isEqual(kKey1))
+        XCTAssert(items.count == 1)
+    }
+    
+    func testMakeItemSynchronized() {
+        let nonSyncManager = RGLockbox.manager()
+        let syncManager = RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
+                                         accessibility: kSecAttrAccessibleAlways,
+                                         accountName: nil,
+                                         accessGroup: nil,
+                                         synchronized: true)
+        nonSyncManager.setData("abew".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        var value = nonSyncManager.dataForKey(kKey1)
+        XCTAssert(value!.isEqual("abew".dataUsingEncoding(NSUTF8StringEncoding)))
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        syncManager.setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        value = syncManager.dataForKey(kKey1)
+        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        value = nonSyncManager.dataForKey(kKey1)
+        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+    }
+    
+    func testMakeItemNotSynchronized() {
+        let nonSyncManager = RGLockbox.manager()
+        let syncManager = RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
+                                         accessibility: kSecAttrAccessibleAlways,
+                                         accountName: nil,
+                                         accessGroup: nil,
+                                         synchronized: true)
+        syncManager.setData("qwas".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey2)
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        var value = nonSyncManager.dataForKey(kKey2)
+        XCTAssert(value!.isEqual("qwas".dataUsingEncoding(NSUTF8StringEncoding)))
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        nonSyncManager.setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey2)
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        value = nonSyncManager.dataForKey(kKey2)
+        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox.valueCache.removeAll()
+        value = syncManager.dataForKey(kKey2)
+        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+    }
+    
 }
