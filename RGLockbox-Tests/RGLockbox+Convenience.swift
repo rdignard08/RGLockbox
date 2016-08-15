@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-import RGLockbox
+import RGLockboxIOS
 
 let kTestKey = "testKey"
 

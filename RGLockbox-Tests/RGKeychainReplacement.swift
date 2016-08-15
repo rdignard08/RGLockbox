@@ -22,38 +22,38 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 import Foundation
-import RGLockbox
+import RGLockboxIOS
 
 var theKeychainLol:Dictionary<RGMultiKey, NSData> = [:]
 var keychainLock = NSLock()
 
-let replacementItemCopy:(CFDictionaryRef, UnsafeMutablePointer<AnyObject?>) -> OSStatus = { query, value in
-    let pointer = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService))
+let replacementItemCopy:(CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus = { query, value in
+    let pointer = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrService))
     if pointer != nil {
         let multiKey = RGMultiKey()
-        multiKey.first = unsafeBitCast(pointer, CFString.self) as String
-        let account = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrAccount))
+        multiKey.first = unsafeBitCast(pointer, to: CFString.self) as String
+        let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
         if account != nil {
-            multiKey.second = unsafeBitCast(account, CFString.self) as String
+            multiKey.second = unsafeBitCast(account, to: CFString.self) as String
         }
-        let returnData:NSNumber = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddressOf(kSecReturnData)), NSNumber.self)
+        let returnData:NSNumber = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddress(of: kSecReturnData)), to: NSNumber.self)
         keychainLock.lock()
         let storedValue = theKeychainLol[multiKey]
         keychainLock.unlock()
         if let storedValue = storedValue {
             if returnData.boolValue {
-                value.memory = storedValue
+                value!.pointee = storedValue
             }
             return errSecSuccess
         }
     } else {
         keychainLock.lock()
-        let account = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrAccount))
+        let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
         var output:[Dictionary<String, String>] = []
         for item in theKeychainLol {
             let key = item.0
             if account != nil {
-                let accountName = unsafeBitCast(account, CFString.self) as String
+                let accountName = unsafeBitCast(account, to: CFString.self) as String
                 if accountName == key.second {
                     output.append([ kSecAttrService as String : key.first! ])
                 }
@@ -62,22 +62,22 @@ let replacementItemCopy:(CFDictionaryRef, UnsafeMutablePointer<AnyObject?>) -> O
             }
         }
         keychainLock.unlock()
-        value.memory = output
+        value!.pointee = output
         return output.count > 0 ? errSecSuccess : errSecItemNotFound
     }
 
     return errSecItemNotFound
 }
 
-let replacementAddItem:(CFDictionaryRef) -> OSStatus = { query in
-    let pointer = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService))
+let replacementAddItem:(CFDictionary) -> OSStatus = { query in
+    let pointer = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrService))
     let multiKey = RGMultiKey()
-    multiKey.first = unsafeBitCast(pointer, CFString.self) as String
-    let account = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrAccount))
+    multiKey.first = unsafeBitCast(pointer, to: CFString.self) as String
+    let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
     if account != nil {
-        multiKey.second = unsafeBitCast(account, CFString.self) as String
+        multiKey.second = unsafeBitCast(account, to: CFString.self) as String
     }
-    let data = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddressOf(kSecValueData)), NSData.self)
+    let data = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddress(of: kSecValueData)), to: NSData.self)
     keychainLock.lock()
     let storedValue = theKeychainLol[multiKey]
     if let storedValue = storedValue {
@@ -89,13 +89,13 @@ let replacementAddItem:(CFDictionaryRef) -> OSStatus = { query in
     return errSecSuccess
 }
 
-let replacementDeleteItem:(CFDictionaryRef) -> OSStatus = { query in
-    let pointer = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService))
+let replacementDeleteItem:(CFDictionary) -> OSStatus = { query in
+    let pointer = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrService))
     let multiKey = RGMultiKey()
-    multiKey.first = unsafeBitCast(pointer, CFString.self) as String
-    let account = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrAccount))
+    multiKey.first = unsafeBitCast(pointer, to: CFString.self) as String
+    let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
     if account != nil {
-        multiKey.second = unsafeBitCast(account, CFString.self) as String
+        multiKey.second = unsafeBitCast(account, to: CFString.self) as String
     }
     keychainLock.lock()
     let value = theKeychainLol[multiKey]

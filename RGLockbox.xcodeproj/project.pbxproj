@@ -315,11 +315,12 @@
 				TargetAttributes = {
 					BE0976C61C573570001E6467 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 5W2NB69P29;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 					};
 					BE2CCAA61D3301CD0034C8E9 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 					};
 					BE2CCAB21D3301E20034C8E9 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -475,6 +476,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
@@ -511,6 +514,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = RGLockboxFramework.h;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -672,6 +676,7 @@
 				MACH_O_TYPE = mh_dylib;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};

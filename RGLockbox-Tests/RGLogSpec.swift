@@ -23,41 +23,41 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 import Foundation
 import XCTest
-import RGLockbox
+import RGLockboxIOS
 
 class RGLogSpec : XCTestCase {
     func testTraceMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Trace)
-        RGLogs(.Trace, "Hello Trace")
+        rg_set_logging_severity(.trace)
+        RGLogs(.trace, "Hello Trace")
     }
     
     func testDebugMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Debug)
-        RGLogs(.Debug, "Hello Debug")
+        rg_set_logging_severity(.debug)
+        RGLogs(.debug, "Hello Debug")
     }
     
     func testWarnMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Warning)
-        RGLogs(.Warning, "Hello Warn")
+        rg_set_logging_severity(.warning)
+        RGLogs(.warning, "Hello Warn")
     }
     
     func testWarnMessageDoesntLog() {
-        rg_set_logging_severity(RGLogSeverity.Error)
-        RGLogs(.Warning, "No Warn")
+        rg_set_logging_severity(.error)
+        RGLogs(.warning, "No Warn")
     }
     
     func testErrorMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Error)
-        RGLogs(.Error, "Hello Error")
+        rg_set_logging_severity(.error)
+        RGLogs(.error, "Hello Error")
     }
     
     func testFatalMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.Fatal)
-        RGLogs(.Fatal, "Hello Fatal")
+        rg_set_logging_severity(.fatal)
+        RGLogs(.fatal, "Hello Fatal")
     }
     
     func testNoneMessageLogs() {
-        rg_set_logging_severity(RGLogSeverity.None)
-        RGLogs(.None, "Hello None")
+        rg_set_logging_severity(.none)
+        RGLogs(.none, "Hello None")
     }
 }

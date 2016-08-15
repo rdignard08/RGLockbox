@@ -32,32 +32,32 @@ public enum RGLogSeverity: Int {
     /**
      Entire set of logging appropriate for debugging the library itself.
     */
-    case Trace
+    case trace
     
     /**
      Log messages useful for general debug and test builds.
     */
-    case Debug
+    case debug
     
     /**
      Log messages which might indicate something wrong.
     */
-    case Warning
+    case warning
     
     /**
      Log messages which indicate the system entered an error state.
     */
-    case Error
+    case error
     
     /**
      Log messages which indicate an assertion or interrupt should happen.
     */
-    case Fatal
+    case fatal
     
     /**
      Log level appropriate for messages which should always appear.
     */
-    case None
+    case none
 }
 
 #if DEBUG
@@ -69,7 +69,7 @@ public enum RGLogSeverity: Int {
     /**
      The system wide log level.
     */
-    private var rg_systemSeverity = RGLogSeverity.None
+    private var rg_systemSeverity = RGLogSeverity.none
 #endif
 
 /**
@@ -95,17 +95,17 @@ public func rg_set_logging_severity(_ severity: RGLogSeverity) {
 */
 private func rg_severityDescription(_ severity: RGLogSeverity) -> String {
     switch (severity) {
-        case .Trace:
+        case .trace:
             return "Trace, "
-        case .Debug:
+        case .debug:
             return "Debug, "
-        case .Warning:
+        case .warning:
             return "Warning, "
-        case .Error:
+        case .error:
             return "Error, "
-        case .Fatal:
+        case .fatal:
             return "Fatal, "
-        case .None:
+        case .none:
             return ""
     }
 }
@@ -125,7 +125,7 @@ private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
  - parameter line the line number of the log call.
  */
 public func RGLog(_ message: String, _ file: String = #file, _ line: Int = #line) {
-    RGLogs(.None, message, file, line)
+    RGLogs(.none, message, file, line)
 }
 
 /**
@@ -137,8 +137,8 @@ public func RGLog(_ message: String, _ file: String = #file, _ line: Int = #line
  */
 public func RGLogs(_ severity: RGLogSeverity, _ message: String, _ file: String = #file, _ line: Int = #line) {
     if rg_shouldLog(severity) {
-        let fileName = NSURL(fileURLWithPath: file).lastPathComponent
+        let fileName = URL(fileURLWithPath: file).lastPathComponent
         let severityDescription = rg_severityDescription(severity)
-        print("[\(fileName != nil ? fileName! : "(unknown)"):\(line)] \(severityDescription)\(message)")
+        print("[\(fileName):\(line)] \(severityDescription)\(message)")
     }
 }

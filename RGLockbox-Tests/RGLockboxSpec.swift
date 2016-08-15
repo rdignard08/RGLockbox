@@ -23,7 +23,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 import Foundation
 import XCTest
-import RGLockbox
+import RGLockboxIOS
 
 
 let kKey1 = "aKey1"
@@ -39,7 +39,7 @@ class RGLockboxSpec : XCTestCase {
         rg_SecItemCopyMatch = replacementItemCopy
         rg_SecItemAdd = replacementAddItem
         rg_SecItemDelete = replacementDeleteItem
-        rg_set_logging_severity(RGLogSeverity.Trace)
+        rg_set_logging_severity(.trace)
     }
     
     override func setUp() {
@@ -93,7 +93,7 @@ class RGLockboxSpec : XCTestCase {
     func testReadNotSeen() {
         let fullKey = RGMultiKey()
         fullKey.first = "\(RGLockbox().namespace!).\(kKey2)"
-        let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
+        let data = "abcd".data(using: String.Encoding.utf8)
         RGLockbox().setData(data, forKey: kKey2)
         RGLockbox.valueCache[fullKey] = nil
         let readData = RGLockbox().dataForKey(kKey2)
@@ -102,7 +102,7 @@ class RGLockboxSpec : XCTestCase {
 
     func testReadNoNameSpace() {
         let rawLockbox = RGLockbox(withNamespace: nil)
-        let data = "abes".dataUsingEncoding(NSUTF8StringEncoding)!
+        let data = "abes".data(using: String.Encoding.utf8)!
         rawLockbox.setData(data, forKey: "com.restgoatee.rglockbox.foobar")
         let readData = rawLockbox.dataForKey("com.restgoatee.rglockbox.foobar")
         XCTAssert(readData == data)
@@ -112,41 +112,37 @@ class RGLockboxSpec : XCTestCase {
     func testUpdateValue() {
         let fullKey = RGMultiKey()
         fullKey.first = "\(RGLockbox().namespace!).\(kKey1)"
-        let firstData = "abew".dataUsingEncoding(NSUTF8StringEncoding)!
-        let secondData = "qwew".dataUsingEncoding(NSUTF8StringEncoding)!
+        let firstData = "abew".data(using: String.Encoding.utf8)!
+        let secondData = "qwew".data(using: String.Encoding.utf8)!
         RGLockbox().setData(firstData, forKey: kKey1)
-        RGLogs(.Debug, "1 \(RGLockbox.valueCache[fullKey])")
         RGLockbox().setData(secondData, forKey: kKey1)
-        RGLogs(.Debug, "2 \(RGLockbox.valueCache[fullKey])")
         RGLockbox.valueCache[fullKey] = nil
-        RGLogs(.Debug, "3 \(RGLockbox.valueCache[fullKey])")
         let readData = RGLockbox().dataForKey(kKey1)
-        RGLogs(.Debug, "4 \(RGLockbox.valueCache[fullKey])")
         XCTAssert(readData == secondData)
     }
     
 // MARK: - allItems
     func testAllItemsNamespaced() {
-        RGLockbox().setData(NSData(), forKey: kKey1)
-        RGLockbox().setData(NSData(), forKey: kKey2)
+        RGLockbox().setData(Data(), forKey: kKey1)
+        RGLockbox().setData(Data(), forKey: kKey2)
         var keys = [ kKey1, kKey2 ]
         let items = RGLockbox().allItems()
         for key in items {
             XCTAssert(keys.contains(key))
-            keys.removeAtIndex(keys.indexOf(key)!)
+            keys.remove(at: keys.index(of: key)!)
         }
         XCTAssert(keys.count == 0)
     }
     
     func testAllItemsNoNamespace() {
         let manager = RGLockbox(withNamespace: nil, accessibility: kSecAttrAccessibleAlways)
-        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
-        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
+        manager.setData(Data(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
+        manager.setData(Data(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
         var keys = [ "\(RGLockbox.bundleIdentifier!).\(kKey1)", "\(RGLockbox.bundleIdentifier!).\(kKey2)" ]
         let items = manager.allItems()
         for item in items {
             XCTAssert(keys.contains(item))
-            keys.removeAtIndex(keys.indexOf(item)!)
+            keys.remove(at: keys.index(of: item)!)
         }
         XCTAssert(keys.count == 0)
     }
@@ -155,14 +151,14 @@ class RGLockboxSpec : XCTestCase {
         let manager = RGLockbox(withNamespace: nil,
                                 accessibility: kSecAttrAccessibleAlways,
                                 accountName: "com.restgoatee.rglockbox")
-        RGLockbox().setData(NSData(), forKey: "abcd")
-        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
-        manager.setData(NSData(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
+        RGLockbox().setData(Data(), forKey: "abcd")
+        manager.setData(Data(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
+        manager.setData(Data(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
         var keys = [ "\(RGLockbox.bundleIdentifier!).\(kKey1)", "\(RGLockbox.bundleIdentifier!).\(kKey2)" ]
         let items = manager.allItems()
         for item in items {
             XCTAssert(keys.contains(item))
-            keys.removeAtIndex(keys.indexOf(item)!)
+            keys.remove(at: keys.index(of: item)!)
         }
         XCTAssert(keys.count == 0)
     }
@@ -172,22 +168,22 @@ class RGLockboxSpec : XCTestCase {
         let manager = RGLockbox(accessibility: kSecAttrAccessibleAlways,
                                 accountName: "com.restgoatee.rglockbox",
                                 synchronized: true)
-        manager.setData(NSData(), forKey: kKey2)
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        manager.setData(Data(), forKey: kKey2)
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         let value = manager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual(NSData()))
+        XCTAssert(value == NSData())
     }
     
     func testAllItemsSynchronized() {
         let manager = RGLockbox(accessibility: kSecAttrAccessibleAlways,
                                 accountName: "com.restgoatee.rglockbox",
                                 synchronized: true)
-        RGLockbox().setData(NSData(), forKey: "abcd")
-        manager.setData("abew".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        RGLockbox().setData(Data(), forKey: "abcd")
+        manager.setData("abew".data(using: String.Encoding.utf8), forKey: kKey1)
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
-        RGLockbox().setData(NSData(), forKey: kKey2)
+        RGLockbox().setData(Data(), forKey: kKey2)
         let items = manager.allItems()
         XCTAssert(items.first!.isEqual(kKey1))
         XCTAssert(items.count == 1)
@@ -196,41 +192,41 @@ class RGLockboxSpec : XCTestCase {
     func testMakeItemSynchronized() {
         let nonSyncManager = RGLockbox()
         let syncManager = RGLockbox(accessibility: kSecAttrAccessibleAlways, synchronized: true)
-        nonSyncManager.setData("abew".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        nonSyncManager.setData("abew".data(using: String.Encoding.utf8), forKey: kKey1)
         var value = nonSyncManager.dataForKey(kKey1)
-        XCTAssert(value!.isEqual("abew".dataUsingEncoding(NSUTF8StringEncoding)))
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        XCTAssert(value == "abew".data(using: String.Encoding.utf8))
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
-        syncManager.setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        syncManager.setData("abcd".data(using: String.Encoding.utf8), forKey: kKey1)
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         value = syncManager.dataForKey(kKey1)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        XCTAssert(value == "abcd".data(using: String.Encoding.utf8))
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         value = nonSyncManager.dataForKey(kKey1)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abcd".data(using: String.Encoding.utf8))
     }
     
     func testMakeItemNotSynchronized() {
         let nonSyncManager = RGLockbox()
         let syncManager = RGLockbox(accessibility: kSecAttrAccessibleAlways, synchronized: true)
-        syncManager.setData("qwas".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey2)
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        syncManager.setData("qwas".data(using: String.Encoding.utf8), forKey: kKey2)
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         var value = nonSyncManager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual("qwas".dataUsingEncoding(NSUTF8StringEncoding)))
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        XCTAssert(value == "qwas".data(using: String.Encoding.utf8))
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
-        nonSyncManager.setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey2)
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        nonSyncManager.setData("abcd".data(using: String.Encoding.utf8), forKey: kKey2)
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         value = nonSyncManager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
-        dispatch_sync(RGLockbox.keychainQueue, {})
+        XCTAssert(value == "abcd".data(using: String.Encoding.utf8))
+        RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         value = syncManager.dataForKey(kKey2)
-        XCTAssert(value!.isEqual("abcd".dataUsingEncoding(NSUTF8StringEncoding)))
+        XCTAssert(value == "abcd".data(using: String.Encoding.utf8))
     }
     
 }
