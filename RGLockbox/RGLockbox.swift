@@ -137,6 +137,7 @@ public class RGLockbox {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
         fullKey.second = self.accountName
+        fullKey.third = self.accessGroup
         RGLockbox.valueCacheLock.lock()
         let value = RGLockbox.valueCache[fullKey]
         if value != nil {
@@ -158,6 +159,9 @@ public class RGLockbox {
             if fullKey.second != nil {
                 query[kSecAttrAccount] = fullKey.second!
             }
+            if fullKey.third != nil {
+                query[kSecAttrAccessGroup] = fullKey.third!
+            }
             status = rg_SecItemCopyMatch(query, &data)
             RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
@@ -176,28 +180,29 @@ public class RGLockbox {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
         fullKey.second = self.accountName
+        fullKey.third = self.accessGroup
         RGLockbox.valueCacheLock.lock()
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         dispatch_async(RGLockbox.keychainQueue, {
             RGLogs(.Trace, "key is \(fullKey.first) with data \(data)")
-            let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
+            var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
                 kSecAttrSynchronizable : kSecAttrSynchronizableAny
-            ])
+            ]
             if fullKey.second != nil {
-                query.setObject(fullKey.second!, forKey: kSecAttrAccount as NSString)
+                query[kSecAttrAccount] = fullKey.second!
+            }
+            if fullKey.third != nil {
+                query[kSecAttrAccessGroup] = fullKey.third!
             }
             var status = rg_SecItemDelete(query)
             RGLogs(.Trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             if let data = data {
-                let payload:[NSString:AnyObject] = [
-                    kSecValueData : data,
-                    kSecAttrAccessible : self.itemAccessibility,
-                    kSecAttrSynchronizable : self.isSynchronized
-                ]
-                query.addEntriesFromDictionary(payload)
+                query[kSecValueData] = data
+                query[kSecAttrAccessible] = self.itemAccessibility
+                query[kSecAttrSynchronizable] = self.isSynchronized
                 status = rg_SecItemAdd(query, nil)
                 RGLogs(.Trace, "SecItemAdd with \(query) returned \(status)")
                 assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
