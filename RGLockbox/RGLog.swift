@@ -124,9 +124,15 @@ private func rg_shouldLog(severity: RGLogSeverity) -> Bool {
  - parameter file the name of the file where the log was called.  Cannot be `NULL`.
  - parameter line the line number of the log call.
  */
+#if swift(>=2.2)
+public func RGLog(message: String, _ file: String = #file, _ line: Int = #line) {
+    RGLogs(.None, message, file, line)
+}
+#else
 public func RGLog(message: String, _ file: String = __FILE__, _ line: Int = __LINE__) {
     RGLogs(.None, message, file, line)
 }
+#endif
 
 /**
  A complete `NSLog()` replacement.  It logs the file name & line number. Severity will always log.
@@ -135,6 +141,15 @@ public func RGLog(message: String, _ file: String = __FILE__, _ line: Int = __LI
  - parameter file the name of the file where the log was called.  Cannot be `NULL`.
  - parameter line the line number of the log call.
  */
+#if swift(>=2.2)
+public func RGLogs(severity: RGLogSeverity, _ message: String, _ file: String = #file, _ line: Int = #line) {
+    if rg_shouldLog(severity) {
+        let fileName = NSURL(fileURLWithPath: file).lastPathComponent
+        let severityDescription = rg_severityDescription(severity)
+        print("[\(fileName != nil ? fileName! : "(unknown)"):\(line)] \(severityDescription)\(message)")
+    }
+}
+#else
 public func RGLogs(severity: RGLogSeverity, _ message: String, _ file: String = __FILE__, _ line: Int = __LINE__) {
     if rg_shouldLog(severity) {
         let fileName = NSURL(fileURLWithPath: file).lastPathComponent
@@ -142,3 +157,4 @@ public func RGLogs(severity: RGLogSeverity, _ message: String, _ file: String = 
         print("[\(fileName != nil ? fileName! : "(unknown)"):\(line)] \(severityDescription)\(message)")
     }
 }
+#endif
