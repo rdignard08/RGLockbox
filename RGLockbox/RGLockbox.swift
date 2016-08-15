@@ -32,7 +32,7 @@ public var rg_SecItemCopyMatch = { SecItemCopyMatching($0, $1) }
 /**
  block used to add a nonexistent item to the keychain.  Defaults to `SecItemAdd`.
  */
-public var rg_SecItemAdd = { SecItemAdd($0, $1) }
+public var rg_SecItemAdd = { SecItemAdd($0, nil) }
 
 /**
  block used to delete an item from the keychain.  Defaults to `SecItemDelete`.
@@ -227,7 +227,7 @@ public class RGLockbox {
                 query[kSecValueData] = data
                 query[kSecAttrAccessible] = self.itemAccessibility
                 query[kSecAttrSynchronizable] = self.isSynchronized
-                status = rg_SecItemAdd(query, nil)
+                status = rg_SecItemAdd(query)
                 RGLogs(.Trace, "SecItemAdd with \(query) returned \(status)")
                 assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             }

@@ -69,7 +69,7 @@ let replacementItemCopy:(CFDictionaryRef, UnsafeMutablePointer<AnyObject?>) -> O
     return errSecItemNotFound
 }
 
-let replacementAddItem:(CFDictionaryRef, UnsafeMutablePointer<AnyObject?>) -> OSStatus = { query, value in
+let replacementAddItem:(CFDictionaryRef) -> OSStatus = { query in
     let pointer = CFDictionaryGetValue(query, unsafeAddressOf(kSecAttrService))
     let multiKey = RGMultiKey()
     multiKey.first = unsafeBitCast(pointer, CFString.self) as String
