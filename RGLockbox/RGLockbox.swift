@@ -95,7 +95,7 @@ public class RGLockbox {
     public class func manager() -> RGLockbox {
         return RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
                               accessibility: kSecAttrAccessibleAfterFirstUnlock,
-                                accountName: nil)
+                              accountName: nil)
     }
     
 /**
@@ -107,8 +107,8 @@ public class RGLockbox {
  - parameter synchronized: Whether this manager's writes will be marked synchronizable.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
  */
-    public required init(withNamespace namespace:String?,
-                                       accessibility:CFStringRef,
+    public required init(withNamespace namespace:String? = RGLockbox.bundleIdentifier,
+                                       accessibility:CFStringRef = kSecAttrAccessibleAfterFirstUnlock,
                                        accountName:String? = nil,
                                        accessGroup:String? = nil,
                                        synchronized:Bool = false) {
@@ -117,15 +117,6 @@ public class RGLockbox {
         self.accountName = accountName
         self.accessGroup = accessGroup
         self.isSynchronized = synchronized
-    }
-    
-/**
- Creates a new `RGLockbox` instance with default namespace and item accessibility.
- */
-    public convenience init() {
-        self.init(withNamespace: RGLockbox.bundleIdentifier,
-                  accessibility: kSecAttrAccessibleAfterFirstUnlock,
-                    accountName: nil)
     }
     
 /**
