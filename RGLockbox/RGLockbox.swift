@@ -180,7 +180,6 @@ public class RGLockbox {
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         dispatch_async(RGLockbox.keychainQueue, {
             RGLogs(.Trace, "key is \(fullKey.first) with data \(data)")
-            var status:OSStatus = errSecSuccess
             let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
@@ -189,7 +188,7 @@ public class RGLockbox {
             if fullKey.second != nil {
                 query.setObject(fullKey.second!, forKey: kSecAttrAccount as NSString)
             }
-            status = rg_SecItemDelete(query)
+            var status = rg_SecItemDelete(query)
             RGLogs(.Trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             if let data = data {
