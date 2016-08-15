@@ -1,3 +1,6 @@
+## 2.2.5
+- Updated README.md to point to the swift 3 version
+
 ## 2.2.4
 - New method `allItems`
 - New properties `isSynchronized` and `accessGroup` which are passed to the keychain calls
