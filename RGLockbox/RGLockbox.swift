@@ -152,7 +152,8 @@ public class RGLockbox {
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
                 kSecMatchLimit : kSecMatchLimitOne,
-                kSecReturnData : true
+                kSecReturnData : true,
+                kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ]
             if fullKey.second != nil {
                 query[kSecAttrAccount] = fullKey.second!
@@ -182,7 +183,8 @@ public class RGLockbox {
             var status:OSStatus = errSecSuccess
             let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
                 kSecClass : kSecClassGenericPassword,
-                kSecAttrService : fullKey.first!
+                kSecAttrService : fullKey.first!,
+                kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ])
             if fullKey.second != nil {
                 query.setObject(fullKey.second!, forKey: kSecAttrAccount as NSString)
@@ -193,7 +195,8 @@ public class RGLockbox {
             if let data = data {
                 let payload:[NSString:AnyObject] = [
                     kSecValueData : data,
-                    kSecAttrAccessible : self.itemAccessibility
+                    kSecAttrAccessible : self.itemAccessibility,
+                    kSecAttrSynchronizable : self.isSynchronized
                 ]
                 query.addEntriesFromDictionary(payload)
                 status = rg_SecItemAdd(query, nil)
