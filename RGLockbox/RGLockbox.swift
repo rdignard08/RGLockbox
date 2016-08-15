@@ -26,66 +26,72 @@ import Security
 
 /**
  block used to retrieve an item from the keychain.  Defaults to `SecItemCopyMatching`.
-*/
+ */
 public var rg_SecItemCopyMatch = { SecItemCopyMatching($0, $1) }
 
 /**
  block used to add a nonexistent item to the keychain.  Defaults to `SecItemAdd`.
-*/
+ */
 public var rg_SecItemAdd = { SecItemAdd($0, $1) }
 
 /**
  block used to delete an item from the keychain.  Defaults to `SecItemDelete`.
-*/
+ */
 public var rg_SecItemDelete = { SecItemDelete($0) }
 
 /**
  Instances of RGLockbox manage access to a given keychain service name.  The default service is your app's bundle identifier.  A given manager is threadsafe.
-*/
+ */
 public class RGLockbox {
 
 /**
  Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
-*/
+ */
     public static let keychainQueue = dispatch_queue_create("RGLockbox-Sync", DISPATCH_QUEUE_SERIAL)
     
 /**
  This lock controls access to `valueCache`.
-*/
+ */
     static let valueCacheLock = NSLock()
     
 /**
  Your app's bundle identifier pre-calculated.
-*/
+ */
     public static var bundleIdentifier:String? = NSBundle.mainBundle().infoDictionary?[kCFBundleIdentifierKey as String] as? String
     
 /**
  `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
-*/
+ */
     public static var valueCache:[RGMultiKey : AnyObject] = [:]
     
 /**
  Determines the service name used by the manager.
-*/
+ */
     public let namespace:String?
     
 /**
  Determines the accessibility assigned by the manager to a given item on add or update.
-*/
+ */
     public let itemAccessibility:CFStringRef
     
 /**
  Qualifies entries by account if provided.
-*/
+ */
     public let accountName:String?
     
+/**
+ Qualifies searches and writes to this accessGroup if provided.
+ */
     public let accessGroup:String?
     
+/**
+ Marks items written by this manager to be synchronizable.
+ */
     public let isSynchronized:Bool
     
 /**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
-*/
+ */
     public class func manager() -> RGLockbox {
         return RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
                               accessibility: kSecAttrAccessibleAfterFirstUnlock,
@@ -98,7 +104,7 @@ public class RGLockbox {
  - parameter accessibilty: The item accessibility to write to the keychain items.
  - parameter accountName: The manager's associated account if account qualified.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
-*/
+ */
     public required init(withNamespace namespace:String?, accessibility:CFStringRef, accountName:String?) {
         self.namespace = namespace
         self.itemAccessibility = accessibility
@@ -107,6 +113,15 @@ public class RGLockbox {
         self.isSynchronized = false
     }
     
+/**
+ A new instance of `RGLockbox`.
+ - parameter namespace: The service to which the instance is associated.
+ - parameter accessibilty: The item accessibility to write to the keychain items.
+ - parameter accountName: The manager's associated account if account qualified.
+ - parameter accessGroup: The manager's associated accessGroup if restricted.
+ - parameter synchronized: Whether this manager's writes will be marked synchronizable.
+ - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
+ */
     public required init(withNamespace namespace:String?,
                                        accessibility:CFStringRef,
                                        accountName:String?,
@@ -121,7 +136,7 @@ public class RGLockbox {
     
 /**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
-*/
+ */
     public convenience init() {
         self.init(withNamespace: RGLockbox.bundleIdentifier,
                   accessibility: kSecAttrAccessibleAfterFirstUnlock,
@@ -132,7 +147,7 @@ public class RGLockbox {
  Raw read access to the keychain.  Caches reads to `valueCache`.
  - parameter key: The key used to identify the item.
  - returns: `NSData` which is `nil` if not found.
-*/
+ */
     public func dataForKey(key:String) -> NSData? {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
@@ -175,7 +190,7 @@ public class RGLockbox {
  Raw write access to keychain.  Caches writes to `valueCache`.
  - parameter data: The data to store on the given key.  If `nil` clears the value in the keychain.
  - parameter key: The identifier of the keychain item.
-*/
+ */
     public func setData(data:NSData?, forKey key:String) {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
