@@ -26,71 +26,74 @@ import Security
 
 /**
  block used to retrieve an item from the keychain.  Defaults to `SecItemCopyMatching`.
-*/
+ */
 public var rg_SecItemCopyMatch = { SecItemCopyMatching($0, $1) }
 
 /**
  block used to add a nonexistent item to the keychain.  Defaults to `SecItemAdd`.
-*/
-public var rg_SecItemAdd = { SecItemAdd($0, $1) }
-
-/**
- block used to update an existing item in the keychain.  Defaults to `SecItemUpdate`.
-*/
-public var rg_SecItemUpdate = { SecItemUpdate($0, $1) }
+ */
+public var rg_SecItemAdd = { SecItemAdd($0, nil) }
 
 /**
  block used to delete an item from the keychain.  Defaults to `SecItemDelete`.
-*/
+ */
 public var rg_SecItemDelete = { SecItemDelete($0) }
 
 /**
  Instances of RGLockbox manage access to a given keychain service name.  The default service is your app's bundle identifier.  A given manager is threadsafe.
-*/
+ */
 public class RGLockbox {
 
 /**
  Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
-*/
+ */
     public static let keychainQueue = DispatchQueue(label: "RGLockbox-Sync")
     
 /**
  This lock controls access to `valueCache`.
-*/
+ */
     static let valueCacheLock = NSLock()
     
 /**
  Your app's bundle identifier pre-calculated.
-*/
+ */
     public static var bundleIdentifier:String? = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String
     
 /**
  `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
-*/
+ */
     public static var valueCache:[RGMultiKey : AnyObject] = [:]
     
 /**
  Determines the service name used by the manager.
-*/
+ */
     public let namespace:String?
     
 /**
  Determines the accessibility assigned by the manager to a given item on add or update.
-*/
+ */
     public let itemAccessibility:CFString
     
 /**
  Qualifies entries by account if provided.
-*/
+ */
     public let accountName:String?
     
 /**
+ Qualifies searches and writes to this accessGroup if provided.
+ */
+    public let accessGroup:String?
+    
+/**
+ Marks items written by this manager to be synchronizable.
+ */
+    public let isSynchronized:Bool
+    
+/**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.
-*/
+ */
     public class func manager() -> RGLockbox {
-        return RGLockbox.init(withNamespace: RGLockbox.bundleIdentifier,
-                              accessibility: kSecAttrAccessibleAfterFirstUnlock,
-                                accountName: nil)
+        return RGLockbox()
     }
     
 /**
@@ -98,32 +101,32 @@ public class RGLockbox {
  - parameter namespace: The service to which the instance is associated.
  - parameter accessibilty: The item accessibility to write to the keychain items.
  - parameter accountName: The manager's associated account if account qualified.
+ - parameter accessGroup: The manager's associated accessGroup if restricted.
+ - parameter synchronized: Whether this manager's writes will be marked synchronizable.
  - returns: An instance of `RGLockbox` with the provided namespace and accessibility.
-*/
-    public required init(withNamespace namespace:String?, accessibility:CFString, accountName:String?) {
+ */
+    public required init(withNamespace namespace:String? = RGLockbox.bundleIdentifier,
+                                       accessibility:CFString = kSecAttrAccessibleAfterFirstUnlock,
+                                       accountName:String? = nil,
+                                       accessGroup:String? = nil,
+                                       synchronized:Bool = false) {
         self.namespace = namespace
         self.itemAccessibility = accessibility
         self.accountName = accountName
-    }
-    
-/**
- Creates a new `RGLockbox` instance with default namespace and item accessibility.
-*/
-    public convenience init() {
-        self.init(withNamespace: RGLockbox.bundleIdentifier,
-                  accessibility: kSecAttrAccessibleAfterFirstUnlock,
-                    accountName: nil)
+        self.accessGroup = accessGroup
+        self.isSynchronized = synchronized
     }
     
 /**
  Raw read access to the keychain.  Caches reads to `valueCache`.
  - parameter key: The key used to identify the item.
  - returns: `Data` which is `nil` if not found.
-*/
+ */
     public func dataForKey(_ key:String) -> Data? {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
         fullKey.second = self.accountName
+        fullKey.third = self.accessGroup
         RGLockbox.valueCacheLock.lock()
         let value = RGLockbox.valueCache[fullKey]
         if value != nil {
@@ -132,19 +135,22 @@ public class RGLockbox {
             return value is Data ? (value as! Data) : nil
         }
         var data:AnyObject? = nil
-        var status:OSStatus = errSecSuccess
         RGLockbox.keychainQueue.sync(execute: {
             RGLogs(.Trace, "hit sync with key \(key)")
             var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
                 kSecMatchLimit : kSecMatchLimitOne,
-                kSecReturnData : true
+                kSecReturnData : true,
+                kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ]
             if fullKey.second != nil {
                 query[kSecAttrAccount] = fullKey.second!
             }
-            status = rg_SecItemCopyMatch(query, &data)
+            if fullKey.third != nil {
+                query[kSecAttrAccessGroup] = fullKey.third!
+            }
+            let status = rg_SecItemCopyMatch(query, &data)
             RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
         let bridgedData = data as! Data?
@@ -153,46 +159,78 @@ public class RGLockbox {
         return bridgedData
     }
     
+    public func allItems() -> Array<String> {
+        let fullKey = RGMultiKey()
+        fullKey.second = self.accountName
+        fullKey.third = self.accessGroup
+        var data:AnyObject? = nil
+        dispatch_sync(RGLockbox.keychainQueue, {
+            RGLogs(.Trace, "hit sync with fetch all")
+            var query:[NSString:AnyObject] = [
+                kSecClass : kSecClassGenericPassword,
+                kSecMatchLimit : kSecMatchLimitAll,
+                kSecReturnAttributes : true,
+                kSecAttrSynchronizable : kSecAttrSynchronizableAny
+            ]
+            if fullKey.second != nil {
+                query[kSecAttrAccount] = fullKey.second!
+            }
+            if fullKey.third != nil {
+                query[kSecAttrAccessGroup] = fullKey.third!
+            }
+            let status = rg_SecItemCopyMatch(query, &data)
+            RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
+        })
+        let items = data as? Array<Dictionary<String, AnyObject>>
+        var output:Array<String> = []
+        for item in items ?? [] {
+            let service = item[kSecAttrService as String] as! String
+            if self.namespace == nil {
+                output.append(service)
+            } else if service.hasPrefix("\(self.namespace!).") {
+                let range = service.rangeOfString("\(self.namespace!).")
+                output.append(service.substringFromIndex(range!.endIndex))
+            }
+        }
+        return output
+    }
+    
 /**
  Raw write access to keychain.  Caches writes to `valueCache`.
  - parameter data: The data to store on the given key.  If `nil` clears the value in the keychain.
  - parameter key: The identifier of the keychain item.
-*/
+ */
     public func setData(_ data:Data?, forKey key:String) {
         let fullKey = RGMultiKey()
         fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
         fullKey.second = self.accountName
+        fullKey.third = self.accessGroup
         RGLockbox.valueCacheLock.lock()
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         RGLockbox.keychainQueue.async(execute: {
             RGLogs(.Trace, "key is \(fullKey.first) with data \(data)")
-            var status:OSStatus = errSecSuccess
-            let query:NSMutableDictionary! = NSMutableDictionary(dictionary:[
+            var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
-                kSecAttrService : fullKey.first!
-            ])
+                kSecAttrService : fullKey.first!,
+                kSecAttrSynchronizable : kSecAttrSynchronizableAny
+            ]
             if fullKey.second != nil {
-                query.setObject(fullKey.second!, forKey: kSecAttrAccount as NSString)
+                query[kSecAttrAccount] = fullKey.second!
             }
-            if let data = data {
-                let payload:[NSString:AnyObject] = [
-                    kSecValueData : data,
-                    kSecAttrAccessible : self.itemAccessibility
-                ]
-                query.addEntries(from: payload)
-                status = rg_SecItemAdd(query, nil)
-                RGLogs(.Trace, "SecItemAdd with \(query) returned \(status)")
-                assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
-                if status == errSecDuplicateItem {
-                    status = rg_SecItemUpdate(query, payload)
-                    RGLogs(.Trace, "SecItemUpdate with \(query) and \(payload) returned \(status)")
-                    assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
-                }
-                return
+            if fullKey.third != nil {
+                query[kSecAttrAccessGroup] = fullKey.third!
             }
-            status = rg_SecItemDelete(query)
+            var status = rg_SecItemDelete(query)
             RGLogs(.Trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
+            if let data = data {
+                query[kSecValueData] = data
+                query[kSecAttrAccessible] = self.itemAccessibility
+                query[kSecAttrSynchronizable] = self.isSynchronized
+                status = rg_SecItemAdd(query)
+                RGLogs(.Trace, "SecItemAdd with \(query) returned \(status)")
+                assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
+            }
         })
         RGLockbox.valueCacheLock.unlock()
     }

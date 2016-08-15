@@ -175,8 +175,8 @@
 				BE0DB0831C72E34C002914BC /* Info.plist */,
 				BED8B7571C728BA200289B25 /* RGLockbox.swift */,
 				BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */,
-				BE5EA47F1D1922FA00007BA0 /* RGMultiKey.swift */,
 				BE28A7BA1D57F6F200059452 /* RGLog.swift */,
+				BE5EA47F1D1922FA00007BA0 /* RGMultiKey.swift */,
 			);
 			path = RGLockbox;
 			sourceTree = "<group>";
