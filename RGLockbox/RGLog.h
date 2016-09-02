@@ -85,9 +85,38 @@ void rg_log_severity(RGLogSeverity severity,
                      unsigned long line,
                      ...);
 
+/**
+ @brief A complete `NSLogv()` replacement.  It logs the file name & line number.
+ @param severity the severity level of this log message
+ @param format the format string of the arguments _after_ lineNumber.  It is a programmer error to pass `nil`.
+ @param file the name of the file where the log was called.  Cannot be `NULL`.
+ @param line the line number of the log call.
+ @param args values that will be called with `format` to generate the output.
+ */
+void rg_log_severity_v(RGLogSeverity severity,
+                       NSString* RG_SUFFIX_NONNULL format,
+                       const char* RG_SUFFIX_NONNULL const file,
+                       unsigned long line,
+                       va_list args);
+
+/**
+ @deprecated
+ @brief A complete `NSLog()` replacement.  It logs the file name & line number.
+ @param severity the severity level of this log message
+ @param format the format string of the arguments _after_ lineNumber.  It is a programmer error to pass `nil`.
+ @param file the name of the file where the log was called.  Cannot be `NULL`.
+ @param line the line number of the log call.
+ @param ... values that will be called with `format` to generate the output.
+ */
+void rg_dep_log(RGLogSeverity severity,
+                NSString* RG_SUFFIX_NONNULL format,
+                const char* RG_SUFFIX_NONNULL const file,
+                unsigned long line,
+                ...);
+
 #ifndef RGLog /* provide this to match the old behavior */
     #ifdef DEBUG
-        #define RGLog(format, ...) rg_log_severity(kRGLogSeverityNone, format, __FILE__, __LINE__, ## __VA_ARGS__)
+        #define RGLog(format, ...) rg_dep_log(kRGLogSeverityNone, format, __FILE__, __LINE__, ## __VA_ARGS__)
     #else
         #define RGLog(...) RG_VOID_NOOP
     #endif

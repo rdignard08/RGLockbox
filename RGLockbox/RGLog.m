@@ -61,11 +61,33 @@ static BOOL rg_shouldLog(RGLogSeverity severity) {
     return severity >= rg_logging_severity();
 }
 
+void rg_dep_log(RGLogSeverity severity,
+                NSString* RG_SUFFIX_NONNULL format,
+                const char* RG_SUFFIX_NONNULL const file,
+                unsigned long line,
+                ...) {
+    va_list arguments;
+    va_start(arguments, line);
+    rg_log_severity_v(severity, format, file, line, arguments);
+    va_end(arguments);
+}
+
 void rg_log_severity(RGLogSeverity severity,
                      NSString * RG_SUFFIX_NONNULL format,
                      const char * RG_SUFFIX_NONNULL const file,
                      unsigned long line,
                      ...) {
+    va_list arguments;
+    va_start(arguments, line);
+    rg_log_severity_v(severity, format, file, line, arguments);
+    va_end(arguments);
+}
+
+void rg_log_severity_v(RGLogSeverity severity,
+                       NSString* RG_SUFFIX_NONNULL format,
+                       const char* RG_SUFFIX_NONNULL const file,
+                       unsigned long line,
+                       va_list args) {
     if (rg_shouldLog(severity)) {
         const char * fileName = file;
         for (size_t i = strlen(file); i > 0; i--) {
@@ -74,10 +96,7 @@ void rg_log_severity(RGLogSeverity severity,
                 break;
             }
         }
-        va_list arguments;
-        va_start(arguments, line);
-        NSString* userOutput = [[NSString alloc] initWithFormat:format arguments:arguments];
-        va_end(arguments);
+        NSString* userOutput = [[NSString alloc] initWithFormat:format arguments:args];
         const char * const severityDescription = rg_severityDescription(severity);
         fprintf(stderr, "[%s:%lu] %s%s\n", fileName, line, severityDescription, userOutput.UTF8String);
     }
