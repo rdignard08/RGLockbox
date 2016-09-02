@@ -25,6 +25,10 @@
 
 CLASS_SPEC(RGLog)
 
+- (void) testOldLog {
+    RGLog(@"Hello");
+}
+
 - (void) testTraceMessageLogs {
     rg_set_logging_severity(kRGLogSeverityTrace);
     RGLogs(kRGLogSeverityTrace, @"Hello Trace");
