@@ -1,3 +1,6 @@
+## 2.2.6
+- `RGLog` is now explicitly marked deprecated
+
 ## 2.2.5
 - Updated README.md to point to the swift 3 version
 
