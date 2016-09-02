@@ -1,3 +1,6 @@
+## 2.2.7
+- Frameworks build all architectures
+
 ## 2.2.6
 - `RGLog` is now explicitly marked deprecated
 
