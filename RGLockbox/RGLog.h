@@ -25,6 +25,11 @@
 #import "RGDefines.h"
 
 /**
+ Some variants of the built-in va_list do not allow a nullability annotation.  This is a problem with -Werror
+ */
+typedef void* rg_va_list;
+
+/**
  Provides levels of logging suitable for different build environments.  Messages with severity greater than or equal to 
   the current system severity will be logged.
  */
@@ -97,16 +102,16 @@ void rg_log_severity_v(RGLogSeverity severity,
                        NSString* RG_SUFFIX_NONNULL format,
                        const char* RG_SUFFIX_NONNULL const file,
                        unsigned long line,
-                       va_list args);
+                       rg_va_list RG_SUFFIX_NONNULL args);
 
 /**
- @deprecated
  @brief A complete `NSLog()` replacement.  It logs the file name & line number.
  @param severity the severity level of this log message
  @param format the format string of the arguments _after_ lineNumber.  It is a programmer error to pass `nil`.
  @param file the name of the file where the log was called.  Cannot be `NULL`.
  @param line the line number of the log call.
  @param ... values that will be called with `format` to generate the output.
+ @deprecated Use RGLogs(severity, format, ...)
  */
 void rg_dep_log(RGLogSeverity severity,
                 NSString* RG_SUFFIX_NONNULL format,

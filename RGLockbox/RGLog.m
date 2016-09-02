@@ -87,7 +87,7 @@ void rg_log_severity_v(RGLogSeverity severity,
                        NSString* RG_SUFFIX_NONNULL format,
                        const char* RG_SUFFIX_NONNULL const file,
                        unsigned long line,
-                       va_list args) {
+                       rg_va_list args) {
     if (rg_shouldLog(severity)) {
         const char * fileName = file;
         for (size_t i = strlen(file); i > 0; i--) {
