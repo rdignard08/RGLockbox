@@ -1,3 +1,7 @@
+## 1.4.5
+- New symbol `rg_dep_log` which is deprecated so that `RGLog` is also deprecated
+- New symbol `rg_log_severity_v` is the non-variadic form of `rg_log_severity`
+
 ## 1.4.4
 - New parameters `accessGroup` and `isSynchronized` used on platforms where available
 - New initializer, old one is deprecated
