@@ -1,6 +1,19 @@
 ## 2.3.0
 - Released as Swift 3 compatible
 
+## 2.2.7
+- Frameworks build all architectures
+
+## 2.2.6
+- `RGLog` is now explicitly marked deprecated
+
+## 2.2.5
+- Updated README.md to point to the swift 3 version
+
+## 2.2.4
+- New method `allItems`
+- New properties `isSynchronized` and `accessGroup` which are passed to the keychain calls
+
 ## 2.2.3
 - Fixed warning preventing publishing to CocoaPods
 

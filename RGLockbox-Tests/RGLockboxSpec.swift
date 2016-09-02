@@ -185,7 +185,7 @@ class RGLockboxSpec : XCTestCase {
         RGLockbox.valueCache.removeAll()
         RGLockbox().setData(Data(), forKey: kKey2)
         let items = manager.allItems()
-        XCTAssert(items.first!.isEqual(kKey1))
+        XCTAssert(items.first == kKey1)
         XCTAssert(items.count == 1)
     }
     

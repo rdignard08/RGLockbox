@@ -26,6 +26,10 @@ import XCTest
 import RGLockboxIOS
 
 class RGLogSpec : XCTestCase {
+    func testOldLog() {
+        RGLog("Hello")
+    }
+    
     func testTraceMessageLogs() {
         rg_set_logging_severity(.trace)
         RGLogs(.trace, "Hello Trace")

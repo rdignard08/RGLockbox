@@ -10,6 +10,8 @@ RGSwiftKeychain
 =======
 `RGLockbox` is a simple to use interface with the standard keychain.  Using object-orientented approaches it is simple to pick a key and store any rudimentary value there.
 
+There is a development Swift 3.0 version of this library available on the branch [swift-3](https://github.com/rdignard08/RGLockbox/tree/swift-3).
+
 The Objective-C version of this pod is named `RGLockbox` and is available on the branch [objc-master](https://github.com/rdignard08/RGLockbox/tree/objc-master).
 
 Default supported types include:
@@ -31,12 +33,12 @@ Example
 =======
 ```swift
 let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
-RGLockbox.manager().setData(data, forKey: "myData")
+RGLockbox().setData(data, forKey: "myData")
 ```
 Writing data is as simple as creating it and applying it to your keychain manager.  By default these managers are namespaced to your bundle's identifier.
 
 ```swift 
-let data = RGLockbox.manager().dataForKey("myData")!
+let data = RGLockbox().dataForKey("myData")!
 let string = String.init(data: data, encoding: NSUTF8StringEncoding)!
 assert(string == "abcd")
 ```
@@ -46,48 +48,48 @@ In addition to the primitive interface supporting reading and writing raw `NSDat
 `NSDate`:
 ```swift
 let date = NSDate.init()
-RGLockbox.manager().setDate(date, forKey: "myDate")
-let readDate = RGLockbox.manager().dateForKey("myDate")!
+RGLockbox().setDate(date, forKey: "myDate")
+let readDate = RGLockbox().dateForKey("myDate")!
 assert(Int(date.timeIntervalSince1970) == Int(readDate.timeIntervalSince1970))
 ```
 `String`:
 ```swift
 let string = "aString"
-RGLockbox.manager().setString(string, forKey: "stringKey")
-let readString = RGLockbox.manager().stringForKey("stringKey")!
+RGLockbox().setString(string, forKey: "stringKey")
+let readString = RGLockbox().stringForKey("stringKey")!
 assert(string == readString)
 ```
 `Dictionary`:
 ```swift
 let dictionary = [ "aKey" : "aValue" ]
-RGLockbox.manager().setJSONObject(dictionary, forKey: "dictionaryKey")
-let readDictionary = RGLockbox.manager().JSONObjectForKey("dictionaryKey")!
+RGLockbox().setJSONObject(dictionary, forKey: "dictionaryKey")
+let readDictionary = RGLockbox().JSONObjectForKey("dictionaryKey")!
 assert(dictionary == readDictionary)
 ```
 `Array`:
 ```swift
 let array = [ "aValue1", "aValue2" ]
-RGLockbox.manager().setJSONObject(array, forKey: "arrayKey")
-let readArray = RGLockbox.manager().JSONObjectForKey("arrayKey")!
+RGLockbox().setJSONObject(array, forKey: "arrayKey")
+let readArray = RGLockbox().JSONObjectForKey("arrayKey")!
 assert(array == readArray)
 ```
 `NSCoding`:
 ```swift
 let url = NSURL.init(string: "google.com")
-RGLockbox.manager().setCodeable(url, forKey: "urlKey")
-let readURL = RGLockbox.manager().codeableForKey("urlKey")!
+RGLockbox().setCodeable(url, forKey: "urlKey")
+let readURL = RGLockbox().codeableForKey("urlKey")!
 assert(url == readURL)
 ```
 
 Finally, this library supports arbitrary namespacing which allows sharing keychain data across app bundles as well as setting different item accessibility for advanced use cases.
 ```swift
 let signupDate = NSDate.init(timeIntervalSince1970: 1453075980.0)
-let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways)
+let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways, accessGroup: "com.rglockbox")
 lockbox.setDate(signupDate, forKey: "userSignupDate")
 
 /* In another program, app extension, component framework, etc. ... */
 
-let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways)
+let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways, accessGroup: "com.rglockbox")
 let signupDate = lockbox.dateForKey("userSignupDate")!
 assert(signupDate.timeIntervalSince1970 == 1453075980.0)
 ```

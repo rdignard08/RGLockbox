@@ -124,7 +124,7 @@ private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
  - parameter file the name of the file where the log was called.  Cannot be `NULL`.
  - parameter line the line number of the log call.
  */
-public func RGLog(_ message: String, _ file: String = #file, _ line: Int = #line) {
+@available(*, deprecated = 2.2.5) public func RGLog(_ message: String, _ file: String = #file, _ line: Int = #line) {
     RGLogs(.none, message, file, line)
 }
 

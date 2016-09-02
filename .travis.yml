@@ -4,5 +4,6 @@ xcode_project: RGLockbox.xcodeproj
 xcode_scheme: RGLockbox-Tests
 xcode_sdk: iphonesimulator10.0
 script:
-- xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox-Tests build test -sdk iphonesimulator10.0 -destination 'platform=iOS Simulator,name=iPhone 6'
+- xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox-Tests build test -sdk iphonesimulator10.0 -destination 'platform=iOS Simulator,name=iPhone 6' GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
+after_success:
 - bash <(curl -s https://codecov.io/bash)
