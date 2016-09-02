@@ -112,7 +112,7 @@ void rg_dep_log(RGLogSeverity severity,
                 NSString* RG_SUFFIX_NONNULL format,
                 const char* RG_SUFFIX_NONNULL const file,
                 unsigned long line,
-                ...);
+                ...) __attribute__((deprecated));
 
 #ifndef RGLog /* provide this to match the old behavior */
     #ifdef DEBUG
