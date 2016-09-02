@@ -47,7 +47,7 @@ public final class RGMultiKey: NSObject, NSCopying {
 /**
  Method for use with NSObject based equality to parallel the `==` implementation.
  */
-    override public func isEqual(_ object: AnyObject?) -> Bool {
+    public func isEqual(_ object: AnyObject?) -> Bool {
         if let object = object as? RGMultiKey {
             return self.first == object.first && self.second == object.second && self.third == object.third
         }
