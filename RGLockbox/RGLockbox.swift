@@ -62,7 +62,7 @@ public class RGLockbox {
 /**
  `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
  */
-    public static var valueCache:[RGMultiKey : AnyObject] = [:]
+    public static var valueCache:[RGMultiKey : Any] = [:]
     
 /**
  Determines the service name used by the manager.
@@ -138,7 +138,7 @@ public class RGLockbox {
         var data:AnyObject? = nil
         RGLockbox.keychainQueue.sync(execute: {
             RGLogs(.trace, "hit sync with key \(key)")
-            var query:[NSString:AnyObject] = [
+            var query:[NSString:Any] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
                 kSecMatchLimit : kSecMatchLimitOne,
@@ -151,7 +151,7 @@ public class RGLockbox {
             if fullKey.third != nil {
                 query[kSecAttrAccessGroup] = fullKey.third!
             }
-            let status = rg_SecItemCopyMatch(query, &data)
+            let status = rg_SecItemCopyMatch(query as NSDictionary, &data)
             RGLogs(.trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
         let bridgedData = data as! Data?
@@ -167,7 +167,7 @@ public class RGLockbox {
         var data:AnyObject? = nil
         RGLockbox.keychainQueue.sync(execute: {
             RGLogs(.trace, "hit sync with fetch all")
-            var query:[NSString:AnyObject] = [
+            var query:[NSString:Any] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecMatchLimit : kSecMatchLimitAll,
                 kSecReturnAttributes : true,
@@ -179,7 +179,7 @@ public class RGLockbox {
             if fullKey.third != nil {
                 query[kSecAttrAccessGroup] = fullKey.third!
             }
-            let status = rg_SecItemCopyMatch(query, &data)
+            let status = rg_SecItemCopyMatch(query as NSDictionary, &data)
             RGLogs(.trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
         let items = data as? Array<Dictionary<String, AnyObject>>
@@ -210,7 +210,7 @@ public class RGLockbox {
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         RGLockbox.keychainQueue.async(execute: {
             RGLogs(.trace, "key is \(fullKey.first) with data \(data)")
-            var query:[NSString:AnyObject] = [
+            var query:[NSString:Any] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecAttrService : fullKey.first!,
                 kSecAttrSynchronizable : kSecAttrSynchronizableAny
@@ -221,14 +221,14 @@ public class RGLockbox {
             if fullKey.third != nil {
                 query[kSecAttrAccessGroup] = fullKey.third!
             }
-            var status = rg_SecItemDelete(query)
+            var status = rg_SecItemDelete(query as NSDictionary)
             RGLogs(.trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             if let data = data {
                 query[kSecValueData] = data
                 query[kSecAttrAccessible] = self.itemAccessibility
                 query[kSecAttrSynchronizable] = self.isSynchronized
-                status = rg_SecItemAdd(query)
+                status = rg_SecItemAdd(query as NSDictionary)
                 RGLogs(.trace, "SecItemAdd with \(query) returned \(status)")
                 assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             }

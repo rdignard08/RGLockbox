@@ -43,7 +43,7 @@ class RGLockboxSpec : XCTestCase {
     }
     
     override func setUp() {
-        RGLockbox.bundleIdentifier = Bundle(for: self.dynamicType).infoDictionary![kCFBundleIdentifierKey as String] as! String?
+        RGLockbox.bundleIdentifier = Bundle(for: type(of: self)).infoDictionary![kCFBundleIdentifierKey as String] as! String?
         for key in testKeys {
             RGLockbox().setData(nil, forKey: key)
         }
