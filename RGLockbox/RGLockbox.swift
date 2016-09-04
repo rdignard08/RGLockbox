@@ -124,10 +124,8 @@ public class RGLockbox {
  */
     @discardableResult
     public func dataForKey(_ key:String) -> Data? {
-        let fullKey = RGMultiKey()
-        fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
-        fullKey.second = self.accountName
-        fullKey.third = self.accessGroup
+        let name = namespace != nil ? "\(namespace!).\(key)" : key
+        let fullKey = RGMultiKey(withFirst: name, second: self.accountName, third: self.accessGroup)
         RGLockbox.valueCacheLock.lock()
         let value = RGLockbox.valueCache[fullKey]
         if value != nil {
@@ -161,9 +159,7 @@ public class RGLockbox {
     }
     
     public func allItems() -> Array<String> {
-        let fullKey = RGMultiKey()
-        fullKey.second = self.accountName
-        fullKey.third = self.accessGroup
+        let fullKey = RGMultiKey(second: self.accountName, third: self.accessGroup)
         var data:AnyObject? = nil
         RGLockbox.keychainQueue.sync(execute: {
             RGLogs(.trace, "hit sync with fetch all")
@@ -182,7 +178,7 @@ public class RGLockbox {
             let status = rg_SecItemCopyMatch(query as NSDictionary, &data)
             RGLogs(.trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
-        let items = data as? Array<Dictionary<String, AnyObject>>
+        let items = data as? Array<Dictionary<String, Any>>
         var output:Array<String> = []
         for item in items ?? [] {
             let service = item[kSecAttrService as String] as! String
@@ -202,10 +198,8 @@ public class RGLockbox {
  - parameter key: The identifier of the keychain item.
  */
     public func setData(_ data:Data?, forKey key:String) {
-        let fullKey = RGMultiKey()
-        fullKey.first = namespace != nil ? "\(namespace!).\(key)" : key
-        fullKey.second = self.accountName
-        fullKey.third = self.accessGroup
+        let name = namespace != nil ? "\(namespace!).\(key)" : key
+        let fullKey = RGMultiKey(withFirst: name, second: self.accountName, third: self.accessGroup)
         RGLockbox.valueCacheLock.lock()
         RGLockbox.valueCache[fullKey] = ((data != nil) ? data : NSNull())
         RGLockbox.keychainQueue.async(execute: {

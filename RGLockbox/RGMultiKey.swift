@@ -27,7 +27,7 @@ import Foundation
  `RGMultiKey` is meant to represent a set of keys for use with `Dictionary`.  Can represent a null too.
   Technically this is only a `Triple<String, String, String>`, but it could be expanded.
  */
-public final class RGMultiKey: NSObject, NSCopying {
+public struct RGMultiKey: Hashable {
 
 /**
  The first string component of the key.
@@ -45,19 +45,18 @@ public final class RGMultiKey: NSObject, NSCopying {
     public var third:String?
     
 /**
- Method for use with NSObject based equality to parallel the `==` implementation.
+  Returns a new `RGMultiKey`, you may omit any properties you wish to remain `nil`.
  */
-    public func isEqual(object: AnyObject?) -> Bool {
-        if let object = object as? RGMultiKey {
-            return self.first == object.first && self.second == object.second && self.third == object.third
-        }
-        return false
+    public init(withFirst first:String? = nil, second:String? = nil, third:String? = nil) {
+        self.first = first;
+        self.second = second;
+        self.third = third;
     }
     
 /**
- Returns a hash of the `first` and `second` properties.
+ Returns a hash of the `first`, `second`, and `third` properties.
  */
-    override public var hash: Int {
+    public var hashValue: Int {
         let firstHash = self.first == nil ? 0 : self.first!.hash
         let secondHash = self.second == nil ? 0 : self.second!.hash
         let thirdHash = self.third == nil ? 0 : self.third!.hash
@@ -65,27 +64,10 @@ public final class RGMultiKey: NSObject, NSCopying {
     }
     
 /**
- To be a key in an `NSMutableDictionary` this class must conform to `NSCopying`.
- */
-    public func copy(with zone: NSZone?) -> Any {
-        let copy = RGMultiKey.init()
-        copy.first = self.first
-        copy.second = self.second
-        copy.third = self.third
-        return copy
-    }
-
-}
-
-/**
  Returns `true` if both are `nil` or both are not `nil` and their `first` and `second`
    properties match respectively.  Otherwise `false`.
  */
-func == (lhs: RGMultiKey?, rhs: RGMultiKey?) -> Bool {
-    if lhs == nil && rhs == nil {
-        return true
-    } else if lhs != nil {
-        return lhs!.isEqual(rhs)
+    public static func == (lhs: RGMultiKey, rhs: RGMultiKey) -> Bool {
+        return lhs.first == rhs.first && lhs.second == rhs.second && lhs.third == rhs.third
     }
-    return false
 }

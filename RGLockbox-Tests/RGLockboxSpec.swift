@@ -91,8 +91,7 @@ class RGLockboxSpec : XCTestCase {
     }
     
     func testReadNotSeen() {
-        let fullKey = RGMultiKey()
-        fullKey.first = "\(RGLockbox().namespace!).\(kKey2)"
+        let fullKey = RGMultiKey(withFirst: "\(RGLockbox().namespace!).\(kKey2)")
         let data = "abcd".data(using: String.Encoding.utf8)
         RGLockbox().setData(data, forKey: kKey2)
         RGLockbox.valueCache[fullKey] = nil
@@ -110,8 +109,7 @@ class RGLockboxSpec : XCTestCase {
     
 // MARK: - Updating
     func testUpdateValue() {
-        let fullKey = RGMultiKey()
-        fullKey.first = "\(RGLockbox().namespace!).\(kKey1)"
+        let fullKey = RGMultiKey(withFirst: "\(RGLockbox().namespace!).\(kKey1)")
         let firstData = "abew".data(using: String.Encoding.utf8)!
         let secondData = "qwew".data(using: String.Encoding.utf8)!
         RGLockbox().setData(firstData, forKey: kKey1)
