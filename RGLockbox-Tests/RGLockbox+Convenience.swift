@@ -36,7 +36,7 @@ class RGLockbox_ConvenienceSpec : XCTestCase {
     }
     
     func testGetJSONBad() {
-        RGLockbox.manager().setCodeable(URL.init(string: "google.com"), key: kTestKey)
+        RGLockbox.manager().setCodeable(URL.init(string: "google.com") as NSCoding?, key: kTestKey)
         let value = RGLockbox.manager().JSONObjectForKey(kTestKey)
         XCTAssert(value == nil)
     }
@@ -104,9 +104,9 @@ class RGLockbox_ConvenienceSpec : XCTestCase {
     }
     
     func testGetCodeableNotNil() {
-        RGLockbox.manager().setCodeable(URL.init(string: "google.com"), key: kTestKey)
+        RGLockbox.manager().setCodeable(URL.init(string: "google.com") as NSCoding?, key: kTestKey)
         let value = RGLockbox.manager().codeableForKey(kTestKey)
-        XCTAssert((value as! NSURL) == URL.init(string: "google.com"))
+        XCTAssert(value as! NSURL? == URL.init(string: "google.com") as NSURL?)
     }
     
 }

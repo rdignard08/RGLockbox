@@ -28,15 +28,15 @@ var theKeychainLol:Dictionary<RGMultiKey, NSData> = [:]
 var keychainLock = NSLock()
 
 let replacementItemCopy:(CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus = { query, value in
-    let pointer = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrService))
+    let pointer = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrService).toOpaque())
     if pointer != nil {
         let multiKey = RGMultiKey()
         multiKey.first = unsafeBitCast(pointer, to: CFString.self) as String
-        let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
+        let account = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrAccount).toOpaque())
         if account != nil {
             multiKey.second = unsafeBitCast(account, to: CFString.self) as String
         }
-        let returnData:NSNumber = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddress(of: kSecReturnData)), to: NSNumber.self)
+        let returnData:NSNumber = unsafeBitCast(CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecReturnData).toOpaque()), to: NSNumber.self)
         keychainLock.lock()
         let storedValue = theKeychainLol[multiKey]
         keychainLock.unlock()
@@ -48,7 +48,7 @@ let replacementItemCopy:(CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSS
         }
     } else {
         keychainLock.lock()
-        let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
+        let account = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrAccount).toOpaque())
         var output:[Dictionary<String, String>] = []
         for item in theKeychainLol {
             let key = item.0
@@ -62,7 +62,7 @@ let replacementItemCopy:(CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSS
             }
         }
         keychainLock.unlock()
-        value!.pointee = output
+        value!.pointee = output as AnyObject?
         return output.count > 0 ? errSecSuccess : errSecItemNotFound
     }
 
@@ -70,14 +70,14 @@ let replacementItemCopy:(CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSS
 }
 
 let replacementAddItem:(CFDictionary) -> OSStatus = { query in
-    let pointer = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrService))
+    let pointer = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrService).toOpaque())
     let multiKey = RGMultiKey()
     multiKey.first = unsafeBitCast(pointer, to: CFString.self) as String
-    let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
+    let account = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrAccount).toOpaque())
     if account != nil {
         multiKey.second = unsafeBitCast(account, to: CFString.self) as String
     }
-    let data = unsafeBitCast(CFDictionaryGetValue(query, unsafeAddress(of: kSecValueData)), to: NSData.self)
+    let data = unsafeBitCast(CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecReturnData).toOpaque()), to: NSData.self)
     keychainLock.lock()
     let storedValue = theKeychainLol[multiKey]
     if let storedValue = storedValue {
@@ -90,10 +90,10 @@ let replacementAddItem:(CFDictionary) -> OSStatus = { query in
 }
 
 let replacementDeleteItem:(CFDictionary) -> OSStatus = { query in
-    let pointer = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrService))
+    let pointer = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrService).toOpaque())
     let multiKey = RGMultiKey()
     multiKey.first = unsafeBitCast(pointer, to: CFString.self) as String
-    let account = CFDictionaryGetValue(query, unsafeAddress(of: kSecAttrAccount))
+    let account = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrAccount).toOpaque())
     if account != nil {
         multiKey.second = unsafeBitCast(account, to: CFString.self) as String
     }

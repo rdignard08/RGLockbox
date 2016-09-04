@@ -172,7 +172,7 @@ class RGLockboxSpec : XCTestCase {
         RGLockbox.keychainQueue.sync {}
         RGLockbox.valueCache.removeAll()
         let value = manager.dataForKey(kKey2)
-        XCTAssert(value == NSData())
+        XCTAssert(value == Data())
     }
     
     func testAllItemsSynchronized() {
