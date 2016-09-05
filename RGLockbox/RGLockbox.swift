@@ -164,12 +164,14 @@ public class RGLockbox {
         fullKey.second = self.accountName
         fullKey.third = self.accessGroup
         var data:AnyObject? = nil
+        RGLockbox.valueCacheLock.lock()
         dispatch_sync(RGLockbox.keychainQueue, {
             RGLogs(.Trace, "hit sync with fetch all")
             var query:[NSString:AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
                 kSecMatchLimit : kSecMatchLimitAll,
                 kSecReturnAttributes : true,
+                kSecReturnData : true,
                 kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ]
             if fullKey.second != nil {
@@ -184,14 +186,30 @@ public class RGLockbox {
         let items = data as? Array<Dictionary<String, AnyObject>>
         var output:Array<String> = []
         for item in items ?? [] {
-            let service = item[kSecAttrService as String] as! String
-            if self.namespace == nil {
-                output.append(service)
-            } else if service.hasPrefix("\(self.namespace!).") {
-                let range = service.rangeOfString("\(self.namespace!).")
-                output.append(service.substringFromIndex(range!.endIndex))
+            let itemKey = RGMultiKey()
+            let service = item[kSecAttrService as String]
+            if let service = service {
+                let serviceName = (service as! String)
+                itemKey.first = serviceName
+                if self.namespace == nil {
+                    output.append(serviceName)
+                } else if serviceName.hasPrefix("\(self.namespace!).") {
+                    let range = serviceName.rangeOfString("\(self.namespace!).")
+                    output.append(serviceName.substringFromIndex(range!.endIndex))
+                }
             }
+            let account = item[kSecAttrAccount as String]
+            if let account = account {
+                itemKey.second = (account as! String)
+            }
+            let accessGroup = item[kSecAttrAccessGroup as String]
+            if let accessGroup = accessGroup {
+                itemKey.third = (accessGroup as! String)
+            }
+            let data = item[kSecValueData as String] as? NSData
+            RGLockbox.valueCache[itemKey] = data != nil ? data : NSNull()
         }
+        RGLockbox.valueCacheLock.unlock()
         return output
     }
     
