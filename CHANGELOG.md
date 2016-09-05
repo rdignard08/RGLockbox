@@ -1,3 +1,10 @@
+## 1.4.6
+- New symbols `RGApplicationWillResignActive`, `RGApplicationWillBackground`, `RGApplicationWillTerminate`
+- The framework will attempt (but is not guaranteed) to flush the keychain queue on app close, you should still flush it yourself
+- Items with no service name will no longer cause `allItems` to crash
+- `allItems` will cache the items it finds
+- Framework targets will build all architectures
+
 ## 1.4.5
 - New symbol `rg_dep_log` which is deprecated so that `RGLog` is also deprecated
 - New symbol `rg_log_severity_v` is the non-variadic form of `rg_log_severity`
