@@ -227,4 +227,54 @@ class RGLockboxSpec : XCTestCase {
         XCTAssert(value == "abcd".data(using: String.Encoding.utf8))
     }
     
+    func testFlushResignActive() {
+        RGLockbox().setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        RGLockbox().setData("qweq".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        NSNotificationCenter.defaultCenter().postNotificationName(RGApplicationWillResignActive, object: nil)
+        let service = "\(RGLockbox.bundleIdentifier!).\(kKey1)"
+        let query:[NSString:AnyObject] = [
+            kSecClass : kSecClassGenericPassword,
+            kSecMatchLimit : kSecMatchLimitOne,
+            kSecReturnData : true,
+            kSecAttrService : service
+        ];
+        var data:CFTypeRef? = nil;
+        rg_SecItemCopyMatch(query as NSDictionary, &data);
+        let bridgedData = data as? NSData
+        XCTAssert(bridgedData == "qweq".dataUsingEncoding(NSUTF8StringEncoding));
+    }
+    
+    func testFlushBackground() {
+        RGLockbox().setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        RGLockbox().setData("qweq".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        NSNotificationCenter.defaultCenter().postNotificationName(RGApplicationWillBackground, object: nil)
+        let service = "\(RGLockbox.bundleIdentifier!).\(kKey1)"
+        let query:[NSString:AnyObject] = [
+            kSecClass : kSecClassGenericPassword,
+            kSecMatchLimit : kSecMatchLimitOne,
+            kSecReturnData : true,
+            kSecAttrService : service
+        ];
+        var data:CFTypeRef? = nil;
+        rg_SecItemCopyMatch(query as NSDictionary, &data);
+        let bridgedData = data as? NSData
+        XCTAssert(bridgedData == "qweq".dataUsingEncoding(NSUTF8StringEncoding));
+    }
+    
+    func testFlushTerminate() {
+        RGLockbox().setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        RGLockbox().setData("qweq".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
+        NSNotificationCenter.defaultCenter().postNotificationName(RGApplicationWillTerminate, object: nil)
+        let service = "\(RGLockbox.bundleIdentifier!).\(kKey1)"
+        let query:[NSString:AnyObject] = [
+            kSecClass : kSecClassGenericPassword,
+            kSecMatchLimit : kSecMatchLimitOne,
+            kSecReturnData : true,
+            kSecAttrService : service
+        ];
+        var data:CFTypeRef? = nil;
+        rg_SecItemCopyMatch(query as NSDictionary, &data);
+        let bridgedData = data as? NSData
+        XCTAssert(bridgedData == "qweq".dataUsingEncoding(NSUTF8StringEncoding));
+    }
 }

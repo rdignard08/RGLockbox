@@ -1,6 +1,10 @@
 ## 2.3.0
 - Released as Swift 3 compatible
 
+## 2.2.8
+- Framework will attempt to flush the write cache on app backgrounding, you should still do it yourself
+- allItems will cache read values to the global value cache
+
 ## 2.2.7
 - Frameworks build all architectures
 
