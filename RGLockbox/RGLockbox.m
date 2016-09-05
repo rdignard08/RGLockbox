@@ -272,23 +272,38 @@ static NSMutableDictionary* _sValueCache;
 
 - (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString *) *) allItems {
     RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName, self.accessGroup);
+    NSString* nameSpace = self.namespace;
+    NSMutableArray RG_GENERIC(NSString *) * output = [NSMutableArray new];
     [[[self class] valueCacheLock] lock];
     __block CFTypeRef items = nil;
     dispatch_sync([[self class] keychainQueue], ^{
         NSMutableDictionary* query = rg_generic_query(fullKey);
         query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitAll;
         query[(__bridge id)kSecReturnAttributes] = @YES;
+        query[(__bridge id)kSecReturnData] = @YES;
         OSStatus status = rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &items);
         RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
     });
-    [[[self class] valueCacheLock] unlock];
-    NSMutableArray RG_GENERIC(NSString *) * output = [NSMutableArray new];
     NSArray RG_GENERIC(NSDictionary *) * bridgedArray = (__bridge_transfer NSArray*)items;
-    NSString* nameSpace = self.namespace;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
+        RGMultiStringKey *itemKey = [RGMultiStringKey new];
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
-        NSAssert(!service || [service isKindOfClass:[NSString self]], @"Wrong type something is really wrong");
+        if (service) {
+            NSAssert([service isKindOfClass:[NSString self]], @"Wrong type");
+            itemKey.first = service;
+        }
+        id account = bridgedArray[i][(__bridge id)kSecAttrAccount];
+        if (account) {
+            NSAssert([account isKindOfClass:[NSString self]], @"Wrong type");
+            itemKey.second = account;
+        }
+        id accessGroup = bridgedArray[i][rg_accessgroup_key()];
+        if (accessGroup) {
+            NSAssert([accessGroup isKindOfClass:[NSString self]], @"Wrong type");
+            itemKey.third = accessGroup;
+        }
+        [[self class] valueCache][itemKey] = bridgedArray[i][(__bridge id)kSecValueData];
         if (service && !nameSpace) {
             [output addObject:service];
         } else if ([service hasPrefix:nameSpace]) {
@@ -296,6 +311,7 @@ static NSMutableDictionary* _sValueCache;
             [output addObject:[service substringFromIndex:range.location + range.length + 1]];
         }
     }
+    [[[self class] valueCacheLock] unlock];
     return output;
 }
 
