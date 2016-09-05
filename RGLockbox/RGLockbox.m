@@ -26,9 +26,7 @@
 #import <objc/runtime.h>
 
 #if TARGET_OS_IOS || TARGET_OS_TV
-#import <UIKit/UIKit.h>
-#elif TARGET_OS_MAC
-#import <AppKit/AppKit.h>
+    #import <UIKit/UIKit.h>
 #endif
 
 #pragma mark - Swizzle
@@ -112,9 +110,9 @@ NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
     RGApplicationWillBackground = @"UIApplicationDidEnterBackgroundNotification";
     RGApplicationWillTerminate = @"UIApplicationWillTerminateNotification";
 #elif TARGET_OS_MAC
-    RGApplicationWillResignActive = NSApplicationWillResignActiveNotification;
-    RGApplicationWillBackground = NSApplicationWillHideNotification;
-    RGApplicationWillTerminate = NSApplicationWillTerminateNotification;
+    RGApplicationWillResignActive = @"NSApplicationWillResignActiveNotification";
+    RGApplicationWillBackground = @"NSApplicationWillHideNotification";
+    RGApplicationWillTerminate = @"NSApplicationWillTerminateNotification";
 #else
 #warning "Unknown platform target"
     RGApplicationWillResignActive = @"RGApplicationWillResignActive";
