@@ -26,13 +26,9 @@
 #import <objc/runtime.h>
 
 #if TARGET_OS_IOS || TARGET_OS_TV
-extern NSString* RG_SUFFIX_NONNULL const UIApplicationWillResignActiveNotification;
-extern NSString* RG_SUFFIX_NONNULL const UIApplicationDidEnterBackgroundNotification;
-extern NSString* RG_SUFFIX_NONNULL const UIApplicationWillTerminateNotification;
+#import <UIKit/UIKit.h>
 #elif TARGET_OS_MAC
-extern NSString* RG_SUFFIX_NONNULL const NSApplicationWillResignActiveNotification;
-extern NSString* RG_SUFFIX_NONNULL const NSApplicationWillHideNotification;
-extern NSString* RG_SUFFIX_NONNULL const NSApplicationWillTerminateNotification;
+#import <AppKit/AppKit.h>
 #endif
 
 #pragma mark - Swizzle
