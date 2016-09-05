@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE8A817F1D7D57C200629825 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE8A817E1D7D57C200629825 /* ViewController.xib */; };
-		BEA660DE1D5836B80064F7E1 /* RGLockboxIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEA660DD1D5836B80064F7E1 /* RGLockboxIOS.framework */; };
+		BE8A81801D7D59D200629825 /* RGLockboxIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEA660DD1D5836B80064F7E1 /* RGLockboxIOS.framework */; };
 		BEAD66AD1D7D53ED00F6CCAC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEAD66AC1D7D53ED00F6CCAC /* AppDelegate.m */; };
 		BEAD66B11D7D540100F6CCAC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEAD66AF1D7D540100F6CCAC /* ViewController.m */; };
 		BEAD66B41D7D540C00F6CCAC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BEAD66B31D7D540C00F6CCAC /* main.m */; };
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEA660DE1D5836B80064F7E1 /* RGLockboxIOS.framework in Frameworks */,
+				BE8A81801D7D59D200629825 /* RGLockboxIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +224,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -237,6 +238,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = RGLockboxExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.RGLockboxExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -252,6 +254,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = RGLockboxExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.restgoatee.RGLockboxExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
