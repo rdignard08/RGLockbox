@@ -115,9 +115,10 @@ public class RGLockbox {
         return RGLockbox()
     }
     
-    public class func initialize() {
-        
-    }
+/**
+ Registers for application state changes at the class level.
+ */
+    private var onceToken = dispatch_once_t()
     
 /**
  A new instance of `RGLockbox`.
@@ -133,6 +134,29 @@ public class RGLockbox {
                                        accountName:String? = nil,
                                        accessGroup:String? = nil,
                                        synchronized:Bool = false) {
+        dispatch_once(&onceToken) {
+            NSNotificationCenter.defaultCenter().addObserverForName(RGApplicationWillResignActive,
+                                                                    object: nil,
+                                                                    queue: nil,
+                                                                    usingBlock: {_ in 
+                RGLogs(.Trace, "flushQueue on RGApplicationWillResignActive")
+                dispatch_barrier_sync(RGLockbox.keychainQueue, {})
+            })
+            NSNotificationCenter.defaultCenter().addObserverForName(RGApplicationWillBackground,
+                                                                    object: nil,
+                                                                    queue: nil,
+                                                                    usingBlock: {_ in
+                RGLogs(.Trace, "flushQueue on RGApplicationWillBackground")
+                dispatch_barrier_sync(RGLockbox.keychainQueue, {})
+            })
+            NSNotificationCenter.defaultCenter().addObserverForName(RGApplicationWillTerminate,
+                                                                    object: nil,
+                                                                    queue: nil,
+                                                                    usingBlock: {_ in
+                RGLogs(.Trace, "flushQueue on RGApplicationWillTerminate")
+                dispatch_barrier_sync(RGLockbox.keychainQueue, {})
+            })
+        }
         self.namespace = namespace
         self.itemAccessibility = accessibility
         self.accountName = accountName
