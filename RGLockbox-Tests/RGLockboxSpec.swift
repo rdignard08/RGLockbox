@@ -228,53 +228,53 @@ class RGLockboxSpec : XCTestCase {
     }
     
     func testFlushResignActive() {
-        RGLockbox().setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        RGLockbox().setData("qweq".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        NSNotificationCenter.defaultCenter().postNotificationName(RGApplicationWillResignActive, object: nil)
+        RGLockbox().setData("abcd".data(using: String.Encoding.utf8), forKey: kKey1)
+        RGLockbox().setData("qweq".data(using: String.Encoding.utf8), forKey: kKey1)
+        NotificationCenter.default.post(name: RGApplicationWillResignActive, object: nil)
         let service = "\(RGLockbox.bundleIdentifier!).\(kKey1)"
         let query:[NSString:AnyObject] = [
             kSecClass : kSecClassGenericPassword,
             kSecMatchLimit : kSecMatchLimitOne,
-            kSecReturnData : true,
-            kSecAttrService : service
+            kSecReturnData : true as NSNumber,
+            kSecAttrService : service as NSString
         ];
         var data:CFTypeRef? = nil;
-        rg_SecItemCopyMatch(query as NSDictionary, &data);
+        XCTAssert(rg_SecItemCopyMatch(query as NSDictionary, &data) == 0);
         let bridgedData = data as? NSData
-        XCTAssert(bridgedData == "qweq".dataUsingEncoding(NSUTF8StringEncoding));
+        XCTAssert(bridgedData == "qweq".data(using: String.Encoding.utf8) as NSData?);
     }
     
     func testFlushBackground() {
-        RGLockbox().setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        RGLockbox().setData("qweq".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        NSNotificationCenter.defaultCenter().postNotificationName(RGApplicationWillBackground, object: nil)
+        RGLockbox().setData("abcd".data(using: String.Encoding.utf8), forKey: kKey1)
+        RGLockbox().setData("qweq".data(using: String.Encoding.utf8), forKey: kKey1)
+        NotificationCenter.default.post(name: RGApplicationWillBackground, object: nil)
         let service = "\(RGLockbox.bundleIdentifier!).\(kKey1)"
         let query:[NSString:AnyObject] = [
             kSecClass : kSecClassGenericPassword,
             kSecMatchLimit : kSecMatchLimitOne,
-            kSecReturnData : true,
-            kSecAttrService : service
+            kSecReturnData : true as NSNumber,
+            kSecAttrService : service as NSString
         ];
         var data:CFTypeRef? = nil;
-        rg_SecItemCopyMatch(query as NSDictionary, &data);
+        XCTAssert(rg_SecItemCopyMatch(query as NSDictionary, &data) == 0);
         let bridgedData = data as? NSData
-        XCTAssert(bridgedData == "qweq".dataUsingEncoding(NSUTF8StringEncoding));
+        XCTAssert(bridgedData == "qweq".data(using: String.Encoding.utf8) as NSData?);
     }
     
     func testFlushTerminate() {
-        RGLockbox().setData("abcd".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        RGLockbox().setData("qweq".dataUsingEncoding(NSUTF8StringEncoding), forKey: kKey1)
-        NSNotificationCenter.defaultCenter().postNotificationName(RGApplicationWillTerminate, object: nil)
+        RGLockbox().setData("abcd".data(using: String.Encoding.utf8), forKey: kKey1)
+        RGLockbox().setData("qweq".data(using: String.Encoding.utf8), forKey: kKey1)
+        NotificationCenter.default.post(name: RGApplicationWillTerminate, object: nil)
         let service = "\(RGLockbox.bundleIdentifier!).\(kKey1)"
         let query:[NSString:AnyObject] = [
             kSecClass : kSecClassGenericPassword,
             kSecMatchLimit : kSecMatchLimitOne,
-            kSecReturnData : true,
-            kSecAttrService : service
+            kSecReturnData : true as NSNumber,
+            kSecAttrService : service as NSString
         ];
         var data:CFTypeRef? = nil;
-        rg_SecItemCopyMatch(query as NSDictionary, &data);
+        XCTAssert(rg_SecItemCopyMatch(query as NSDictionary, &data) == 0);
         let bridgedData = data as? NSData
-        XCTAssert(bridgedData == "qweq".dataUsingEncoding(NSUTF8StringEncoding));
+        XCTAssert(bridgedData == "qweq".data(using: String.Encoding.utf8) as NSData?);
     }
 }
