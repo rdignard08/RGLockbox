@@ -288,8 +288,8 @@ static NSMutableDictionary* _sValueCache;
     NSString* nameSpace = self.namespace;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
-        NSAssert([service isKindOfClass:[NSString self]], @"Wrong type something is really wrong");
-        if (!nameSpace) {
+        NSAssert(!service || [service isKindOfClass:[NSString self]], @"Wrong type something is really wrong");
+        if (service && !nameSpace) {
             [output addObject:service];
         } else if ([service hasPrefix:nameSpace]) {
             NSRange range = [service rangeOfString:nameSpace];
