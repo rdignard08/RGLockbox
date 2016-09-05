@@ -144,12 +144,8 @@ public class RGLockbox {
                 kSecReturnData : true,
                 kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ]
-            if fullKey.second != nil {
-                query[kSecAttrAccount] = fullKey.second!
-            }
-            if fullKey.third != nil {
-                query[kSecAttrAccessGroup] = fullKey.third!
-            }
+            query[kSecAttrAccount] = fullKey.second
+            query[kSecAttrAccessGroup] = fullKey.third
             let status = rg_SecItemCopyMatch(query, &data)
             RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
@@ -174,12 +170,8 @@ public class RGLockbox {
                 kSecReturnData : true,
                 kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ]
-            if fullKey.second != nil {
-                query[kSecAttrAccount] = fullKey.second!
-            }
-            if fullKey.third != nil {
-                query[kSecAttrAccessGroup] = fullKey.third!
-            }
+            query[kSecAttrAccount] = fullKey.second
+            query[kSecAttrAccessGroup] = fullKey.third
             let status = rg_SecItemCopyMatch(query, &data)
             RGLogs(.Trace, "SecItemCopyMatching with \(query) returned \(status)")
         })
@@ -232,12 +224,8 @@ public class RGLockbox {
                 kSecAttrService : fullKey.first!,
                 kSecAttrSynchronizable : kSecAttrSynchronizableAny
             ]
-            if fullKey.second != nil {
-                query[kSecAttrAccount] = fullKey.second!
-            }
-            if fullKey.third != nil {
-                query[kSecAttrAccessGroup] = fullKey.third!
-            }
+            query[kSecAttrAccount] = fullKey.second
+            query[kSecAttrAccessGroup] = fullKey.third
             var status = rg_SecItemDelete(query)
             RGLogs(.Trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
