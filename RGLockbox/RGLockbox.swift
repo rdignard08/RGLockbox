@@ -39,6 +39,25 @@ public var rg_SecItemAdd = { SecItemAdd($0, nil) }
  */
 public var rg_SecItemDelete = { SecItemDelete($0) }
 
+#if os(iOS) || os(tvOS)
+    import UIKit
+    public let RGApplicationWillResignActive = UIApplicationWillResignActiveNotification
+    public let RGApplicationWillBackground = UIApplicationDidEnterBackgroundNotification
+    public let RGApplicationWillTerminate = UIApplicationWillTerminateNotification
+#elseif os(watchOS)
+    public let RGApplicationWillResignActive = "UIApplicationWillResignActiveNotification"
+    public let RGApplicationWillBackground = "UIApplicationDidEnterBackgroundNotification"
+    public let RGApplicationWillTerminate = "UIApplicationWillTerminateNotification"
+#elseif os(OSX)
+    public let RGApplicationWillResignActive = "NSApplicationWillResignActiveNotification"
+    public let RGApplicationWillBackground = "NSApplicationWillHideNotification"
+    public let RGApplicationWillTerminate = "NSApplicationWillTerminateNotification"
+#else
+    public let RGApplicationWillResignActive = "RGApplicationWillResignActive"
+    public let RGApplicationWillBackground = "RGApplicationWillBackground"
+    public let RGApplicationWillTerminate = "RGApplicationWillTerminate"
+#endif
+
 /**
  Instances of RGLockbox manage access to a given keychain service name.  The default service is your app's bundle identifier.  A given manager is threadsafe.
  */
@@ -94,6 +113,10 @@ public class RGLockbox {
  */
     public class func manager() -> RGLockbox {
         return RGLockbox()
+    }
+    
+    public class func initialize() {
+        
     }
     
 /**
