@@ -25,6 +25,16 @@
 #import <Security/Security.h>
 #import <objc/runtime.h>
 
+#if TARGET_OS_IOS || TARGET_OS_TV
+extern NSString* RG_SUFFIX_NONNULL const UIApplicationWillResignActiveNotification;
+extern NSString* RG_SUFFIX_NONNULL const UIApplicationDidEnterBackgroundNotification;
+extern NSString* RG_SUFFIX_NONNULL const UIApplicationWillTerminateNotification;
+#elif TARGET_OS_MAC
+extern NSString* RG_SUFFIX_NONNULL const NSApplicationWillResignActiveNotification;
+extern NSString* RG_SUFFIX_NONNULL const NSApplicationWillHideNotification;
+extern NSString* RG_SUFFIX_NONNULL const NSApplicationWillTerminateNotification;
+#endif
+
 #pragma mark - Swizzle
 static void rg_swizzle(Class RG_SUFFIX_NULLABLE cls, SEL RG_SUFFIX_NULLABLE original, SEL RG_SUFFIX_NULLABLE replace) {
     IMP replacementImp = method_setImplementation(class_getInstanceMethod(cls, replace),
@@ -82,19 +92,65 @@ static NSMutableDictionary* RG_SUFFIX_NONNULL rg_generic_query(RGMultiStringKey*
     return query;
 }
 
-#pragma mark - Keychain Function Pointers
+#pragma mark - Global Symbols
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemCopyMatch)(CFDictionaryRef RG_SUFFIX_NONNULL,
                                                    CFTypeRef* RG_SUFFIX_NULLABLE) = &SecItemCopyMatching;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL,
                                              CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
 
+NSString* RG_SUFFIX_NONNULL RGApplicationWillResignActive;
+NSString* RG_SUFFIX_NONNULL RGApplicationWillBackground;
+NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
+
 #pragma mark - RGLockbox Implementation
 @implementation RGLockbox
 
++ (void) load {
+#if TARGET_OS_IOS || TARGET_OS_TV
+    RGApplicationWillResignActive = UIApplicationWillResignActiveNotification;
+    RGApplicationWillBackground = UIApplicationDidEnterBackgroundNotification;
+    RGApplicationWillTerminate = UIApplicationWillTerminateNotification;
+#elif TARGET_OS_WATCH
+    RGApplicationWillResignActive = @"UIApplicationWillResignActiveNotification";
+    RGApplicationWillBackground = @"UIApplicationDidEnterBackgroundNotification";
+    RGApplicationWillTerminate = @"UIApplicationWillTerminateNotification";
+#elif TARGET_OS_MAC
+    RGApplicationWillResignActive = NSApplicationWillResignActiveNotification;
+    RGApplicationWillBackground = NSApplicationWillHideNotification;
+    RGApplicationWillTerminate = NSApplicationWillTerminateNotification;
+#else
+#warning "Unknown platform target"
+    RGApplicationWillResignActive = @"RGApplicationWillResignActive";
+    RGApplicationWillBackground = @"RGApplicationWillBackground";
+    RGApplicationWillTerminate = @"RGApplicationWillTerminate";
+#endif
+}
+
++ (void) initialize {
+    [super initialize];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(flushQueue:)
+                                                 name:RGApplicationWillResignActive
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(flushQueue:)
+                                                 name:RGApplicationWillBackground
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(flushQueue:)
+                                                 name:RGApplicationWillTerminate
+                                               object:nil];
+}
+
++ (void) flushQueue:(NSNotification*)notification {
+    RGLogs(kRGLogSeverityTrace, @"flushQueue: called on %@", notification.name);
+    dispatch_barrier_sync(self.keychainQueue, ^{});
+}
+
 + (RGLockbox*) manager {
     static dispatch_once_t onceToken;
-    static id _sManager;
+    static RGLockbox* _sManager;
     dispatch_once(&onceToken, ^{
         _sManager = [RGLockbox new];
     });

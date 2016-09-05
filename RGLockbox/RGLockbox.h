@@ -51,6 +51,21 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NO
  */
 extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL);
 
+/**
+ @brief The platform specific notification when the application may be switching out of focus, if known.
+ */
+extern NSString* RG_SUFFIX_NONNULL RGApplicationWillResignActive;
+
+/**
+ @brief The platform specific notification when the application will no longer be in focus, if known.
+ */
+extern NSString* RG_SUFFIX_NONNULL RGApplicationWillBackground;
+
+/**
+ @brief The platform specific notification when the application state will be purged, if known.
+ */
+extern NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
+
 #pragma mark - RGLockbox Class
 
 /**

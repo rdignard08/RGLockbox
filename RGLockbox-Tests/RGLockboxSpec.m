@@ -359,4 +359,53 @@ CLASS_SPEC(RGLockbox)
     XCTAssert([value isEqual:[NSData new]]);
 }
 
+#pragma mark - termination
+- (void) testWillResignActive {
+    RGLockbox* manager = [RGLockbox manager];
+    [manager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [manager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RGApplicationWillResignActive object:nil];
+    NSDictionary* query = @{
+        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
+        (__bridge id)kSecReturnData : @YES,
+        (__bridge id)kSecAttrService : [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]
+    };
+    CFTypeRef data = nil;
+    rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+    XCTAssert([(__bridge_transfer NSData*)data isEqual:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
+- (void) testWillBackground {
+    RGLockbox* manager = [RGLockbox manager];
+    [manager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [manager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RGApplicationWillBackground object:nil];
+    NSDictionary* query = @{
+        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
+        (__bridge id)kSecReturnData : @YES,
+        (__bridge id)kSecAttrService : [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]
+    };
+    CFTypeRef data = nil;
+    rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+    XCTAssert([(__bridge_transfer NSData*)data isEqual:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
+- (void) testWillTerminate {
+    RGLockbox* manager = [RGLockbox manager];
+    [manager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [manager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RGApplicationWillTerminate object:nil];
+    NSDictionary* query = @{
+        (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
+        (__bridge id)kSecReturnData : @YES,
+        (__bridge id)kSecAttrService : [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]
+    };
+    CFTypeRef data = nil;
+    rg_SecItemCopyMatch((__bridge CFDictionaryRef)query, &data);
+    XCTAssert([(__bridge_transfer NSData*)data isEqual:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
 SPEC_END
