@@ -297,7 +297,8 @@ static NSMutableDictionary* _sValueCache;
             NSAssert([accessGroup isKindOfClass:[NSString self]], @"Wrong type");
             itemKey.third = accessGroup;
         }
-        [[self class] valueCache][itemKey] = bridgedArray[i][(__bridge id)kSecValueData];
+        id data = bridgedArray[i][(__bridge id)kSecValueData];
+        [[self class] valueCache][itemKey] = data ?: [NSNull null];
         if (service && !nameSpace) {
             [output addObject:service];
         } else if ([service hasPrefix:nameSpace]) {
