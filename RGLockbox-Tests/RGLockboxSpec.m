@@ -228,14 +228,12 @@ CLASS_SPEC(RGLockbox)
                                                  synchronized:NO];
     [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1]];
     [manager setData:[NSData new] forKey:[NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2]];
-    NSMutableArray* keys = [@[ [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1],
-                               [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2] ] mutableCopy];
+    NSArray* keys = @[ [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey1],
+                       [NSString stringWithFormat:@"%@.%@", rg_bundle_identifier(), kKey2] ];
     NSArray* items = manager.allItems;
-    for (NSString* item in items) {
-        XCTAssert([keys containsObject:item]);
-        [keys removeObject:item];
+    for (NSString* key in keys) {
+        XCTAssert([items containsObject:key]);
     }
-    XCTAssert(keys.count == 0);
 }
 
 - (void) testAllItemsWithAccount {
