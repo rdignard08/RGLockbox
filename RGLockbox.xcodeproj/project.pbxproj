@@ -78,6 +78,7 @@
 		BE65C05B1D612A5300459D55 /* RGQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = BE65C0531D612A5200459D55 /* RGQueryKeys.m */; };
 		BE65C05C1D612A5300459D55 /* RGQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = BE65C0531D612A5200459D55 /* RGQueryKeys.m */; };
 		BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */ = {isa = PBXBuildFile; fileRef = BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */; };
+		BE7FD17B1D7D327C000AC300 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE7FD17A1D7D325D000AC300 /* Entitlements.plist */; };
 		BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; };
 		BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
 		BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */; };
@@ -138,6 +139,7 @@
 		BE65C0531D612A5200459D55 /* RGQueryKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGQueryKeys.m; sourceTree = "<group>"; };
 		BE6A2BBB1CF80BFD00C731B7 /* NSObject+RGBadInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RGBadInit.h"; sourceTree = "<group>"; };
 		BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RGBadInit.m"; sourceTree = "<group>"; };
+		BE7FD17A1D7D325D000AC300 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = ../Entitlements.plist; sourceTree = "<group>"; };
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		BE0976C81C573570001E6467 /* RGLockbox-Tests */ = {
 			isa = PBXGroup;
 			children = (
+				BE7FD17A1D7D325D000AC300 /* Entitlements.plist */,
 				BE28A7B71D57EE9200059452 /* FunctionSpecs */,
 				BE0976DA1C59D542001E6467 /* ClassSpecs */,
 				BE0976D91C59D539001E6467 /* CategorySpecs */,
@@ -517,6 +520,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE7FD17B1D7D327C000AC300 /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,6 +664,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
@@ -675,6 +680,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
