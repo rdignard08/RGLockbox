@@ -15,3 +15,4 @@ xcuserdata
 compile_commands.json
 Cartfile.resolved
 Carthage
+.DS_Store
