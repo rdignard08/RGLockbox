@@ -61,49 +61,58 @@ public var rg_SecItemDelete = { SecItemDelete($0) }
 /**
  Notification that should be posted when the app will lose focus.
  */
-    public let RGApplicationWillResignActive:NSNotification.Name = Notification.Name(rawValue: "UIApplicationWillResignActiveNotification")
+    public let RGApplicationWillResignActive:NSNotification.Name =
+        Notification.Name(rawValue: "UIApplicationWillResignActiveNotification")
     
 /**
  Notification that should be posted when the app will enter the background.
  */
-    public let RGApplicationWillBackground:NSNotification.Name = Notification.Name(rawValue: "UIApplicationDidEnterBackgroundNotification")
+    public let RGApplicationWillBackground:NSNotification.Name =
+        Notification.Name(rawValue: "UIApplicationDidEnterBackgroundNotification")
     
 /**
  Notification that should be posted when the app will be terminated.
  */
-    public let RGApplicationWillTerminate:NSNotification.Name = Notification.Name(rawValue: "UIApplicationWillTerminateNotification")
+    public let RGApplicationWillTerminate:NSNotification.Name =
+        Notification.Name(rawValue: "UIApplicationWillTerminateNotification")
 #elseif os(OSX)
     
 /**
  Notification that should be posted when the app will lose focus.
  */
-    public let RGApplicationWillResignActive:Notification.Name = Notification.Name(rawValue: "NSApplicationWillResignActiveNotification")
+    public let RGApplicationWillResignActive:Notification.Name =
+        Notification.Name(rawValue: "NSApplicationWillResignActiveNotification")
     
 /**
  Notification that should be posted when the app will enter the background.
  */
-    public let RGApplicationWillBackground:Notification.Name = Notification.Name(rawValue: "NSApplicationWillHideNotification")
+    public let RGApplicationWillBackground:Notification.Name =
+        Notification.Name(rawValue: "NSApplicationWillHideNotification")
     
 /**
  Notification that should be posted when the app will be terminated.
  */
-    public let RGApplicationWillTerminate:Notification.Name = Notification.Name(rawValue: "NSApplicationWillTerminateNotification")
+    public let RGApplicationWillTerminate:Notification.Name =
+        Notification.Name(rawValue: "NSApplicationWillTerminateNotification")
 #else
     
 /**
  Notification that should be posted when the app will lose focus.
  */
-    public let RGApplicationWillResignActive:NSNotification.Name = Notification.Name(rawValue: "RGApplicationWillResignActive")
+    public let RGApplicationWillResignActive:NSNotification.Name =
+        Notification.Name(rawValue: "RGApplicationWillResignActive")
     
 /**
  Notification that should be posted when the app will enter the background.
  */
-    public let RGApplicationWillBackground:NSNotification.Name = Notification.Name(rawValue: "RGApplicationWillBackground")
+    public let RGApplicationWillBackground:NSNotification.Name =
+        Notification.Name(rawValue: "RGApplicationWillBackground")
     
 /**
  Notification that should be posted when the app will be terminated.
  */
-    public let RGApplicationWillTerminate:NSNotification.Name = Notification.Name(rawValue: "RGApplicationWillTerminate")
+    public let RGApplicationWillTerminate:NSNotification.Name =
+        Notification.Name(rawValue: "RGApplicationWillTerminate")
 #endif
 
 /**
@@ -128,7 +137,7 @@ open class RGLockbox {
     open static var bundleIdentifier:String? = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String
     
 /**
- `valueCache` stores in memory the values known to all managers.  A key that has been seen before will used the cached value.
+ `valueCache` stores in memory the values known to all managers.  A previous key will used the cached value.
  */
     open static var valueCache:[RGMultiKey : Any] = [:]
     
@@ -172,9 +181,18 @@ open class RGLockbox {
             RGLogs(.trace, "keychainQueue will flush")
             RGLockbox.keychainQueue.sync(execute: {})
         }
-        NotificationCenter.default.addObserver(forName: RGApplicationWillResignActive, object: nil, queue: nil, using: block)
-        NotificationCenter.default.addObserver(forName: RGApplicationWillBackground, object: nil, queue: nil, using: block)
-        NotificationCenter.default.addObserver(forName: RGApplicationWillTerminate, object: nil, queue: nil, using: block)
+        NotificationCenter.default.addObserver(forName: RGApplicationWillResignActive,
+                                               object: nil,
+                                               queue: nil,
+                                               using: block)
+        NotificationCenter.default.addObserver(forName: RGApplicationWillBackground,
+                                               object: nil,
+                                               queue: nil,
+                                               using: block)
+        NotificationCenter.default.addObserver(forName: RGApplicationWillTerminate,
+                                               object: nil,
+                                               queue: nil,
+                                               using: block)
         return nil
     }()
     
@@ -238,7 +256,8 @@ open class RGLockbox {
     }
     
 /**
- Returns a list of keys which describe what items are visible to this manager qualified by its `.namespace`, `.accountName`, and `.accessGroup`.  Caches anything it finds to `valueCache`.
+ Returns a list of keys which describe what items are visible to this manager qualified by its `.namespace`,
+   `.accountName`, and `.accessGroup`.  Caches anything it finds to `valueCache`.
  */
     public func allItems() -> Array<String> {
         var fullKey = RGMultiKey(second: self.accountName, third: self.accessGroup)

@@ -51,17 +51,18 @@ extension RGLockbox {
     public func JSONObjectForKey(_ key:String) -> Any? {
         let data = self.dataForKey(key)
         if (data != nil) {
-            return try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
+            return try? JSONSerialization.jsonObject(with: data!)
         }
         return nil
     }
     
 /**
-- parameter object: An `Array` or `Dictionary` object that is convertible by `NSJSONSerialization` or `nil`.  `nil` unsets the stored value.
+- parameter object: An `Array` or `Dictionary` object that is convertible by `NSJSONSerialization` or `nil`.
+     `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
     public func setJSONObject(_ object:Any?, key:String) throws {
-        let data = object != nil ? try! JSONSerialization.data(withJSONObject: object!, options: JSONSerialization.WritingOptions(rawValue: 0)) : nil as Data?
+        let data = object != nil ? try! JSONSerialization.data(withJSONObject: object!) : nil as Data?
         self.setData(data, forKey: key)
     }
     

@@ -26,56 +26,57 @@ import libkern
 
 /**
  Provides levels of logging suitable for different build environments.  Messages with severity greater than or equal to
- the current system severity will be logged.
+    the current system severity will be logged.
 */
 public enum RGLogSeverity: Int {
-    /**
-     Entire set of logging appropriate for debugging the library itself.
-    */
+    
+/**
+ Entire set of logging appropriate for debugging the library itself.
+*/
     case trace
     
-    /**
-     Log messages useful for general debug and test builds.
-    */
+/**
+ Log messages useful for general debug and test builds.
+*/
     case debug
     
-    /**
-     Log messages which might indicate something wrong.
-    */
+/**
+ Log messages which might indicate something wrong.
+*/
     case warning
     
-    /**
-     Log messages which indicate the system entered an error state.
-    */
+/**
+ Log messages which indicate the system entered an error state.
+*/
     case error
     
-    /**
-     Log messages which indicate an assertion or interrupt should happen.
-    */
+/**
+ Log messages which indicate an assertion or interrupt should happen.
+*/
     case fatal
     
-    /**
-     Log level appropriate for messages which should always appear.
-    */
+/**
+ Log level appropriate for messages which should always appear.
+*/
     case none
 }
 
 #if DEBUG
-    /**
-     The system wide log level.
-    */
+/**
+ The system wide log level.
+*/
     private var rg_systemSeverity = RGLogSeverity.debug
 #else
-    /**
-     The system wide log level.
-    */
+/**
+ The system wide log level.
+*/
     private var rg_systemSeverity = RGLogSeverity.none
 #endif
 
 /**
  The system wide log level.
  - returns: the currently set system severity.  When `DEBUG` is defined, defaults to `kRGLogSeverityDebug` otherwise
-   defaults to `kRGLogSeverityNone`.
+    defaults to `kRGLogSeverityNone`.
 */
 public func rg_logging_severity() -> RGLogSeverity {
     return rg_systemSeverity
