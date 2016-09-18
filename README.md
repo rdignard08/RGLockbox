@@ -10,44 +10,42 @@ RGSwiftKeychain
 =======
 `RGLockbox` is a simple to use interface with the standard keychain.  Using object-orientented approaches it is simple to pick a key and store any rudimentary value there.
 
-There is a development Swift 3.0 version of this library available on the branch [swift-3](https://github.com/rdignard08/RGLockbox/tree/swift-3).
-
 The Objective-C version of this pod is named `RGLockbox` and is available on the branch [objc-master](https://github.com/rdignard08/RGLockbox/tree/objc-master).
 
 Default supported types include:
-- `NSData`
+- `Data`
 - `String`
-- `NSDate`
+- `Date`
 - `Dictionary`
 - `Array`
 - `NSCoding`
-  - `NSURL`
+  - `URL`
   - `NSValue` (including `NSNumber` and `NSDecimalNumber`)
   - `NSNull`
 
 Note for safety Apple encourages developers to conform their objects to `NSSecureCoding` instead of `NSCoding` to prevent substitution attacks against your app.
 
-***IMPORTANT*** : when your application will terminate you should run `dispatch_barrier_sync()` on `keychainQueue`.
+***IMPORTANT*** : when your application will terminate you should run `RGLockbox.keychainQueue.sync(execute: {})`.
 
 Example
 =======
 ```swift
-let data = "abcd".dataUsingEncoding(NSUTF8StringEncoding)
+let data = "abcd".data(using: String.Encoding.utf8)
 RGLockbox().setData(data, forKey: "myData")
 ```
 Writing data is as simple as creating it and applying it to your keychain manager.  By default these managers are namespaced to your bundle's identifier.
 
 ```swift 
 let data = RGLockbox().dataForKey("myData")!
-let string = String.init(data: data, encoding: NSUTF8StringEncoding)!
+let string = String.init(data: data, encoding: String.Encoding.utf8)!
 assert(string == "abcd")
 ```
 Retrieving data is as simple as remembering your key assuming you use the same manager throughout.  Mixing and matching managers with different namespaces is possible, but more of an advanced use case.
 
-In addition to the primitive interface supporting reading and writing raw `NSData` there is implicit support for a variety of types.
-`NSDate`:
+In addition to the primitive interface supporting reading and writing raw `Data` there is implicit support for a variety of types.
+`Date`:
 ```swift
-let date = NSDate.init()
+let date = Date()
 RGLockbox().setDate(date, forKey: "myDate")
 let readDate = RGLockbox().dateForKey("myDate")!
 assert(Int(date.timeIntervalSince1970) == Int(readDate.timeIntervalSince1970))
@@ -75,7 +73,7 @@ assert(array == readArray)
 ```
 `NSCoding`:
 ```swift
-let url = NSURL.init(string: "google.com")
+let url = URL(string: "google.com")
 RGLockbox().setCodeable(url, forKey: "urlKey")
 let readURL = RGLockbox().codeableForKey("urlKey")!
 assert(url == readURL)
@@ -83,7 +81,7 @@ assert(url == readURL)
 
 Finally, this library supports arbitrary namespacing which allows sharing keychain data across app bundles as well as setting different item accessibility for advanced use cases.
 ```swift
-let signupDate = NSDate.init(timeIntervalSince1970: 1453075980.0)
+let signupDate = Date(timeIntervalSince1970: 1453075980.0)
 let lockbox = RGLockbox.init(withNamespace: "com.rglockbox.appbundle", accessibility: kSecAttrAccessibleAlways, accessGroup: "com.rglockbox")
 lockbox.setDate(signupDate, forKey: "userSignupDate")
 
