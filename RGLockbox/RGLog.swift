@@ -64,7 +64,7 @@ public enum RGLogSeverity: Int {
     /**
      The system wide log level.
     */
-    private var rg_systemSeverity = RGLogSeverity.Debug
+    private var rg_systemSeverity = RGLogSeverity.debug
 #else
     /**
      The system wide log level.
