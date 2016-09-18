@@ -24,7 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 import Foundation
 
 /**
- Provides a per-thread `NSDateFormatter` with `dateFormat` set to parse ISO style strings.
+ Provides a per-thread `DateFormatter` with `dateFormat` set to parse ISO style strings.
 */
 func rg_stored_date_formatter() -> DateFormatter {
     let _sIsoFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
@@ -40,7 +40,7 @@ func rg_stored_date_formatter() -> DateFormatter {
 }
 
 /**
- Provides additional functionality over the raw data based implementation.  Supports `NSDate`, `String`, `id<NSCoding>`
+ Provides additional functionality over the raw data based implementation.  Supports `Date`, `String`, `id<NSCoding>`
 */
 extension RGLockbox {
     
@@ -85,7 +85,7 @@ extension RGLockbox {
     
 /**
 - parameter key: Identifer to search for in the manager's service name.
-- returns: A `NSDate` object decoded based on ISO format or `nil` (item not found or parse failure).
+- returns: A `Date` object decoded based on ISO format or `nil` (item not found or parse failure).
 */
     public func dateForKey(_ key:String) -> Date? {
         let data = self.dataForKey(key)
@@ -97,7 +97,7 @@ extension RGLockbox {
     }
     
 /**
-- parameter date: A `NSDate` object or `nil`. `nil` unsets the stored value.
+- parameter date: A `Date` object or `nil`. `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
     public func setDate(_ date:Date?, key:String) {

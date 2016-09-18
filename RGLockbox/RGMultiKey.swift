@@ -35,7 +35,7 @@ public struct RGMultiKey: Hashable {
     public var first:String?
 
 /**
- The second string component of the key.  When reversed will not necessarily result in the same hash value.
+ The second string component of the key.
  */
     public var second:String?
     
@@ -64,8 +64,8 @@ public struct RGMultiKey: Hashable {
     }
     
 /**
- Returns `true` if both are `nil` or both are not `nil` and their `first` and `second`
-   properties match respectively.  Otherwise `false`.
+ Returns `true` if their `.first`, `.second`, and `.third`
+   properties are equal respectively.  Otherwise `false`.
  */
     public static func == (lhs: RGMultiKey, rhs: RGMultiKey) -> Bool {
         return lhs.first == rhs.first && lhs.second == rhs.second && lhs.third == rhs.third

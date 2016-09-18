@@ -41,8 +41,20 @@ public var rg_SecItemDelete = { SecItemDelete($0) }
 
 #if os(iOS) || os(tvOS)
     import UIKit
+
+/**
+ Notification that should be posted when the app will lose focus.
+ */
     public let RGApplicationWillResignActive:NSNotification.Name = NSNotification.Name.UIApplicationWillResignActive
+
+/**
+ Notification that should be posted when the app will enter the background.
+ */
     public let RGApplicationWillBackground:NSNotification.Name = NSNotification.Name.UIApplicationDidEnterBackground
+
+/**
+ Notification that should be posted when the app will be terminated.
+ */
     public let RGApplicationWillTerminate:NSNotification.Name = NSNotification.Name.UIApplicationWillTerminate
 #elseif os(watchOS)
     public let RGApplicationWillResignActive:NSNotification.Name = Notification.Name(rawValue: "UIApplicationWillResignActiveNotification")
@@ -59,12 +71,13 @@ public var rg_SecItemDelete = { SecItemDelete($0) }
 #endif
 
 /**
- Instances of RGLockbox manage access to a given keychain service name.  The default service is your app's bundle identifier.  A given manager is threadsafe.
+ Instances of RGLockbox manage access to a given keychain service name, account, and/or access group.
+   The default service name is your app's bundle identifier with the rest `nil`.  A given manager is threadsafe.
  */
 open class RGLockbox {
 
 /**
- Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
+ Globally, all keychain accesses are performed on this queue to keep the cache in sync with the backing store.
  */
     open static let keychainQueue = DispatchQueue(label: "RGLockbox-Sync")
     
@@ -74,7 +87,7 @@ open class RGLockbox {
     static let valueCacheLock = NSLock()
     
 /**
- Your app's bundle identifier pre-calculated.
+ Your app's bundle identifier pre-calculated; it is `nil` if not available.
  */
     open static var bundleIdentifier:String? = Bundle.main.infoDictionary?[kCFBundleIdentifierKey as String] as? String
     
@@ -109,7 +122,7 @@ open class RGLockbox {
     open let isSynchronized:Bool
     
 /**
- Creates a new `RGLockbox` instance with default namespace and item accessibility.
+ Creates a new `RGLockbox` instance with default namespace and item accessibility.  Should use `RGLockbox()` now.
  */
     open class func manager() -> RGLockbox {
         return RGLockbox()
@@ -120,6 +133,7 @@ open class RGLockbox {
  */
     private static var onceToken:Any? = {
         let block = { (notification: Any) -> Void in
+            RGLogs(.trace, "keychainQueue will flush")
             RGLockbox.keychainQueue.sync(execute: {})
         }
         NotificationCenter.default.addObserver(forName: RGApplicationWillResignActive, object: nil, queue: nil, using: block)
@@ -187,6 +201,9 @@ open class RGLockbox {
         return bridgedData
     }
     
+/**
+ Returns a list of keys which describe what items are visible to this manager qualified by its `.namespace`, `.accountName`, and `.accessGroup`.  Caches anything it finds to `valueCache`.
+ */
     public func allItems() -> Array<String> {
         var fullKey = RGMultiKey(second: self.accountName, third: self.accessGroup)
         var data:AnyObject? = nil

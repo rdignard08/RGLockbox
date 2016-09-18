@@ -112,7 +112,7 @@ private func rg_severityDescription(_ severity: RGLogSeverity) -> String {
 
 /**
  Whether this message should be logged.
- - returns: `true` if he severity is greater than or equal to the system log level.
+ - returns: `true` if the severity is greater than or equal to the system log level.
 */
 private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
     return severity.rawValue >= rg_logging_severity().rawValue
@@ -121,7 +121,7 @@ private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
 /**
  A complete `NSLog()` replacement.  It logs the file name & line number. Severity will always log.
  - parameter message the string of the mesage after `line` info.  It is a programmer error to pass `nil`.
- - parameter file the name of the file where the log was called.  Cannot be `NULL`.
+ - parameter file the name of the file where the log was called.  Cannot be `nil`.
  - parameter line the line number of the log call.
  */
 @available(*, deprecated : 2.2.5) public func RGLog(_ message: String, _ file: String = #file, _ line: Int = #line) {
@@ -132,7 +132,7 @@ private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
  A complete `NSLog()` replacement.  It logs the file name & line number. Severity will always log.
  - parameter severity the severity level of this log message.
  - parameter message the string of the mesage after `line` info.  It is a programmer error to pass `nil`.
- - parameter file the name of the file where the log was called.  Cannot be `NULL`.
+ - parameter file the name of the file where the log was called.  Cannot be `nil`.
  - parameter line the line number of the log call.
  */
 public func RGLogs(_ severity: RGLogSeverity, _ message: String, _ file: String = #file, _ line: Int = #line) {
