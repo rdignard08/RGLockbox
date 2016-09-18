@@ -66,7 +66,13 @@ open class RGLockbox {
 /**
  Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
  */
-    open static let keychainQueue = DispatchQueue(label: "RGLockbox-Sync")
+    open static let keychainQueue = { () -> DispatchQueue in
+//        if #available(iOS 10.0, tvOS 10.0, OSX 10.12, watchOS 3.0, *) {
+            return DispatchQueue(label: "RGLockbox-Sync")
+//        } else {
+//            return dispatch_queue_create("RGLockbox-Sync", nil)
+//        }
+    }()
     
 /**
  This lock controls access to `valueCache`.
@@ -119,8 +125,7 @@ open class RGLockbox {
  Registers for application state changes at the class level.
  */
     private static var onceToken:Any? = {
-        let block = { (notification: Notification) -> Void in
-            RGLogs(.trace, "flushQueue on \(notification.name)")
+        let block = { (notification: Any) -> Void in
             RGLockbox.keychainQueue.sync(execute: {})
         }
         NotificationCenter.default.addObserver(forName: RGApplicationWillResignActive, object: nil, queue: nil, using: block)
@@ -189,7 +194,7 @@ open class RGLockbox {
     }
     
     public func allItems() -> Array<String> {
-        let fullKey = RGMultiKey(second: self.accountName, third: self.accessGroup)
+        var fullKey = RGMultiKey(second: self.accountName, third: self.accessGroup)
         var data:AnyObject? = nil
         RGLockbox.valueCacheLock.lock()
         RGLockbox.keychainQueue.sync(execute: {
@@ -213,7 +218,7 @@ open class RGLockbox {
             let service = item[kSecAttrService as String]
             if let service = service {
                 let serviceName = (service as! String)
-                itemKey.first = serviceName
+                fullKey.first = serviceName
                 if self.namespace == nil {
                     output.append(serviceName)
                 } else if serviceName.hasPrefix("\(self.namespace!).") {
@@ -221,16 +226,8 @@ open class RGLockbox {
                     output.append(serviceName.substring(from: range!.upperBound))
                 }
             }
-            let account = item[kSecAttrAccount as String]
-            if let account = account {
-                itemKey.second = (account as! String)
-            }
-            let accessGroup = item[kSecAttrAccessGroup as String]
-            if let accessGroup = accessGroup {
-                itemKey.third = (accessGroup as! String)
-            }
-            let data = item[kSecValueData as String] as? NSData
-            RGLockbox.valueCache[itemKey] = data != nil ? data : NSNull()
+            let contents = item[kSecValueData as String] as? NSData
+            RGLockbox.valueCache[itemKey] = contents != nil ? contents : NSNull()
         }
         RGLockbox.valueCacheLock.unlock()
         return output
@@ -259,7 +256,7 @@ open class RGLockbox {
             RGLogs(.trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             if let data = data {
-                query[kSecValueData] = data as NSData
+                query[kSecValueData] = data as! NSData
                 query[kSecAttrAccessible] = self.itemAccessibility
                 query[kSecAttrSynchronizable] = self.isSynchronized as NSNumber
                 status = rg_SecItemAdd(query as NSDictionary)
