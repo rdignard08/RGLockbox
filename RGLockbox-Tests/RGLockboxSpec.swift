@@ -136,13 +136,12 @@ class RGLockboxSpec : XCTestCase {
         let manager = RGLockbox(withNamespace: nil, accessibility: kSecAttrAccessibleAlways)
         manager.setData(Data(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey1)")
         manager.setData(Data(), forKey: "\(RGLockbox.bundleIdentifier!).\(kKey2)")
-        var keys = [ "\(RGLockbox.bundleIdentifier!).\(kKey1)", "\(RGLockbox.bundleIdentifier!).\(kKey2)" ]
+        let keys = [ "\(RGLockbox.bundleIdentifier!).\(kKey1)", "\(RGLockbox.bundleIdentifier!).\(kKey2)" ]
         let items = manager.allItems()
-        for item in items {
-            XCTAssert(keys.contains(item))
-            keys.remove(at: keys.index(of: item)!)
+        for key in keys {
+            XCTAssert(items.contains(key))
         }
-        XCTAssert(keys.count == 0)
+        XCTAssert(items.count >= keys.count)
     }
     
     func testAllItemsWithAccount() {
