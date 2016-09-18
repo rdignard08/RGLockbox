@@ -57,16 +57,52 @@ public var rg_SecItemDelete = { SecItemDelete($0) }
  */
     public let RGApplicationWillTerminate:NSNotification.Name = NSNotification.Name.UIApplicationWillTerminate
 #elseif os(watchOS)
+    
+/**
+ Notification that should be posted when the app will lose focus.
+ */
     public let RGApplicationWillResignActive:NSNotification.Name = Notification.Name(rawValue: "UIApplicationWillResignActiveNotification")
+    
+/**
+ Notification that should be posted when the app will enter the background.
+ */
     public let RGApplicationWillBackground:NSNotification.Name = Notification.Name(rawValue: "UIApplicationDidEnterBackgroundNotification")
+    
+/**
+ Notification that should be posted when the app will be terminated.
+ */
     public let RGApplicationWillTerminate:NSNotification.Name = Notification.Name(rawValue: "UIApplicationWillTerminateNotification")
 #elseif os(OSX)
+    
+/**
+ Notification that should be posted when the app will lose focus.
+ */
     public let RGApplicationWillResignActive:Notification.Name = Notification.Name(rawValue: "NSApplicationWillResignActiveNotification")
+    
+/**
+ Notification that should be posted when the app will enter the background.
+ */
     public let RGApplicationWillBackground:Notification.Name = Notification.Name(rawValue: "NSApplicationWillHideNotification")
+    
+/**
+ Notification that should be posted when the app will be terminated.
+ */
     public let RGApplicationWillTerminate:Notification.Name = Notification.Name(rawValue: "NSApplicationWillTerminateNotification")
 #else
+    
+/**
+ Notification that should be posted when the app will lose focus.
+ */
     public let RGApplicationWillResignActive:NSNotification.Name = Notification.Name(rawValue: "RGApplicationWillResignActive")
+    
+/**
+ Notification that should be posted when the app will enter the background.
+ */
     public let RGApplicationWillBackground:NSNotification.Name = Notification.Name(rawValue: "RGApplicationWillBackground")
+    
+/**
+ Notification that should be posted when the app will be terminated.
+ */
     public let RGApplicationWillTerminate:NSNotification.Name = Notification.Name(rawValue: "RGApplicationWillTerminate")
 #endif
 
