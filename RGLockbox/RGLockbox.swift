@@ -66,13 +66,7 @@ open class RGLockbox {
 /**
  Keychain accesses are performed on this queue to keep the cache in sync with the backing store.
  */
-    open static let keychainQueue = { () -> DispatchQueue in
-//        if #available(iOS 10.0, tvOS 10.0, OSX 10.12, watchOS 3.0, *) {
-            return DispatchQueue(label: "RGLockbox-Sync")
-//        } else {
-//            return dispatch_queue_create("RGLockbox-Sync", nil)
-//        }
-    }()
+    open static let keychainQueue = DispatchQueue(label: "RGLockbox-Sync")
     
 /**
  This lock controls access to `valueCache`.
