@@ -49,7 +49,6 @@
 		BE0976C71C573570001E6467 /* RGLockbox-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RGLockbox-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0976CB1C573571001E6467 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE0DB07D1C72CD45002914BC /* RGLockboxSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLockboxSpec.swift; sourceTree = "<group>"; };
-		BE0DB0831C72E34C002914BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE28A7BA1D57F6F200059452 /* RGLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLog.swift; sourceTree = "<group>"; };
 		BE28A7C11D58074400059452 /* RGLogSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLogSpec.swift; sourceTree = "<group>"; };
 		BE2CCA9F1D32FC770034C8E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Framework/Info.plist; sourceTree = "<group>"; };
@@ -175,7 +174,6 @@
 		BE9ACD021C57347E0052D171 /* RGLockbox */ = {
 			isa = PBXGroup;
 			children = (
-				BE0DB0831C72E34C002914BC /* Info.plist */,
 				BED8B7571C728BA200289B25 /* RGLockbox.swift */,
 				BEB7E65C1CFD59DB0028908A /* RGLockbox+Convenience.swift */,
 				BE28A7BA1D57F6F200059452 /* RGLog.swift */,
