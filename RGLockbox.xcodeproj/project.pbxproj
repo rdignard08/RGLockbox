@@ -42,6 +42,7 @@
 		BE8A42E71D582FB7005DBEF6 /* RGLockboxIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE2CCAA71D3301CD0034C8E9 /* RGLockboxIOS.framework */; };
 		BECE2AE21CFEB3EA00E3D686 /* RGLockbox+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */; };
 		BEF95B1A1C7AD0B600D3916D /* RGKeychainReplacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */; };
+		DE61C2DA1D8E68D60024B082 /* entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE61C2D91D8E68D60024B082 /* entitlements.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		BECE2AE11CFEB3EA00E3D686 /* RGLockbox+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RGLockbox+Convenience.swift"; sourceTree = "<group>"; };
 		BED8B7571C728BA200289B25 /* RGLockbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGLockbox.swift; sourceTree = "<group>"; };
 		BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGKeychainReplacement.swift; sourceTree = "<group>"; };
+		DE61C2D91D8E68D60024B082 /* entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				BE0976D91C59D539001E6467 /* CategorySpecs */,
 				BE0976CB1C573571001E6467 /* Info.plist */,
 				BEF95B191C7AD0B600D3916D /* RGKeychainReplacement.swift */,
+				DE61C2D91D8E68D60024B082 /* entitlements.plist */,
 			);
 			path = "RGLockbox-Tests";
 			sourceTree = "<group>";
@@ -315,8 +318,9 @@
 				TargetAttributes = {
 					BE0976C61C573570001E6467 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 53QQ36873F;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					BE2CCAA61D3301CD0034C8E9 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -367,6 +371,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE61C2DA1D8E68D60024B082 /* entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,8 +485,9 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_ENTITLEMENTS = "RGLockbox-Tests/entitlements.plist";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 53QQ36873F;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -770,8 +776,9 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_ENTITLEMENTS = "RGLockbox-Tests/entitlements.plist";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 53QQ36873F;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
