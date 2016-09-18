@@ -49,16 +49,20 @@ let replacementItemCopy:(CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSS
     } else {
         keychainLock.lock()
         let account = CFDictionaryGetValue(query, Unmanaged.passUnretained(kSecAttrAccount).toOpaque())
-        var output:[Dictionary<String, String>] = []
+        var output:[Dictionary<String, Any>] = []
         for item in theKeychainLol {
             let key = item.0
+            var ret:[String:Any] = [:]
+            ret[kSecValueData as String] = item.1
             if account != nil {
                 let accountName = unsafeBitCast(account, to: CFString.self) as String
                 if accountName == key.second {
-                    output.append([ kSecAttrService as String : key.first! ])
+                    ret[kSecAttrService as String] = key.first
+                    output.append(ret)
                 }
             } else {
-                output.append([ kSecAttrService as String : key.first! ])
+                ret[kSecAttrService as String] = key.first 
+                output.append(ret)
             }
         }
         keychainLock.unlock()
