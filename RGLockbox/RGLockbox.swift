@@ -169,7 +169,7 @@ open class RGLockbox {
 /**
  Creates a new `RGLockbox` instance with default namespace and item accessibility.  Should use `RGLockbox()` now.
  */
-    open class func manager() -> RGLockbox {
+    @available(*, deprecated : 2.3.0) open class func manager() -> RGLockbox {
         return RGLockbox()
     }
     
