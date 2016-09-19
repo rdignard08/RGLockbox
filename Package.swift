@@ -1,9 +1,8 @@
 import PackageDescription
 
 let package = Package(
-    name: "RGLockbox",
+    name: "RGLockboxIOS",
     targets: [
-        Target(name: "RGLockbox")
+        Target(name: "RGLockboxIOS")
     ]
 )
-

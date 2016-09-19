@@ -24,23 +24,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 import Foundation
 
 /**
- Provides a per-thread `NSDateFormatter` with `dateFormat` set to parse ISO style strings.
+ Provides a per-thread `DateFormatter` with `dateFormat` set to parse ISO style strings.
 */
-func rg_stored_date_formatter() -> NSDateFormatter {
+func rg_stored_date_formatter() -> DateFormatter {
     let _sIsoFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     let _sStoreFormatterKey = "rg_stored_date_formatter"
-    var formatter = NSThread.currentThread().threadDictionary[_sStoreFormatterKey]
+    var formatter = Thread.current.threadDictionary[_sStoreFormatterKey]
     if formatter == nil {
-        let dateFormatter = NSDateFormatter.init()
+        let dateFormatter = DateFormatter.init()
         dateFormatter.dateFormat = _sIsoFormat
-        NSThread.currentThread().threadDictionary[_sStoreFormatterKey] = dateFormatter
+        Thread.current.threadDictionary[_sStoreFormatterKey] = dateFormatter
         formatter = dateFormatter
     }
-    return formatter as! NSDateFormatter
+    return formatter as! DateFormatter
 }
 
 /**
- Provides additional functionality over the raw data based implementation.  Supports `NSDate`, `String`, `id<NSCoding>`
+ Provides additional functionality over the raw data based implementation.  Supports `Date`, `String`, `id<NSCoding>`
 */
 extension RGLockbox {
     
@@ -48,20 +48,21 @@ extension RGLockbox {
 - parameter key: Identifer to search for in the manager's service name.
 - returns: A JSON equivalent object (`Array` or `Dictionary`) or `nil` (item not found).
 */
-    public func JSONObjectForKey(key:String) -> AnyObject? {
+    public func JSONObjectForKey(_ key:String) -> Any? {
         let data = self.dataForKey(key)
         if (data != nil) {
-            return try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+            return try? JSONSerialization.jsonObject(with: data!)
         }
         return nil
     }
     
 /**
-- parameter object: An `Array` or `Dictionary` object that is convertible by `NSJSONSerialization` or `nil`.  `nil` unsets the stored value.
+- parameter object: An `Array` or `Dictionary` object that is convertible by `NSJSONSerialization` or `nil`.
+     `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
-    public func setJSONObject(object:AnyObject?, key:String) throws {
-        let data = object != nil ? try! NSJSONSerialization.dataWithJSONObject(object!, options: NSJSONWritingOptions(rawValue: 0)) : nil as NSData?
+    public func setJSONObject(_ object:Any?, key:String) throws {
+        let data = object != nil ? try! JSONSerialization.data(withJSONObject: object!) : nil as Data?
         self.setData(data, forKey: key)
     }
     
@@ -69,40 +70,40 @@ extension RGLockbox {
 - parameter key: Identifer to search for in the manager's service name.
 - returns: A `String` object decoded from UTF-8 or `nil` (item not found).
 */
-    public func stringForKey(key:String) -> String? {
+    public func stringForKey(_ key:String) -> String? {
         let data = self.dataForKey(key)
-        return data != nil ? String.init(data: data!, encoding: NSUTF8StringEncoding) : nil
+        return data != nil ? String.init(data: data!, encoding: String.Encoding.utf8) : nil
     }
     
 /**
 - parameter string: A `String` object that is convertible by to UTF-8. or `nil`.  `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
-    public func setString(string:String?, key:String) {
-        let data = string?.dataUsingEncoding(NSUTF8StringEncoding)
+    public func setString(_ string:String?, key:String) {
+        let data = string?.data(using: String.Encoding.utf8)
         self.setData(data, forKey: key)
     }
     
 /**
 - parameter key: Identifer to search for in the manager's service name.
-- returns: A `NSDate` object decoded based on ISO format or `nil` (item not found or parse failure).
+- returns: A `Date` object decoded based on ISO format or `nil` (item not found or parse failure).
 */
-    public func dateForKey(key:String) -> NSDate? {
+    public func dateForKey(_ key:String) -> Date? {
         let data = self.dataForKey(key)
         if (data != nil) {
-            let dateString = String.init(data: data!, encoding: NSUTF8StringEncoding)
-            return rg_stored_date_formatter().dateFromString(dateString!)
+            let dateString = String.init(data: data!, encoding: String.Encoding.utf8)
+            return rg_stored_date_formatter().date(from: dateString!)
         }
         return nil
     }
     
 /**
-- parameter date: A `NSDate` object or `nil`. `nil` unsets the stored value.
+- parameter date: A `Date` object or `nil`. `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
-    public func setDate(date:NSDate?, key:String) {
-        let dateString = date != nil ? rg_stored_date_formatter().stringFromDate(date!) : nil as String?
-        let data = dateString?.dataUsingEncoding(NSUTF8StringEncoding)
+    public func setDate(_ date:Date?, key:String) {
+        let dateString = date != nil ? rg_stored_date_formatter().string(from: date!) : nil as String?
+        let data = dateString?.data(using: String.Encoding.utf8)
         self.setData(data, forKey: key)
     }
     
@@ -110,9 +111,9 @@ extension RGLockbox {
 - parameter key: Identifer to search for in the manager's service name.
 - returns: An object conforming to `NSCoding` created by `NSKeyedUnarchiver` or `nil` (item not found).
 */
-    public func codeableForKey(key:String) -> NSCoding? {
+    public func codeableForKey(_ key:String) -> NSCoding? {
         let data = self.dataForKey(key)
-        let ret = data != nil ? NSKeyedUnarchiver.unarchiveObjectWithData(data!) : nil as AnyObject?
+        let ret = data != nil ? NSKeyedUnarchiver.unarchiveObject(with: data!) : nil as AnyObject?
         return ret as! NSCoding?
     }
     
@@ -120,8 +121,8 @@ extension RGLockbox {
 - parameter codeable: An object conforming to `NSCoding` or `nil`.  `nil` unsets the stored value.
 - parameter key: Location in the manager's service to store the resulting data.
 */
-    public func setCodeable(codeable:NSCoding?, key:String) {
-        let data = codeable != nil ? NSKeyedArchiver.archivedDataWithRootObject(codeable!) : nil as NSData?
+    public func setCodeable(_ codeable:NSCoding?, key:String) {
+        let data = codeable != nil ? NSKeyedArchiver.archivedData(withRootObject: codeable!) : nil as Data?
         self.setData(data, forKey: key)
     }
 

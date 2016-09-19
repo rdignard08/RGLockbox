@@ -26,56 +26,57 @@ import libkern
 
 /**
  Provides levels of logging suitable for different build environments.  Messages with severity greater than or equal to
- the current system severity will be logged.
+    the current system severity will be logged.
 */
 public enum RGLogSeverity: Int {
-    /**
-     Entire set of logging appropriate for debugging the library itself.
-    */
-    case Trace
     
-    /**
-     Log messages useful for general debug and test builds.
-    */
-    case Debug
+/**
+ Entire set of logging appropriate for debugging the library itself.
+*/
+    case trace
     
-    /**
-     Log messages which might indicate something wrong.
-    */
-    case Warning
+/**
+ Log messages useful for general debug and test builds.
+*/
+    case debug
     
-    /**
-     Log messages which indicate the system entered an error state.
-    */
-    case Error
+/**
+ Log messages which might indicate something wrong.
+*/
+    case warning
     
-    /**
-     Log messages which indicate an assertion or interrupt should happen.
-    */
-    case Fatal
+/**
+ Log messages which indicate the system entered an error state.
+*/
+    case error
     
-    /**
-     Log level appropriate for messages which should always appear.
-    */
-    case None
+/**
+ Log messages which indicate an assertion or interrupt should happen.
+*/
+    case fatal
+    
+/**
+ Log level appropriate for messages which should always appear.
+*/
+    case none
 }
 
 #if DEBUG
-    /**
-     The system wide log level.
-    */
-    private var rg_systemSeverity = RGLogSeverity.Debug
+/**
+ The system wide log level.
+*/
+    private var rg_systemSeverity = RGLogSeverity.debug
 #else
-    /**
-     The system wide log level.
-    */
-    private var rg_systemSeverity = RGLogSeverity.None
+/**
+ The system wide log level.
+*/
+    private var rg_systemSeverity = RGLogSeverity.none
 #endif
 
 /**
  The system wide log level.
  - returns: the currently set system severity.  When `DEBUG` is defined, defaults to `kRGLogSeverityDebug` otherwise
-   defaults to `kRGLogSeverityNone`.
+    defaults to `kRGLogSeverityNone`.
 */
 public func rg_logging_severity() -> RGLogSeverity {
     return rg_systemSeverity
@@ -84,7 +85,7 @@ public func rg_logging_severity() -> RGLogSeverity {
 /**
  Provide the system logging level for subsequent log messages.
 */
-public func rg_set_logging_severity(severity: RGLogSeverity) {
+public func rg_set_logging_severity(_ severity: RGLogSeverity) {
     rg_systemSeverity = severity
     OSMemoryBarrier()
 }
@@ -93,52 +94,52 @@ public func rg_set_logging_severity(severity: RGLogSeverity) {
  String describing the log level.
  - returns: a string appropriate to describe the log level in English.
 */
-private func rg_severityDescription(severity: RGLogSeverity) -> String {
+private func rg_severityDescription(_ severity: RGLogSeverity) -> String {
     switch (severity) {
-        case .Trace:
+        case .trace:
             return "Trace, "
-        case .Debug:
+        case .debug:
             return "Debug, "
-        case .Warning:
+        case .warning:
             return "Warning, "
-        case .Error:
+        case .error:
             return "Error, "
-        case .Fatal:
+        case .fatal:
             return "Fatal, "
-        case .None:
+        case .none:
             return ""
     }
 }
 
 /**
  Whether this message should be logged.
- - returns: `true` if he severity is greater than or equal to the system log level.
+ - returns: `true` if the severity is greater than or equal to the system log level.
 */
-private func rg_shouldLog(severity: RGLogSeverity) -> Bool {
+private func rg_shouldLog(_ severity: RGLogSeverity) -> Bool {
     return severity.rawValue >= rg_logging_severity().rawValue
 }
 
 /**
  A complete `NSLog()` replacement.  It logs the file name & line number. Severity will always log.
  - parameter message the string of the mesage after `line` info.  It is a programmer error to pass `nil`.
- - parameter file the name of the file where the log was called.  Cannot be `NULL`.
+ - parameter file the name of the file where the log was called.  Cannot be `nil`.
  - parameter line the line number of the log call.
  */
-@available(*, deprecated = 2.2.5) public func RGLog(message: String, _ file: String = #file, _ line: Int = #line) {
-    RGLogs(.None, message, file, line)
+@available(*, deprecated : 2.2.5) public func RGLog(_ message: String, _ file: String = #file, _ line: Int = #line) {
+    RGLogs(.none, message, file, line)
 }
 
 /**
  A complete `NSLog()` replacement.  It logs the file name & line number. Severity will always log.
  - parameter severity the severity level of this log message.
  - parameter message the string of the mesage after `line` info.  It is a programmer error to pass `nil`.
- - parameter file the name of the file where the log was called.  Cannot be `NULL`.
+ - parameter file the name of the file where the log was called.  Cannot be `nil`.
  - parameter line the line number of the log call.
  */
-public func RGLogs(severity: RGLogSeverity, _ message: String, _ file: String = #file, _ line: Int = #line) {
+public func RGLogs(_ severity: RGLogSeverity, _ message: String, _ file: String = #file, _ line: Int = #line) {
     if rg_shouldLog(severity) {
-        let fileName = NSURL(fileURLWithPath: file).lastPathComponent
+        let fileName = URL(fileURLWithPath: file).lastPathComponent
         let severityDescription = rg_severityDescription(severity)
-        print("[\(fileName != nil ? fileName! : "(unknown)"):\(line)] \(severityDescription)\(message)")
+        print("[\(fileName):\(line)] \(severityDescription)\(message)")
     }
 }
