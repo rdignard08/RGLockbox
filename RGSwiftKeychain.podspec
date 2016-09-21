@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.authors  = { "Ryan Dignard" => "conceptuallyflawed@gmail.com" }
   s.source   = { :git => "https://github.com/rdignard08/RGLockbox.git", :tag => s.version }
   s.requires_arc = true
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
