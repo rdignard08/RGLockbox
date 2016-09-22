@@ -1,3 +1,6 @@
+## 2.3.2
+- Add `SWIFT_VERSION` to podspec
+
 ## 2.3.1
 - Added .swift-version file to help the linter out
 
