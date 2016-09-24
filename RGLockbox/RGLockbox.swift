@@ -280,7 +280,6 @@ open class RGLockbox {
         let items = data as? Array<Dictionary<String, Any>>
         var output:Array<String> = []
         for item in items ?? [] {
-            var itemKey = RGMultiKey()
             let service = item[kSecAttrService as String]
             if let service = service {
                 let serviceName = (service as! String)
@@ -293,7 +292,7 @@ open class RGLockbox {
                 }
             }
             let contents = item[kSecValueData as String] as? NSData
-            RGLockbox.valueCache[itemKey] = contents != nil ? contents : NSNull()
+            RGLockbox.valueCache[fullKey] = contents != nil ? contents : NSNull()
         }
         RGLockbox.valueCacheLock.unlock()
         return output
