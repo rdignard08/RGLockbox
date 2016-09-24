@@ -321,7 +321,7 @@ open class RGLockbox {
             RGLogs(.trace, "SecItemDelete with \(query) returned \(status)")
             assert(status != errSecInteractionNotAllowed, "Keychain item unavailable, change itemAccessibility")
             if let data = data {
-                query[kSecValueData] = data as! NSData
+                query[kSecValueData] = data as NSData
                 query[kSecAttrAccessible] = self.itemAccessibility
                 query[kSecAttrSynchronizable] = self.isSynchronized as NSNumber
                 status = rg_SecItemAdd(query as NSDictionary)
