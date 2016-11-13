@@ -406,4 +406,75 @@ CLASS_SPEC(RGLockbox)
     XCTAssert([(__bridge_transfer NSData*)data isEqual:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding]]);
 }
 
+#pragma mark - purgeAllItems
+- (void) testPurgeEverything {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:nil
+                                                  accountName:nil
+                                                  accessGroup:nil
+                                                 synchronized:NO];
+    RGLockbox* namespacedManager = [RGLockbox manager];
+    [namespacedManager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    RGLockbox* accountedManager = [[RGLockbox alloc] initWithNamespace:nil
+                                                         accessibility:nil
+                                                           accountName:@"accountname"
+                                                           accessGroup:nil
+                                                          synchronized:NO];
+    [accountedManager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
+    [manager purgeAllItems];
+    CACHE_PURGE();
+    XCTAssert(![manager dataForKey:kKey1]);
+    XCTAssert(![manager dataForKey:kKey2]);
+    CACHE_PURGE();
+    XCTAssert(![namespacedManager dataForKey:kKey1]);
+    CACHE_PURGE();
+    XCTAssert(![accountedManager dataForKey:kKey2]);
+}
+
+- (void) testPurgeAccountSpecific {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:nil
+                                                  accountName:@"accountname"
+                                                  accessGroup:nil
+                                                 synchronized:NO];
+    RGLockbox* namespacedManager = [RGLockbox manager];
+    [namespacedManager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    RGLockbox* accountedManager = [[RGLockbox alloc] initWithNamespace:nil
+                                                         accessibility:nil
+                                                           accountName:@"accountname"
+                                                           accessGroup:nil
+                                                          synchronized:NO];
+    [accountedManager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
+    [manager purgeAllItems];
+    CACHE_PURGE();
+    XCTAssert(![manager dataForKey:kKey1]);
+    XCTAssert(![manager dataForKey:kKey2]);
+    CACHE_PURGE();
+    XCTAssert([namespacedManager dataForKey:kKey1]);
+    CACHE_PURGE();
+    XCTAssert(![accountedManager dataForKey:kKey2]);
+}
+
+- (void) testPurgeNothing {
+    RGLockbox* manager = [[RGLockbox alloc] initWithNamespace:nil
+                                                accessibility:nil
+                                                  accountName:@"anotheraccount"
+                                                  accessGroup:nil
+                                                 synchronized:NO];
+    RGLockbox* namespacedManager = [RGLockbox manager];
+    [namespacedManager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
+    RGLockbox* accountedManager = [[RGLockbox alloc] initWithNamespace:nil
+                                                         accessibility:nil
+                                                           accountName:@"accountname"
+                                                           accessGroup:nil
+                                                          synchronized:NO];
+    [accountedManager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey2];
+    [manager purgeAllItems];
+    CACHE_PURGE();
+    XCTAssert(![manager dataForKey:kKey1]);
+    XCTAssert(![manager dataForKey:kKey2]);
+    CACHE_PURGE();
+    XCTAssert([namespacedManager dataForKey:kKey1]);
+}
+
 SPEC_END

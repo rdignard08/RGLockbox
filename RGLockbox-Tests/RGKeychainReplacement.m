@@ -80,10 +80,16 @@ OSStatus replacementDeleteItem(CFDictionaryRef query) {
     NSString* key = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrService);
     NSString* account = (__bridge NSString*)CFDictionaryGetValue(query, kSecAttrAccount) ?: @"";
     [keychainLock lock];
-    id value = theKeychainLol[account][key];
-    [(NSMutableDictionary*)theKeychainLol[account] removeObjectForKey:key];
-    [keychainLock unlock];
-    return value ? errSecSuccess : errSecItemNotFound;
+    if (key) {
+        id value = theKeychainLol[account][key];
+        [(NSMutableDictionary*)theKeychainLol[account] removeObjectForKey:key];
+        [keychainLock unlock];
+        return value ? errSecSuccess : errSecItemNotFound;
+    } else {
+        NSUInteger count = [(NSDictionary*)theKeychainLol[account] count];
+        [theKeychainLol[account] removeAllObjects];
+        return count ? errSecSuccess : errSecItemNotFound;
+    }
 }
 
 OSStatus replacementItemCopyBad(__unused CFDictionaryRef query, CFTypeRef* value) {
