@@ -171,7 +171,7 @@ extern NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
  @brief All the keychain items this manager can see.  Threadsafe, but you should not depend on it having all keys.
  @return all the keychain items (by key name), limited by `accessGroup`, `accountName`, and `namespace`.
  */
-- (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString *) *) allItems;
+- (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString*) *) allItems;
 
 /**
  @brief Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.

@@ -58,20 +58,20 @@
 		BE2349D91D2F7AE700F73F32 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
 		BE2349DA1D2F7AE700F73F32 /* RGLockbox+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */; };
 		BE2349DB1D2F7AE700F73F32 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
-		BE28A7AD1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
-		BE28A7AE1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
-		BE28A7AF1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
-		BE28A7B01D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; };
+		BE28A7AD1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE28A7AE1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE28A7AF1D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE28A7B01D57ADC400059452 /* RGLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE28A7AC1D57ADC400059452 /* RGLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE28A7B21D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
 		BE28A7B31D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
 		BE28A7B41D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
 		BE28A7B51D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
 		BE28A7B61D57ADED00059452 /* RGLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B11D57ADED00059452 /* RGLog.m */; };
 		BE28A7B91D57EEAA00059452 /* RGLogSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BE28A7B81D57EEAA00059452 /* RGLogSpec.m */; };
-		BE65C0541D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; };
-		BE65C0551D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; };
-		BE65C0561D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; };
-		BE65C0571D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; };
+		BE65C0541D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE65C0551D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE65C0561D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE65C0571D612A5200459D55 /* RGQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = BE65C0521D612A5200459D55 /* RGQueryKeys.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE65C0581D612A5300459D55 /* RGQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = BE65C0531D612A5200459D55 /* RGQueryKeys.m */; };
 		BE65C0591D612A5300459D55 /* RGQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = BE65C0531D612A5200459D55 /* RGQueryKeys.m */; };
 		BE65C05A1D612A5300459D55 /* RGQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = BE65C0531D612A5200459D55 /* RGQueryKeys.m */; };
@@ -79,8 +79,12 @@
 		BE65C05C1D612A5300459D55 /* RGQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = BE65C0531D612A5200459D55 /* RGQueryKeys.m */; };
 		BE6A2BBD1CF80BFD00C731B7 /* NSObject+RGBadInit.m in Sources */ = {isa = PBXBuildFile; fileRef = BE6A2BBC1CF80BFD00C731B7 /* NSObject+RGBadInit.m */; };
 		BE7FD17B1D7D327C000AC300 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE7FD17A1D7D325D000AC300 /* Entitlements.plist */; };
-		BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9ACD031C57347E0052D171 /* RGLockbox.h */; };
 		BE9ACD061C57347E0052D171 /* RGLockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9ACD051C57347E0052D171 /* RGLockbox.m */; };
+		BE9EA3CA1DD7FBD800E155FA /* RGLockboxUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE9EA3CB1DD7FBD900E155FA /* RGLockboxUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE9EA3CC1DD7FBD900E155FA /* RGLockboxUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE9EA3CD1DD7FBDA00E155FA /* RGLockboxUmbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE9EA3CE1DD7FC0400E155FA /* RGLockboxUmbrella.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */; };
 		BED15CB91C70111D001DA81F /* RGKeychainReplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */; };
 		BEEADE7A1D171B69002B6CE3 /* RGMultiStringKey.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */; };
 		BEEADE7D1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEADE7C1D17D6F0002B6CE3 /* RGMultiStringKeySpec.m */; };
@@ -110,7 +114,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				BE9ACD041C57347E0052D171 /* RGLockbox.h in CopyFiles */,
+				BE9EA3CE1DD7FC0400E155FA /* RGLockboxUmbrella.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +147,7 @@
 		BE9ACD001C57347E0052D171 /* libRGLockbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRGLockbox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE9ACD031C57347E0052D171 /* RGLockbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockbox.h; sourceTree = "<group>"; };
 		BE9ACD051C57347E0052D171 /* RGLockbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RGLockbox.m; sourceTree = "<group>"; };
+		BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGLockboxUmbrella.h; sourceTree = "<group>"; };
 		BED15CB81C70111D001DA81F /* RGKeychainReplacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGKeychainReplacement.m; sourceTree = "<group>"; };
 		BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMultiStringKey.h; sourceTree = "<group>"; };
 		BEEADE791D171B69002B6CE3 /* RGMultiStringKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMultiStringKey.m; sourceTree = "<group>"; };
@@ -278,6 +283,7 @@
 				BE9ACD051C57347E0052D171 /* RGLockbox.m */,
 				BE0976D21C59CFD9001E6467 /* RGLockbox+Convenience.h */,
 				BE0976D31C59CFD9001E6467 /* RGLockbox+Convenience.m */,
+				BE9EA3C91DD7FACD00E155FA /* RGLockboxUmbrella.h */,
 				BE28A7AC1D57ADC400059452 /* RGLog.h */,
 				BE28A7B11D57ADED00059452 /* RGLog.m */,
 				BEEADE781D171B69002B6CE3 /* RGMultiStringKey.h */,
@@ -295,6 +301,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE9EA3CA1DD7FBD800E155FA /* RGLockboxUmbrella.h in Headers */,
 				BE28A7AD1D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349C21D2F7AD000F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349C11D2F7AD000F73F32 /* RGLockbox.h in Headers */,
@@ -309,6 +316,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE9EA3CB1DD7FBD900E155FA /* RGLockboxUmbrella.h in Headers */,
 				BE28A7AE1D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349C61D2F7AD100F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349C51D2F7AD100F73F32 /* RGLockbox.h in Headers */,
@@ -323,6 +331,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE9EA3CC1DD7FBD900E155FA /* RGLockboxUmbrella.h in Headers */,
 				BE28A7AF1D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349CA1D2F7AD200F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349C91D2F7AD200F73F32 /* RGLockbox.h in Headers */,
@@ -337,6 +346,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE9EA3CD1DD7FBDA00E155FA /* RGLockboxUmbrella.h in Headers */,
 				BE28A7B01D57ADC400059452 /* RGLog.h in Headers */,
 				BE2349CE1D2F7AD300F73F32 /* RGLockbox+Convenience.h in Headers */,
 				BE2349CD1D2F7AD300F73F32 /* RGLockbox.h in Headers */,
@@ -463,7 +473,7 @@
 		BE9ACCF81C57347E0052D171 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Ryan Dignard";
 				TargetAttributes = {
 					BE0976C61C573570001E6467 = {
@@ -668,7 +678,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.restgoatee.RGLockbox-Tests";
@@ -684,7 +694,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.restgoatee.RGLockbox-Tests";
@@ -814,6 +824,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -843,6 +854,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -947,6 +959,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
@@ -955,6 +968,7 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
@@ -1026,6 +1040,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NULLABLE_TO_NONNULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
@@ -1034,6 +1049,7 @@
 				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;

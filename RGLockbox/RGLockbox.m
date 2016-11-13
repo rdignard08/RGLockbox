@@ -264,10 +264,10 @@ static NSMutableDictionary* _sValueCache;
     return bridgedData;
 }
 
-- (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString *) *) allItems {
+- (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString*) *) allItems {
     RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName, self.accessGroup);
     NSString* nameSpace = self.namespace;
-    NSMutableArray RG_GENERIC(NSString *) * output = [NSMutableArray new];
+    NSMutableArray RG_GENERIC(NSString*) * output = [NSMutableArray new];
     [[[self class] valueCacheLock] lock];
     __block CFTypeRef items = nil;
     dispatch_sync([[self class] keychainQueue], ^{
@@ -279,9 +279,9 @@ static NSMutableDictionary* _sValueCache;
         RGLogs(kRGLogSeverityTrace, @"SecItemCopyMatching with %@ returned %@", query, @(status));
         NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
     });
-    NSArray RG_GENERIC(NSDictionary *) * bridgedArray = (__bridge_transfer NSArray*)items;
+    NSArray RG_GENERIC(NSDictionary*) * bridgedArray = (__bridge_transfer NSArray*)items;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
-        RGMultiStringKey *itemKey = [RGMultiStringKey new];
+        RGMultiStringKey* itemKey = [RGMultiStringKey new];
         id service = bridgedArray[i][(__bridge id)kSecAttrService];
         if (service) {
             NSAssert([service isKindOfClass:[NSString self]], @"Wrong type");

@@ -38,7 +38,7 @@
     return self.first.hash ^ RIGHT_ROTATE(self.second.hash, 13) ^ RIGHT_ROTATE(self.third.hash, 7);
 }
 
-- (id) copyWithZone:(__unused NSZone *)zone {
+- (id) copyWithZone:(__unused NSZone*)zone {
     RGMultiStringKey* copy = [[self class] new];
     copy->_first = self->_first;
     copy->_second = self->_second;

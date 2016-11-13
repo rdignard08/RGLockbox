@@ -1,4 +1,4 @@
-/* Copyright (c) 07/07/2016, Ryan Dignard
+/* Copyright (c) 11/12/2016, Ryan Dignard
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -21,16 +21,11 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#import <Foundation/Foundation.h>
+/* Umbrella header for those projects that include the library manually */
 
-/**
- Project version number for RGLockboxFramework.
- */
-FOUNDATION_EXPORT double RGLockboxFrameworkVersionNumber;
-
-/**
- Project version string for RGLockboxFramework.
- */
-FOUNDATION_EXPORT const unsigned char RGLockboxFrameworkVersionString[];
-
-#import "RGLockboxUmbrella.h"
+#import "RGDefines.h"
+#import "RGLockbox.h"
+#import "RGLockbox+Convenience.h"
+#import "RGLog.h"
+#import "RGMultiStringKey.h"
+#import "RGQueryKeys.h"
