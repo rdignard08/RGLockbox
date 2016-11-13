@@ -174,6 +174,19 @@ extern NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
 - (RG_PREFIX_NONNULL NSArray RG_GENERIC(NSString*) *) allItems;
 
 /**
+ @brief Removes any item in the keychain which is visible to this manager instance.  Also writes NSNull to the cache
+   for keys already in the cache which match this manager.  This ignores the value of the manager's namespace ex.
+ 
+ ***
+ When determining visisibility the only values concerned are `.accountName` and `.accessGroup`.  If these are both `nil`
+ EVERYTHING is deleted!
+ ***
+ 
+ @warning HANDLE WITH CARE!
+ */
+- (void) purgeAllItems;
+
+/**
  @brief Primitive method to set the data on `key` and use the current value of `itemAccessibility`.  Threadsafe.
  @warning calling this method when the keychain is unavailable will raise an exception.
  */

@@ -310,6 +310,24 @@ static NSMutableDictionary* _sValueCache;
     return output;
 }
 
+- (void) purgeAllItems {
+    RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName, self.accessGroup);
+    [[[self class] valueCacheLock] lock];
+    for (RGMultiStringKey* cachedKey in [[self class] valueCache].allKeys) {
+        fullKey.first = cachedKey.first;
+        if ([cachedKey isEqual:fullKey]) {
+            [[self class] valueCache][cachedKey] = [NSNull null];
+        }
+    }
+    dispatch_async([[self class] keychainQueue], ^{
+        NSMutableDictionary* query = rg_generic_query(fullKey);
+        OSStatus status = rg_SecItemDelete((__bridge CFDictionaryRef)query);
+        RGLogs(kRGLogSeverityTrace, @"SecItemDelete with %@ returned %@", query, @(status));
+        NSAssert(status != errSecInteractionNotAllowed, @"Keychain item unavailable, change itemAccessibility");
+    });
+    [[[self class] valueCacheLock] unlock];
+}
+
 - (void) setData:(RG_PREFIX_NULLABLE NSData*)object forKey:(RG_PREFIX_NONNULL NSString*)key {
     RGMultiStringKey* fullKey = rg_multi_key(self.namespace, key, self.accountName, self.accessGroup);
     [[[self class] valueCacheLock] lock];
