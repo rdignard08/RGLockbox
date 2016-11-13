@@ -96,7 +96,7 @@ void rg_log_severity_v(RGLogSeverity severity,
                 break;
             }
         }
-        NSString* userOutput = [[NSString alloc] initWithFormat:format arguments:(va_list)args];
+        NSString* userOutput = [[NSString alloc] initWithFormat:format arguments:args];
         const char* const severityDescription = rg_severity_description(severity);
         fprintf(stderr, "[%s:%lu] %s%s\n", fileName, line, severityDescription, userOutput.UTF8String);
     }
