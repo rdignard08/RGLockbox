@@ -1,3 +1,8 @@
+## 1.4.7
+- Introduced new method `-purgeAllItems`.  Use to restore the keychain or clean up after old versions
+- Upgraded schemes and project settings to XCode 8.1
+- Introduced a new header "RGLockboxUmbrella.h" for manual integrations of the library
+
 ## 1.4.6
 - New symbols `RGApplicationWillResignActive`, `RGApplicationWillBackground`, `RGApplicationWillTerminate`
 - The framework will attempt (but is not guaranteed) to flush the keychain queue on app close, you should still flush it yourself
