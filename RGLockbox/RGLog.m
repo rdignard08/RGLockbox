@@ -39,7 +39,7 @@ void rg_set_logging_severity(RGLogSeverity severity) {
     OSMemoryBarrier();
 }
 
-static const char* const rg_severity_description(RGLogSeverity severity) {
+static const char* rg_severity_description(RGLogSeverity severity) {
     switch (severity) {
         case kRGLogSeverityTrace:
             return "Trace, ";
