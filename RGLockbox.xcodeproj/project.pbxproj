@@ -675,6 +675,7 @@
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
@@ -691,6 +692,7 @@
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				GCC_PREFIX_HEADER = "RGLockbox-Tests/PrefixHeader.pch";
 				INFOPLIST_FILE = "RGLockbox-Tests/Info.plist";
