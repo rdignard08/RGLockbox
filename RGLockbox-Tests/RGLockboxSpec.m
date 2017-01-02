@@ -40,6 +40,9 @@
 static NSString* const kKey1 = @"aKey1";
 static NSString* const kKey2 = @"aKey2";
 static NSString* testKeys[] = { @"aKey1", @"aKey2" };
+static NSString* RGWillResignActive;
+static NSString* RGWillBackground;
+static NSString* RGWillTerminate;
 
 CLASS_SPEC(RGLockbox)
 
@@ -49,6 +52,24 @@ CLASS_SPEC(RGLockbox)
     rg_SecItemCopyMatch = &replacementItemCopy;
     rg_SecItemAdd = &replacementAddItem;
     rg_SecItemDelete = &replacementDeleteItem;
+#if TARGET_OS_IOS || TARGET_OS_TV
+    RGWillResignActive = UIApplicationWillResignActiveNotification;
+    RGWillBackground = UIApplicationDidEnterBackgroundNotification;
+    RGWillTerminate = UIApplicationWillTerminateNotification;
+#elif TARGET_OS_WATCH
+    RGWillResignActive = @"UIApplicationWillResignActiveNotification";
+    RGWillBackground = @"UIApplicationDidEnterBackgroundNotification";
+    RGWillTerminate = @"UIApplicationWillTerminateNotification";
+#elif TARGET_OS_MAC
+    RGWillResignActive = @"NSApplicationWillResignActiveNotification";
+    RGWillBackground = @"NSApplicationWillHideNotification";
+    RGWillTerminate = @"NSApplicationWillTerminateNotification";
+#else
+#warning "Unknown platform target"
+    RGWillResignActive = @"RGApplicationWillResignActive";
+    RGWillBackground = @"RGApplicationWillBackground";
+    RGWillTerminate = @"RGApplicationWillTerminate";
+#endif
 }
 
 - (void) tearDown {
@@ -362,7 +383,7 @@ CLASS_SPEC(RGLockbox)
     RGLockbox* manager = [RGLockbox manager];
     [manager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     [manager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    [[NSNotificationCenter defaultCenter] postNotificationName:RGApplicationWillResignActive object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RGWillResignActive object:nil];
     NSDictionary* query = @{
         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
         (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
@@ -378,7 +399,7 @@ CLASS_SPEC(RGLockbox)
     RGLockbox* manager = [RGLockbox manager];
     [manager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     [manager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    [[NSNotificationCenter defaultCenter] postNotificationName:RGApplicationWillBackground object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RGWillBackground object:nil];
     NSDictionary* query = @{
         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
         (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,
@@ -394,7 +415,7 @@ CLASS_SPEC(RGLockbox)
     RGLockbox* manager = [RGLockbox manager];
     [manager setData:[@"abcd" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
     [manager setData:[@"qweq" dataUsingEncoding:NSUTF8StringEncoding] forKey:kKey1];
-    [[NSNotificationCenter defaultCenter] postNotificationName:RGApplicationWillTerminate object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RGWillTerminate object:nil];
     NSDictionary* query = @{
         (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
         (__bridge id)kSecMatchLimit : (__bridge id)kSecMatchLimitOne,

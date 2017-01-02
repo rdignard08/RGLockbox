@@ -93,31 +93,31 @@ OSStatus (* RG_SUFFIX_NONNULL rg_SecItemAdd)(CFDictionaryRef RG_SUFFIX_NONNULL,
                                              CFTypeRef RG_SUFFIX_NULLABLE * RG_SUFFIX_NULLABLE) = &SecItemAdd;
 OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX_NONNULL) = &SecItemDelete;
 
-NSString* RG_SUFFIX_NONNULL RGApplicationWillResignActive;
-NSString* RG_SUFFIX_NONNULL RGApplicationWillBackground;
-NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
+static NSString* RG_SUFFIX_NONNULL RGWillResignActive;
+static NSString* RG_SUFFIX_NONNULL RGWillBackground;
+static NSString* RG_SUFFIX_NONNULL RGWillTerminate;
 
 #pragma mark - RGLockbox Implementation
 @implementation RGLockbox
 
 + (void) load {
 #if TARGET_OS_IOS || TARGET_OS_TV
-    RGApplicationWillResignActive = UIApplicationWillResignActiveNotification;
-    RGApplicationWillBackground = UIApplicationDidEnterBackgroundNotification;
-    RGApplicationWillTerminate = UIApplicationWillTerminateNotification;
+    RGWillResignActive = UIApplicationWillResignActiveNotification;
+    RGWillBackground = UIApplicationDidEnterBackgroundNotification;
+    RGWillTerminate = UIApplicationWillTerminateNotification;
 #elif TARGET_OS_WATCH
-    RGApplicationWillResignActive = @"UIApplicationWillResignActiveNotification";
-    RGApplicationWillBackground = @"UIApplicationDidEnterBackgroundNotification";
-    RGApplicationWillTerminate = @"UIApplicationWillTerminateNotification";
+    RGWillResignActive = @"UIApplicationWillResignActiveNotification";
+    RGWillBackground = @"UIApplicationDidEnterBackgroundNotification";
+    RGWillTerminate = @"UIApplicationWillTerminateNotification";
 #elif TARGET_OS_MAC
-    RGApplicationWillResignActive = @"NSApplicationWillResignActiveNotification";
-    RGApplicationWillBackground = @"NSApplicationWillHideNotification";
-    RGApplicationWillTerminate = @"NSApplicationWillTerminateNotification";
+    RGWillResignActive = @"NSApplicationWillResignActiveNotification";
+    RGWillBackground = @"NSApplicationWillHideNotification";
+    RGWillTerminate = @"NSApplicationWillTerminateNotification";
 #else
 #warning "Unknown platform target"
-    RGApplicationWillResignActive = @"RGApplicationWillResignActive";
-    RGApplicationWillBackground = @"RGApplicationWillBackground";
-    RGApplicationWillTerminate = @"RGApplicationWillTerminate";
+    RGWillResignActive = @"RGApplicationWillResignActive";
+    RGWillBackground = @"RGApplicationWillBackground";
+    RGWillTerminate = @"RGApplicationWillTerminate";
 #endif
 }
 
@@ -125,21 +125,37 @@ NSString* RG_SUFFIX_NONNULL RGApplicationWillTerminate;
     [super initialize];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(flushQueue:)
-                                                 name:RGApplicationWillResignActive
+                                                 name:RGWillResignActive
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(flushQueue:)
-                                                 name:RGApplicationWillBackground
+                                                 name:RGWillBackground
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(flushQueue:)
-                                                 name:RGApplicationWillTerminate
+                                                 name:RGWillTerminate
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(flushQueue:)
+                                                 name:@"NSExtensionHostWillResignActiveNotification"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(flushQueue:)
+                                                 name:@"NSExtensionHostDidEnterBackgroundNotification"
                                                object:nil];
 }
 
 + (void) flushQueue:(NSNotification*)notification {
     RGLogs(kRGLogSeverityTrace, @"flushQueue: called on %@", notification.name);
+    [self flushQueue];
+}
+
++ (void) flushQueue {
+    RGLogs(kRGLogSeverityTrace, @"flushQueue called");
+    [[self valueCacheLock] lock];
     dispatch_barrier_sync(self.keychainQueue, ^{});
+    [[self valueCache] removeAllObjects];
+    [[self valueCacheLock] unlock];
 }
 
 + (RGLockbox*) manager {
