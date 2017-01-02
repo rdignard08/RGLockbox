@@ -16,3 +16,4 @@ compile_commands.json
 Carthage
 Cartfile.resolved
 .DS_Store
+build/

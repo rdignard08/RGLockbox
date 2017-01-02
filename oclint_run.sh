@@ -5,18 +5,12 @@ if [ $? -eq 1 ]; then
     echo >&2 "oclint not found, analyzing stopped"
     exit 1
 fi
- 
-rm -f ${TARGET_TEMP_DIR}/xcodebuild.log
+
+rm -f compile_commands.json
  
 cd ${SRCROOT}
  
-xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox clean build | xcpretty -r json-compilation-database
-
-cd ${TARGET_TEMP_DIR}
- 
-cp ${TARGET_TEMP_DIR}/compile_commands.json ${SRCROOT}/compile_commands.json
- 
-cd ${TARGET_TEMP_DIR}
+xcodebuild -project RGLockbox.xcodeproj -scheme RGLockbox clean build | xcpretty -r json-compilation-database -o ~/Desktop/RGLockbox/compile_commands.json
 
 oclint-json-compilation-database | sed 's/\(.*\.\m\{1,2\}:[0-9]*:[0-9]*:\)/\1 warning:/'
 
