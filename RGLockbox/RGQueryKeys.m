@@ -30,7 +30,7 @@ NSString* RG_SUFFIX_NONNULL rg_synchronizable_key(void) {
     static dispatch_once_t onceToken;
     static NSString* synchronizableKey;
     dispatch_once(&onceToken, ^{
-        if (&kSecAttrSynchronizable) {
+        if (&kSecAttrSynchronizable) { //!OCLINT
             synchronizableKey = (__bridge id)kSecAttrSynchronizable;
         } else {
             synchronizableKey = @"sync";
@@ -43,7 +43,7 @@ NSString* RG_SUFFIX_NONNULL rg_synchronizable_any(void) {
     static dispatch_once_t onceToken;
     static NSString* synchronizableAny;
     dispatch_once(&onceToken, ^{
-        if (&kSecAttrSynchronizableAny) {
+        if (&kSecAttrSynchronizableAny) { //!OCLINT
             synchronizableAny = (__bridge id)kSecAttrSynchronizableAny;
         } else {
             synchronizableAny = @"syna";
@@ -56,7 +56,7 @@ NSString* RG_SUFFIX_NONNULL rg_accessibility_key(void) {
     static dispatch_once_t onceToken;
     static NSString* accessibilityKey;
     dispatch_once(&onceToken, ^{
-        if (&kSecAttrAccessible) {
+        if (&kSecAttrAccessible) { //!OCLINT
             accessibilityKey = (__bridge id)kSecAttrAccessible;
         } else {
             accessibilityKey = @"pdmn";
@@ -69,7 +69,7 @@ CFStringRef RG_SUFFIX_NONNULL rg_accessibility_default(void) {
     static dispatch_once_t onceToken;
     static CFStringRef accessibilityDefault;
     dispatch_once(&onceToken, ^{
-        if (&kSecAttrAccessibleAfterFirstUnlock) {
+        if (&kSecAttrAccessibleAfterFirstUnlock) { //!OCLINT
             accessibilityDefault = kSecAttrAccessibleAfterFirstUnlock;
         } else {
             accessibilityDefault = (__bridge CFStringRef)@"ck";
@@ -82,7 +82,7 @@ NSString* RG_SUFFIX_NONNULL rg_accessgroup_key(void) {
     static dispatch_once_t onceToken;
     static NSString* accessgroupKey;
     dispatch_once(&onceToken, ^{
-        if (&kSecAttrAccessGroup) {
+        if (&kSecAttrAccessGroup) { //!OCLINT
             accessgroupKey = (__bridge id)kSecAttrAccessGroup;
         } else {
             accessgroupKey = @"agrp";

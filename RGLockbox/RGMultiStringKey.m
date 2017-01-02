@@ -40,9 +40,9 @@
 
 - (id) copyWithZone:(__unused NSZone*)zone {
     RGMultiStringKey* copy = [[self class] new];
-    copy->_first = self->_first;
-    copy->_second = self->_second;
-    copy->_third = self->_third;
+    copy.first = self.first;
+    copy.second = self.second;
+    copy.third = self.third;
     return copy;
 }
 

@@ -297,33 +297,34 @@ static NSMutableDictionary* _sValueCache;
     });
     NSArray RG_GENERIC(NSDictionary*) * bridgedArray = (__bridge_transfer NSArray*)items;
     for (NSUInteger i = 0; i < bridgedArray.count; i++) {
-        RGMultiStringKey* itemKey = [RGMultiStringKey new];
-        id service = bridgedArray[i][(__bridge id)kSecAttrService];
-        if (service) {
-            NSAssert([service isKindOfClass:[NSString self]], @"Wrong type");
-            itemKey.first = service;
-        }
-        id account = bridgedArray[i][(__bridge id)kSecAttrAccount];
-        if (account) {
-            NSAssert([account isKindOfClass:[NSString self]], @"Wrong type");
-            itemKey.second = account;
-        }
-        id accessGroup = bridgedArray[i][rg_accessgroup_key()];
-        if (accessGroup) {
-            NSAssert([accessGroup isKindOfClass:[NSString self]], @"Wrong type");
-            itemKey.third = accessGroup;
-        }
+        RGMultiStringKey *itemKey = [self multiKeyFromItem:bridgedArray[i]];
         id data = bridgedArray[i][(__bridge id)kSecValueData];
         [[self class] valueCache][itemKey] = data ?: [NSNull null];
-        if (service && !nameSpace) {
-            [output addObject:service];
-        } else if ([service hasPrefix:nameSpace]) {
-            NSRange range = [service rangeOfString:nameSpace];
-            [output addObject:[service substringFromIndex:range.location + range.length + 1]];
+        if (itemKey.first && !nameSpace) {
+            [output addObject:(NSString * _Nonnull)itemKey.first];
+        } else if ([itemKey.first hasPrefix:nameSpace]) {
+            NSRange range = [itemKey.first rangeOfString:nameSpace];
+            NSUInteger index = range.location + range.length + 1;
+            [output addObject:[(NSString * _Nonnull)itemKey.first substringFromIndex:index]];
         }
     }
     [[[self class] valueCacheLock] unlock];
     return output;
+}
+
+- (RGMultiStringKey *)multiKeyFromItem:(NSDictionary RG_GENERIC(NSString *, id) *)item
+{
+    RGMultiStringKey* itemKey = [RGMultiStringKey new];
+    id service = item[(__bridge id)kSecAttrService];
+    id account = item[(__bridge id)kSecAttrAccount];
+    id accessGroup = item[rg_accessgroup_key()];
+    itemKey.first = service;
+    itemKey.second = account;
+    itemKey.third = accessGroup;
+    NSAssert(!service || [service isKindOfClass:[NSString self]] ||
+             !account || [account isKindOfClass:[NSString self]] ||
+             !accessGroup || [accessGroup isKindOfClass:[NSString self]], @"Wrong type");
+    return itemKey;
 }
 
 - (void) purgeAllItems {
