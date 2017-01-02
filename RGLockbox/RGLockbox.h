@@ -104,7 +104,7 @@ extern OSStatus (* RG_SUFFIX_NONNULL rg_SecItemDelete)(CFDictionaryRef RG_SUFFIX
 + (RG_PREFIX_NONNULL dispatch_queue_t) keychainQueue;
 
 /**
- @brief Synchronizes the keychainQueue and clears the cache.  Call on terminate.
+ @brief Synchronizes the keychainQueue and clears the cache.  Call on terminate.  Threadsafe and atomic.
  */
 + (void) flushQueue;
 
