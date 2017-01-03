@@ -312,7 +312,7 @@ static NSMutableDictionary* _sValueCache;
     return output;
 }
 
-- (RGMultiStringKey *)multiKeyFromItem:(NSDictionary RG_GENERIC(NSString *, id) *)item
+- (RGMultiStringKey*) multiKeyFromItem:(NSDictionary RG_GENERIC(NSString*, id) *)item
 {
     RGMultiStringKey* itemKey = [RGMultiStringKey new];
     id service = item[(__bridge id)kSecAttrService];
