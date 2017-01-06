@@ -300,7 +300,8 @@ static NSMutableDictionary* _sValueCache;
         RGMultiStringKey *itemKey = [self multiKeyFromItem:bridgedArray[i]];
         id data = bridgedArray[i][(__bridge id)kSecValueData];
         [[self class] valueCache][itemKey] = data ?: [NSNull null];
-        if (itemKey.first && !nameSpace) {
+        if (itemKey.first &&
+            !nameSpace) {
             [output addObject:(NSString * RG_SUFFIX_NONNULL)itemKey.first];
         } else if ([itemKey.first hasPrefix:nameSpace]) {
             NSRange range = [itemKey.first rangeOfString:nameSpace];
