@@ -330,7 +330,9 @@ static NSMutableDictionary* _sValueCache;
 - (void) purgeAllItems {
     RGMultiStringKey* fullKey = rg_multi_key(nil, nil, self.accountName, self.accessGroup);
     [[[self class] valueCacheLock] lock];
-    for (RGMultiStringKey* cachedKey in [[self class] valueCache].allKeys) {
+    NSArray<RGMultiStringKey*>* keys = [[self class] valueCache].allKeys;
+    for (NSUInteger i = 0; i < keys.count; i++) {
+        RGMultiStringKey* cachedKey = keys[i];
         fullKey.first = cachedKey.first;
         if ([cachedKey isEqual:fullKey]) {
             [[self class] valueCache][cachedKey] = [NSNull null];
