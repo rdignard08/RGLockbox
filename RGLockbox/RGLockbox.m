@@ -301,11 +301,11 @@ static NSMutableDictionary* _sValueCache;
         id data = bridgedArray[i][(__bridge id)kSecValueData];
         [[self class] valueCache][itemKey] = data ?: [NSNull null];
         if (itemKey.first && !nameSpace) {
-            [output addObject:(NSString * _Nonnull)itemKey.first];
+            [output addObject:(NSString * RG_SUFFIX_NONNULL)itemKey.first];
         } else if ([itemKey.first hasPrefix:nameSpace]) {
             NSRange range = [itemKey.first rangeOfString:nameSpace];
             NSUInteger index = range.location + range.length + 1;
-            [output addObject:[(NSString * _Nonnull)itemKey.first substringFromIndex:index]];
+            [output addObject:[(NSString * RG_SUFFIX_NONNULL)itemKey.first substringFromIndex:index]];
         }
     }
     [[[self class] valueCacheLock] unlock];
